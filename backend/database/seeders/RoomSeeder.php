@@ -27,9 +27,8 @@ class RoomSeeder extends Seeder
             ],
         ];
 
-        foreach ($rooms as $room){
+        foreach ($rooms as $room) {
             Room::create($room);
         };
-
     }
 }

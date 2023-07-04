@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
 
 
         // Note: php artisan seed to get exits data. 
-        
+
         $this->call([
-            // RoleSeeder::class,
-            // RoomSeeder::class,
-            // ClassSeeder::class,
-            // UserSeeder::class
+            RoleSeeder::class,
+            RoomSeeder::class,
+            ClassSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

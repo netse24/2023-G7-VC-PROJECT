@@ -36,7 +36,18 @@ class UserSeeder extends Seeder
                 'date_of_birth' => Carbon::create('2003-3-3'),
                 'age' => 19,
                 'address' => 'Kompong Cham',
-                'role_id' => 1,
+                'role_id' => 2,
+            ],
+            [
+                'first_name' => 'Soki',
+                'last_name' => 'Chhuoy',
+                'gender' => 'female',
+                'email' => 'soki.chhuoy@gmail.com',
+                'password' => bcrypt('123456789'),
+                'date_of_birth' => Carbon::create('2003-3-3'),
+                'age' => 19,
+                'address' => 'Kompong Cham',
+                'role_id' => 3,
             ],
         ];
 
