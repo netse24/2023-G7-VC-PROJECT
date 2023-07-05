@@ -5,7 +5,9 @@
     <NavigationBar/>
     <v-main>
       <!-- cards -->
-      <AdminPage/>
+      <router-link to="/admin">
+        <AdminPage/>
+      </router-link>
     </v-main>
   </v-app>
 </template>
@@ -16,3 +18,13 @@
   import AdminPage from "./views/SchoolAdmin.vue";
 
 </script>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+
+}
+router-link {
+  list-style: none;
+}
+</style>
