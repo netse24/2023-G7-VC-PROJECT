@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    class="bg-cyan"
+    class="bg-blue-lighten-3"
   >
     <template v-slot:prepend>
       <h3>Passerelles Numeriques Cambodia</h3>

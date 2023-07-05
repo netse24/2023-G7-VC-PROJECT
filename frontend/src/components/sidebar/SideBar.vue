@@ -1,24 +1,24 @@
 <template>
   
-  <VNavigationDrawer expand-on-hover  class="bg-cyan" rail>
+  <v-navigationdrawer expand-on-hover  class="bg-blue-lighten-3" rail>
     <link
     href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
     rel="stylesheet"
     />
-    <VList>
-      <VListItem
+    <v-list>
+      <v-listItem
         prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
         title="John Smith"
         subtitle="johnsmith@gmail.com"
-      ></VListItem>
-    </VList>
+      ></v-listItem>
+    </v-list>
     <VDivider/>
-      <VList >
+      <v-list >
         <!-- icon = mdi -->
-        <VListItem prepend-icon="mdi-home" title="Home" value="myfiles" class="my-10"></VListItem>
-        <VListItem prepend-icon="mdi-school-outline" title="Students" value="shared"></VListItem>
-        <VListItem prepend-icon="mdi-account-tie" title="Teachers" value="starred" class="my-10"></VListItem>
-        <VListItem prepend-icon="mdi-table" title="Schedule" value="schedule"></VListItem>
-      </VList>
-  </VNavigationDrawer>
+        <v-listitem prepend-icon="mdi-home" title="Home" value="myfiles" class="my-10"></v-listitem>
+        <v-listitem prepend-icon="mdi-school-outline" title="Students" value="shared"></v-listitem>
+        <v-listitem prepend-icon="mdi-account-tie" title="Teachers" value="starred" class="my-10"></v-listitem>
+        <v-listitem prepend-icon="mdi-table" title="Schedule" value="schedule"></v-listitem>
+      </v-list>
+  </v-navigationdrawer>
 </template>

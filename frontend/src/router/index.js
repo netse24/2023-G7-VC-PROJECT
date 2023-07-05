@@ -8,11 +8,6 @@ const routes = [
     component: SchoolAdmin
   },
   {
-    path: '/student',
-    name: 'home',
-    component: SchoolAdmin
-  },
-  {
     path: '/about',
     name: 'about',
     // route level code-splitting

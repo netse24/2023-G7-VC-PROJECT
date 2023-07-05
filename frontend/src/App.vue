@@ -16,7 +16,6 @@
   import SideBar from "./components/sidebar/SideBar.vue";
   import NavigationBar from "./components/navbar/NavigationBar.vue";
   import AdminPage from "./views/SchoolAdmin.vue";
-
 </script>
 <style>
 * {
