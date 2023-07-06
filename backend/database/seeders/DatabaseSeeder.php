@@ -18,5 +18,15 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+
+        // Note: php artisan seed to get exits data. 
+
+        $this->call([
+            RoleSeeder::class,
+            RoomSeeder::class,
+            ClassSeeder::class,
+            UserSeeder::class
+        ]);
     }
 }
