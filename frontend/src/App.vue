@@ -3,15 +3,31 @@
     <SideBar/>
     <NavigationBar/>
     <v-main>
-    <router-view></router-view>
+      <LoginView @add-form="login"></LoginView>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
-<script setup>
+<script >
   import SideBar from "./components/sidebar/SideBar.vue";
   import NavigationBar from "./components/navbar/NavigationBar.vue";
   // import AdminPage from "./views/SchoolAdmin.vue";
+  import LoginView from './views/login/LoginView.vue'
+export default {
+  components:{
+    LoginView
+  },
+
+  methods:{
+    login(login){
+      alert(login)
+
+    }
+  }
+
+}
+
 </script>
 <style>
 * {
@@ -23,4 +39,7 @@
 a {
   text-decoration: none;
 }
-</style>
+
+
+
+
