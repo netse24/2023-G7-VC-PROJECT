@@ -1,9 +1,9 @@
 <template>
-  <link
+  <v-card class="mx-auto w-50">
+     <link
     href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
     rel="stylesheet"
-  />
-  <v-card class="mx-auto w-50">
+   />
     <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Create form info</h1>
     <v-sheet width="auto" class="pa-5 pb-7">
       <!-- form create studnet/teacher -->
