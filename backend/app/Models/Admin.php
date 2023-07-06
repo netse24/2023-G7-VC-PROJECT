@@ -8,21 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'first_name',
-        'last_name', 
-        'email', 
-        'password', 
-        'role_id'
-    ];
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+    protected $fillable = [ 
+        'user_id'
     ];
     public static function store($request, $id = null)
     {
         $admin = $request->only([
-            'first_name','last_name', 'email', 'password', 'role_id',
+            'user_id',
         ]);
         $admin = self::updateOrCreate(['id' => $id], $admin);
         return $admin;

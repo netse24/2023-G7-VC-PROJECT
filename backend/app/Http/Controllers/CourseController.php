@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
-class ClasseController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $class = Classes::all();
-        return response()->json(['success'=>true, 'data'=>$class], 200);
+        $course = Course::all();
+        return response()->json(['success'=>true, 'data'=>$course],200);
     }
 
     /**
@@ -22,6 +21,7 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
@@ -29,6 +29,7 @@ class ClasseController extends Controller
      */
     public function show(string $id)
     {
+        //
     }
 
     /**
@@ -36,6 +37,7 @@ class ClasseController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //
     }
 
     /**
@@ -43,5 +45,6 @@ class ClasseController extends Controller
      */
     public function destroy(string $id)
     {
+        //
     }
 }
