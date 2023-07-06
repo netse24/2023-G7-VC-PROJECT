@@ -6,23 +6,21 @@
   </nav> -->
   <user-form @add-emit="add"></user-form>
 </template>
-
 <script>
+// import LoginView from './views/login/LoginView.vue'
+export default {
+  // components:{
+  //   LoginView
+  // },
 
-export default{
-    data(){
-      return{
-        address: "",
-      }
-    },
-    methods: {
-      add(gender){
-        console.log(gender)
-      }
+  methods:{
+    login(login){
+      alert(login)
+
     }
+  }
+
 }
-
 </script>
-
 
 
