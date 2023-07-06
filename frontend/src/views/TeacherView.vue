@@ -55,5 +55,11 @@
   </v-container>
 </template>
 
-<script setup>
-</script>
+<style>
+ * {
+  padding: 0;
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+}
+</style>>
+

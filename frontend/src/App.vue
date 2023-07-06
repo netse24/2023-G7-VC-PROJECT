@@ -1,13 +1,9 @@
 <template>
   <v-app>
-    <!-- sidebar -->
     <SideBar/>
     <NavigationBar/>
     <v-main>
-      <!-- cards -->
-      <router-link to="/admin">
-        <AdminPage/>
-      </router-link>
+    <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -15,15 +11,16 @@
 <script setup>
   import SideBar from "./components/sidebar/SideBar.vue";
   import NavigationBar from "./components/navbar/NavigationBar.vue";
-  import AdminPage from "./views/SchoolAdmin.vue";
+  // import AdminPage from "./views/SchoolAdmin.vue";
 </script>
 <style>
 * {
   padding: 0;
   margin: 0;
-
+  font-family: 'Jost', sans-serif;
 }
-router-link {
-  list-style: none;
+
+a {
+  text-decoration: none;
 }
 </style>
