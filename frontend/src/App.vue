@@ -1,13 +1,10 @@
 <template>
-<<<<<<< HEAD
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
     <router-view/>
-  </nav>
-=======
+  </nav> -->
   <LoginView @add-form="login"></LoginView>
->>>>>>> login
 </template>
 
 <script>

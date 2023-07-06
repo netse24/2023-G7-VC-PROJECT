@@ -9,22 +9,13 @@ class Student extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'first_name',
-        'last_name', 
-        'email', 
-        'password', 
-        'role_id',
-        'admin_id',
-        'teacher_id',
-    ];
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'user_id',
+        'class_id',
     ];
     public static function store($request, $id = null)
     {
         $student = $request->only([
-            'first_name','last_name', 'email', 'password', 'role_id','admin_id','teacher_id'
+            'user_id', 'class_id'
         ]);
         $student = self::updateOrCreate(['id' => $id], $student);
         return $student;

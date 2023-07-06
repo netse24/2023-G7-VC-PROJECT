@@ -9,20 +9,15 @@ class Teacher extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'first_name',
-        'last_name', 
-        'email', 
-        'password', 
-        'role_id',
-        'admin_id',
+        'user_id',
+        'course_id',
     ];
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
-    public static function store($request , $id = null){
-        $teacher = $request->only(['first_name','last_name', 'email', 'password', 'role_id','admin_id']);
-        $teacher = self::updateOrCreate(['id'=>$id], $teacher);
+    public static function store($request, $id = null)
+    {
+        $teacher = $request->only([
+            'user_id', 'course_id'
+        ]);
+        $teacher = self::updateOrCreate(['id' => $id], $teacher);
         return $teacher;
     }
 }
