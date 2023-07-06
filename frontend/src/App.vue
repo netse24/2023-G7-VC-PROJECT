@@ -4,14 +4,15 @@
     <router-link to="/about">About</router-link>
     <router-view/>
   </nav> -->
-  <user-form @add-emit="add"></user-form>
+  <form-create-user></form-create-user>
 </template>
 <script>
+import FormCreateUser from "./views/FormCreateUser.vue"
 // import LoginView from './views/login/LoginView.vue'
 export default {
-  // components:{
-  //   LoginView
-  // },
+  components:{
+    FormCreateUser
+  },
 
   methods:{
     login(login){
