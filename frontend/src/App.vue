@@ -1,27 +1,22 @@
+<script setup>
+import SideBar from './components/sidebar/SideBar.vue';
+import NavigationBar from './components/navbar/NavigationBar.vue';
+</script>
 <template>
-  <!-- <nav>
+  <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
     <router-view/>
-  </nav> -->
-  <section>
+  </nav>
+  <v-app>
     <side-bar></side-bar>
     <navigation-bar></navigation-bar>
-  </section>
-
- 
+  </v-app>
 </template>
 
 <script>
 // import LoginView from './views/login/LoginView.vue'
-import SideBar from './components/sidebar/SideBar.vue';
-import NavigationBar from './components/navbar/NavigationBar.vue';
 export default {
-  components:{
-    // LoginView,
-    SideBar,
-    NavigationBar
-  },
 
   methods:{
     login(login){

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import SchoolAdmin from '../views/SchoolAdmin.vue'
+import StudentView from '../views/student/StudentView.vue'
 import TeacherView from '../views/TeacherView.vue'
 import LoginView from '../views/login/LoginView.vue'
 
@@ -18,6 +19,11 @@ const routes = [
     path: '/admin/teachers',
     name: 'teachers',
     component: TeacherView
+  },
+  {
+    path: '/admin/students',
+    name: 'students',
+    component: StudentView
   },
   {
     path: '/about',
