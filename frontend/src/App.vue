@@ -6,25 +6,19 @@
   </nav>
 </template>
 
+<script setup>
+  import SideBar from "./components/sidebar/SideBar.vue";
+  import NavigationBar from "./components/navbar/NavigationBar.vue";
+  // import AdminPage from "./views/SchoolAdmin.vue";
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Jost', sans-serif;
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+a {
+  text-decoration: none;
 }
 </style>
