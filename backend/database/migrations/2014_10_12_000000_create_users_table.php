@@ -19,14 +19,21 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('gender');
             $table->string('email')->unique();
+<<<<<<< HEAD
             $table->string('password');
             $table->date('date_of_birth');
             $table->string('address');
             $table->unsignedBigInteger('role_id');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
+=======
+>>>>>>> 6acfab3eb25317a026cfcf813a817957dab2abb8
             $table->string('password');
-            $table->unsignedBigInteger('role_id')->nullable();
+            $table->date('date_of_birth');
+            $table->string('address');
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
