@@ -5,25 +5,30 @@
     <router-view/>
   </nav> -->
   <section>
-      <side-bar></side-bar>
-     <navigation-bar></navigation-bar>
+    <side-bar></side-bar>
+    <navigation-bar></navigation-bar>
   </section>
+
  
 </template>
 
-<script setup>
-  import SideBar from "./components/sidebar/SideBar.vue";
-  import NavigationBar from "./components/navbar/NavigationBar.vue";
-  // import AdminPage from "./views/SchoolAdmin.vue";
-</script>
-<style>
-* {
-  padding: 0;
-  margin: 0;
-  font-family: 'Jost', sans-serif;
-}
+<script>
+// import LoginView from './views/login/LoginView.vue'
+import SideBar from './components/sidebar/SideBar.vue';
+import NavigationBar from './components/navbar/NavigationBar.vue';
+export default {
+  components:{
+    // LoginView,
+    SideBar,
+    NavigationBar
+  },
 
-a {
-  text-decoration: none;
+  methods:{
+    login(login){
+      alert(login)
+
+    }
+  }
+
 }
-</style>
+</script>
