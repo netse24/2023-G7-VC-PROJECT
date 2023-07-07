@@ -53,8 +53,8 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
-        $teacher = Teacher::find($id);
-        $teacher ->delete();
-        return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
+        $teacher =Teacher::find($id);
+        $teacher -> delete();
+        return response()->json(['success'=>true, 'message' => 'Teacher delete successfully'], 200);
     }
 }

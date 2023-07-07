@@ -44,8 +44,8 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $student = Student::store($request, $id);
-        return response()->json(['success'=>true, 'data' => $student], 200);
+        $student = Student::store($request,$id);
+        return response()->json(['success'=>true, 'data' =>$student], 200);
     }
 
     /**
@@ -53,8 +53,8 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        $student = Student::find($id);
-        $student ->delete();
-        return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
+        $student= Student::find($id);
+        $student->delete();
+        return response()->json(['success'=>true, 'message' => 'Student delete successfully'], 200);
     }
 }

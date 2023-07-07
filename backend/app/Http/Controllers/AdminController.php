@@ -50,8 +50,8 @@ class AdminController extends Controller
      */
     public function destroy(string $id)
     {
-        $admin =Admin::find($id);
-        $admin ->delete();
-        return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
+        $admin = Admin::find($id);
+        $admin -> delete();
+        return response()->json(['success'=>true, 'message' => 'Admin delete successfully'], 200);
     }
 }
