@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Resources\AdminResource;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 
@@ -28,12 +26,6 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
-        $admin =Admin::find($id);
-        if(!$admin){
-            return response()->json(['massage'=>'Not Found'],404);
-        }
-        $admin = new AdminResource($admin);
-        return response()->json(['success'=>true,'data'=>$admin], 200);
     }
 
     /**

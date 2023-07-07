@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Room extends Model
 {
+    use HasApiTokens, HasFactory, Notifiable;
+ 
     use HasFactory;
     protected $fillable = [
         'name',

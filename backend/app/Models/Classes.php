@@ -9,6 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Classes extends Model
 {
+    use HasApiTokens, HasFactory, Notifiable;
     use HasFactory;
     protected $fillable = [
         'name',
