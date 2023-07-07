@@ -1,24 +1,28 @@
 <template>
-  <LoginView @add-form="login"></LoginView>
+  <v-app>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import LoginView from './views/login/LoginView.vue'
+import {userInformations} from '@/store/userStore'
 export default {
-  components:{
-    LoginView
+  name: 'App',
+  setup(){
+    const userData = userInformations();
+    return {
+      userData
+    }
   },
-
-  methods:{
-    login(login){
-      alert(login)
-
+  beforeCreate(){
+    if(this.userData.getCookie('user_id')){
+        this.userData.getUserData();
     }
   }
 
 }
+
 </script>
 
-<style>
-
-</style>

@@ -1,92 +1,123 @@
+
 <template>
-  <section class="w-75 mx-auto mt-15">
-    <div class="mx-auto my-auto d-flex justify-center">
-      <v-card class="form w-50 pa-12 pb-8 rounded-0" max-width="350">
-        <h1 class="d-flex justify-center">Login</h1>
-        <v-from @submit.prevent="login">
-          <div
-            class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-          >
-            Account
-          </div>
-          <v-text-field
-            density="compact"
-            placeholder="Email address"
-            prepend-inner-icon="mdi-email-outline"
-            v-model="email"
-            :rules="rulesEmail"
-          ></v-text-field>
-          <div
-            class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-          >
-            Password
-          </div>
-          <v-text-field
-            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-            :type="visible ? 'text' : 'password'"
-            v-model="password"
-            :rules="rulesPassword"
-            density="compact"
-            placeholder="Enter your password"
-            prepend-inner-icon="mdi-lock-outline"
-            @click:append-inner="visible = !visible"
-          ></v-text-field>
-          <v-card class="mb-12" color="surface-variant" variant="tonal">
-          </v-card>
-          <v-btn
-            type="button"
-            @click="login"
-            block
-            class="mb-8 bg-cyan"
-            color="light"
-            size="large"
-            variant="tonal"
-            >Log In
-          </v-btn>
-        </v-from>
-      </v-card>
-      <v-card
-        class="bg-cyan d-flex justify-center flex-column rounded-0"
-        max-width="500"
-      >
-        <v-img
-          max-height="150"
-          class="mx-auto my-4"
-          src="../../assets/login.png"
-        ></v-img>
-        <h2 class="d-flex justify-center">Welcome to School</h2>
-      </v-card>
-    </div>
-  </section>
+    <section>
+        <v-app :style="{ backgroundImage: `url(${image})` }" class="bg-no-repeat h-screen">
+            <v-main class="d-flex justify-center align-center">
+                <v-col cols="10" lg="4" class="mx-auto">
+                    <h1 class="pa-5 text-3xl text-center bold font-bold">Welcome to <br> School Management System</h1>
+                    <v-card class="pa-4" :style="{ backgroundImage: `url(${imageForm})` }">
+                        <div class="text-center">
+                            <v-avatar size="100" color="indigo lighten-4">
+                                <v-icon size="40" color="#fff">mdi-account</v-icon>
+                            </v-avatar>
+                            <h1 class="text-[20px] bold text-bold">LOGIN</h1>
+                        </div>
+                        <v-form @submit.prevent="login" ref="form">
+                            <v-card-text>
+                                <v-text-field v-model="email" :rules="emailRules" type="email" label="Email"
+                                    placeholder="Email" prepend-inner-icon="mdi-account" required />
+                                <v-text-field v-model="password" :rules="passwordRules"
+                                    :type="passwordShow ? 'text' : 'password'" label="Password" placeholder="Password"
+                                    prepend-inner-icon="mdi-key" :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="passwordShow = !passwordShow" required />
+                            </v-card-text>
+                            <v-card-actions class="justify-center">
+                                <v-btn :loading="loading" type="submit" color="cyan" class="w-100 text-md">
+                                    Login
+                                </v-btn>
+                            </v-card-actions>
+                        </v-form>
+                    </v-card>
+                </v-col>
+            </v-main>
+            <v-snackbar top color="light-green" v-model="snackbar">
+                Login success
+            </v-snackbar>
+            <v-snackbar top color="light-red" v-if="errorMessage != ''">
+                {{ errorMessage }}
+            </v-snackbar>
+        </v-app>
+    </section>
 </template>
+  
 <script>
+import image from '../../assets/background-1-1.png';
+import imageForm from '../../assets/bg-login.png';
+import axiosClient from '../../axios-http';
+import { storeManageCookie } from '@/store/cookie'
 export default {
-  emits: ["add-form"],
-  data() {
-    return {
-      visible: false,
-      email: "",
-      rulesEmail: [
-        (value) => {
-          if (value?.length > 3) return true;
-          return "Email can not correct.";
-        },
-      ],
-      password: "",
-      rulesPassword: [
-        (value) => {
-          if (value?.length > 3) return true;
-          return "Password can not correct.";
-        },
-      ],
-    };
-  },
-  methods: {
-    login() {
-      this.$emit("add-form", { email: this.email, password: this.password });
+    name: 'App',
+    setup() {
+        const userCookies = storeManageCookie();
+        return {
+            userCookies
+        }
     },
-  },
-};
+    data() {
+        return {
+            image,
+            imageForm,
+            loading: false,
+            snackbar: false,
+            passwordShow: false,
+            errorMessage: '',
+            email: null,
+            emailRules: [
+                value => !!value || 'E-mail is required',
+                value => /.+@.+\..+/.test(value) || 'E-mail must be valid',
+            ],
+            password: null,
+            passwordRules: [
+                value => !!value || 'Password is required',
+                value => (value && value.length >= 6) || 'Password must be 6  characters or more!',
+            ],
+        }
+    },
+    methods: {
+        timeLoarding() {
+            setTimeout(() => {
+                this.loading = false
+                this.snackbar = true
+                this.email = null
+                this.password = null
+            }, 3000)
+        },
+        login() {
+            if (this.$refs.form.validate() && this.passwordRules && this.emailRules, this.email, this.password) {
+                this.loading = true
+                let user = {
+                    email: this.email,
+                    password: this.password,
+                }
+                // this.timeLoarding()
+                axiosClient.post('login', user).then((res) => {
+                    let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Screat id").toString();
+                    let userRole = this.$CryptoJS.AES.encrypt(res.data.role.name.toString(), "Screat id").toString();
+                    // if (res.status == 202) {
+                    //     // set cookie 
+                    //     this.userCookies.setCookie('user_token', res.data.token, 30)
+                    //     this.userCookies.setCookie('user_id', userId, 30)
+                    //     this.userCookies.setCookie('user_role', userRole, 30)
+                    //     if (res.data.role.name == 'admin') {
+                    //         console.log('admin');
+                    //         // this.$router.push({ name: 'admin', path: '/admin' })
+                    //     }
+                    //     else if (res.data.role.name == 'teacher') {
+                    //         this.timeLoarding()
+                    //     } else if (res.data.role.name == 'student') {
+                    //         this.timeLoarding()
+                    //     }
+                    // } else {
+                    //     console.log(res.data)
+                    // }
+
+                    console.log(userId, res.data, userRole)
+                })
+            }
+        }
+    }
+}
+
 </script>
-<style>
-</style>
+  
+  
