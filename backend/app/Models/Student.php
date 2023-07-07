@@ -11,11 +11,12 @@ class Student extends Model
     protected $fillable = [
         'user_id',
         'class_id',
+        'generation',
     ];
     public static function store($request, $id = null)
     {
         $student = $request->only([
-            'user_id', 'class_id'
+            'user_id', 'class_id', 'generation',
         ]);
         $student = self::updateOrCreate(['id' => $id], $student);
         return $student;
