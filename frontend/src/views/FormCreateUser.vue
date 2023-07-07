@@ -7,7 +7,7 @@
     <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Create form info</h1>
     <v-sheet width="auto" class="pa-5 pb-7">
       <!-- form create studnet/teacher -->
-      <v-form @submit.prevent="addData">
+      <v-form @submit.prevent="createUser">
         
         <v-row class="d-flex">
           <v-col>
@@ -85,24 +85,25 @@
               label="Choose Gender"
               v-model="selectedGender"
               :rules="genderRules"
-              :items="['Female', 'Male', 'Other']"
+              :items="['Female', 'Male']"
             >
             </v-select>
           </v-col>
-          <v-col>
+          <v-col 
+          >
             <v-select
               label="Choose Role"
               v-model="selectedRole"
               class="form-control-select"
               density="compact"
               :rules="roleRules"
-              :items="items"
+              :items="roleItem"
               prepend-inner-icon="mdi mdi-account-key"
             >
             </v-select>
           </v-col>
         </v-row>
-        <v-row v-if="isTeacher">
+        <v-row v-if="isTeacher" @click="getCourses">
           <v-col>
             <v-select
               prepend-inner-icon="mdi mdi-briefcase"
@@ -110,12 +111,22 @@
               v-model="selectedCourse"
               label="Choose Course For Teacher"
               :rules="coursesRules"
-              :items="['OOP', 'PHP', 'English', 'Professional Life', 'Logic']"
+              :items="['HTML','OOP','DB','LARAVEL']"
             >
             </v-select>
           </v-col>
         </v-row>
-        <v-row v-if="isStudent">
+        <v-row v-if="isStudent" @click="getClasses">
+            <v-col>
+            <v-text-field
+              density="compact"
+              v-model="generation"
+              label="Enter Generation"
+              :rules="generationRules"
+              prepend-inner-icon="mdi mdi-account-multiple"
+            >
+            </v-text-field>
+          </v-col>
           <v-col>
             <v-select
               prepend-inner-icon="mdi mdi-school"
@@ -123,7 +134,7 @@
               v-model="selectedClass"
               label="Choose Classe For Student"
               :rules="classesRules"
-              :items="['WEP-B', 'WEP-A', 'WEP-C']"
+              :items="['SNA', 'WEP A', 'WEP B']"
             >
             </v-select>
           </v-col>
@@ -143,10 +154,10 @@
 </template>
 
 <script>
-//   import axios from "axios";
+import axios from "axios";
 
 export default {
-  emits: ["add-emit"],
+  emits: ["user-emit", "student-emit", "teacher-emit"],
   data() {
 
     return {
@@ -154,7 +165,7 @@ export default {
       selectedRole: null,
       selectedCourse:null,
       selectedClass:null,
-      items: ["Teacher", "Student"],
+      roleItem:["Teacher", "Student"],
       isTeacher: false,
       isStudent: false,
       firstName: "",
@@ -167,7 +178,11 @@ export default {
       classes: "",
       courses: "",
       date:"",
-
+      generation: "",
+      items: [],
+      listCourse: [],
+      listClass:[],
+      listRole:[],
       //Validation all of form
       firstNameRules: [
         (value) => {
@@ -247,29 +262,51 @@ export default {
            return "Please select your course";
         },
       ],
+      generationRules: [
+        (value) => {
+          if (value) return true;
+           return "Generation must be filled out";
+        },
+      ],
     };
   },
    methods: {
-      addData() {
+      createUser() {
         let userInfo = {
-          firstName: this.firstName,
-          lastName: this.lastName,
+          first_name: this.firstName,
+          last_name: this.lastName,
+          gender: this.gender,
           email: this.email,
           password: this.password,
-          gender: this.gender,
-          date: this.date,
+          date_of_birth: this.date,
           address: this.address,
-          role: this.role,
+          role_id: this.role,
+        };
+        // let studentInfo = {
+        //   user_id: this.role,
+        //   course_id: this.course
+        // };
+        let teacherInfo = {
+          user_id: this.role,
+          course_id: this.courses
         };
        
         if(this.firstName !=="" && this.lastName !=="" && this.email !=="" && this.password !=="" && this.gender !==""
             && this.date !=="" && this.address !=="" && this.role !==""){
-            if(this.role === "Teacher" && this.classes ===""){
-                  this.$emit("add-emit", userInfo);
+            if(this.classes ==="" && this.generation ===""){
+                  this.$emit("user-emit", userInfo);
+                  this.$emit("teacher-emit", teacherInfo);
+
             }
-            else if(this.role === "Student" && this.courses ===""){
-                this.$emit("add-emit", userInfo);
+            else if(this.courses ===""){
+                this.$emit("user-emit", userInfo);
+                // this.$emit("student-emit", studentInfo);
+
             }
+                // this.$emit("user-emit", userInfo);
+                // this.$emit("student-emit", studentInfo);
+
+
               // clear after add already
                 this.firstName = "";
                 this.lastName = "";
@@ -281,6 +318,7 @@ export default {
                 this.date = "";
                 this.classes = "";
                 this.courses = "";
+                this.gender = "";
                 this.selectedCourse = null;
                 this.selectedGender = null;
                 this.selectedRole = null; 
@@ -288,40 +326,73 @@ export default {
                 this.isStudent = false;
         }
       },
-      //    getCourse(){
-      //     axios.get("http://127.0.0.1:8000/api/course")
-      //         .then(response=>{
-      //             this.course = response.data
-      //             console.log(this.course)
-      //         })
-      //         .catch(error=>{
-      //             console.log(error)
-      //         })
-      //     },
+      getRole(){
+          axios.get("http://127.0.0.1:8000/api/role")
+              .then(response=>{
+                  this.listRole = response.data.data
+                  console.log(this.listRole)
+              })
+              .catch(error=>{
+                  console.log(error)
+          })
+      },
+      getCourses(){
+          axios.get("http://127.0.0.1:8000/api/course")
+              .then(response=>{
+                  this.listCourse=response.data.data
+                  console.log(this.listCourse)
+              })
+              .catch(error=>{
+                  console.log(error)
+              })
+          // this.listCourse.forEach(element => {
+          //   this.items.push(element.course)
+          // });
+          // console.log(this.items)
+      },
+      getClasses(){
+          axios.get("http://127.0.0.1:8000/api/class")
+              .then(response=>{
+                  this.listClass = response.data.data
+                  console.log(this.listClass)
+              })
+              .catch(error=>{
+                  console.log(error)
+          })
+      },
     },
   
   watch: {
-    selectedRole(role) {
-      if (role === "Teacher") {
+    selectedRole(role){
+      if(role === "Teacher"){
         this.isTeacher = true;
         this.isStudent = false;
-      } else if (role === "Student") {
+        this.role = 2
+        } 
+      else if (role === "Student") {
         this.isStudent = true;
         this.isTeacher = false;
+        this.role = 3
       }
-      this.role = role;
+       
     },
     selectedGender(gender) {
       this.gender = gender;
     },
     selectedClass(classes){
-      this.classes = classes;
+       this.listClass.forEach(element => {
+          if(classes === element.name){
+            this.classes = element.id;
+          }  
+        });
     },
     selectedCourse(course){
-        this.courses = course;
+        this.listCourse.forEach(element => {
+          if(course === element.course){
+            this.courses = element.id;
+          }
+        });
     }
-
-   
   },
 };
 </script>
