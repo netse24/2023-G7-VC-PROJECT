@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('search/{name}', [UserController::class,'searchUserName']);
-
 
 Route::post('/login', [AuthController::class,'login']);
 Route::resource('teacher', TeacherController::class);
@@ -36,7 +34,6 @@ Route::resource('role', RoleController::class);
 Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
 
-
-
-
+// search student and teacher by first_name
+Route::get('search/{name}', [UserController::class,'searchUserName']);
 
