@@ -26,7 +26,6 @@ export const userInformations = defineStore('userInfo', {
 
             axiosClient.get("/user/" + userId).then((res) => {
                 this.userStore = res.data;
-                this.getDataNeed();
             });
         },
         getCookie(name) {

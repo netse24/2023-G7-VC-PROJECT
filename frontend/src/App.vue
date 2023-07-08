@@ -1,3 +1,4 @@
+
 <template>
   <v-app>
     <v-main>
@@ -7,20 +8,15 @@
 </template>
 
 <script>
-import {userInformations} from '@/store/userStore'
+import { userInformations } from '@/store/userStore'
 export default {
   name: 'App',
-  setup(){
+  setup() {
     const userData = userInformations();
     return {
       userData
     }
   },
-  beforeCreate(){
-    if(this.userData.getCookie('user_id')){
-        this.userData.getUserData();
-    }
-  }
 
 }
 

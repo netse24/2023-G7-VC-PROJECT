@@ -1,6 +1,7 @@
 
 <template>
     <section>
+        <v-alert type="success" title="Alert title" text="login Success!" v-model="loginSuccess"></v-alert>
         <v-app :style="{ backgroundImage: `url(${image})` }" class="bg-no-repeat h-screen">
             <v-main class="d-flex justify-center align-center">
                 <v-col cols="10" lg="4" class="mx-auto">
@@ -21,6 +22,7 @@
                                     prepend-inner-icon="mdi-key" :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
                                     @click:append="passwordShow = !passwordShow" required />
                             </v-card-text>
+                            <p v-if="errorMessage != ''" class ='d-flex justify-center'>{{ errorMessage }}</p>
                             <v-card-actions class="justify-center">
                                 <v-btn :loading="loading" type="submit" color="cyan" class="w-100 text-md">
                                     Login
@@ -32,9 +34,6 @@
             </v-main>
             <v-snackbar top color="light-green" v-model="snackbar">
                 Login success
-            </v-snackbar>
-            <v-snackbar top color="light-red" v-if="errorMessage != ''">
-                {{ errorMessage }}
             </v-snackbar>
         </v-app>
     </section>
@@ -61,6 +60,7 @@ export default {
             snackbar: false,
             passwordShow: false,
             errorMessage: '',
+            loginSuccess: false,
             email: null,
             emailRules: [
                 value => !!value || 'E-mail is required',
@@ -80,7 +80,7 @@ export default {
                 this.snackbar = true
                 this.email = null
                 this.password = null
-            }, 3000)
+            }, 2000)
         },
         login() {
             if (this.$refs.form.validate() && this.passwordRules && this.emailRules, this.email, this.password) {
@@ -89,30 +89,41 @@ export default {
                     email: this.email,
                     password: this.password,
                 }
-                // this.timeLoarding()
                 axiosClient.post('login', user).then((res) => {
+                    this.timeLoarding()
                     let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Screat id").toString();
-                    let userRole = this.$CryptoJS.AES.encrypt(res.data.role.name.toString(), "Screat id").toString();
-                    // if (res.status == 202) {
-                    //     // set cookie 
-                    //     this.userCookies.setCookie('user_token', res.data.token, 30)
-                    //     this.userCookies.setCookie('user_id', userId, 30)
-                    //     this.userCookies.setCookie('user_role', userRole, 30)
-                    //     if (res.data.role.name == 'admin') {
-                    //         console.log('admin');
-                    //         // this.$router.push({ name: 'admin', path: '/admin' })
-                    //     }
-                    //     else if (res.data.role.name == 'teacher') {
-                    //         this.timeLoarding()
-                    //     } else if (res.data.role.name == 'student') {
-                    //         this.timeLoarding()
-                    //     }
-                    // } else {
-                    //     console.log(res.data)
-                    // }
-
-                    console.log(userId, res.data, userRole)
-                })
+                    let userRole = this.$CryptoJS.AES.encrypt(res.data.role.name.toString(), "Screat role").toString();
+                    if (res.status == 202) {
+                        this.loginSuccess = true
+                        // set cookie 
+                        this.userCookies.setCookie('user_token', res.data.token, 30)
+                        this.userCookies.setCookie('user_id', userId, 30)
+                        this.userCookies.setCookie('user_role', userRole, 30)
+                        this.timeLoarding()
+                        if (res.data.role.name == 'admin') {
+                            setTimeout(() => {
+                                this.$router.push('admin')
+                            }, 1500)
+                        }
+                        else if (res.data.role.name == 'teacher') {
+                            setTimeout(() => {
+                                this.$router.push({ name: 'teacher' })
+                            }, 1500)
+                        }
+                        else if (res.data.role.name == 'student') {
+                            setTimeout(() => {
+                                this.$router.push({ name: 'student' })
+                            }, 1500)
+                            // this.$router.push({ name: 'student' })
+                        }
+                    }
+                }).catch(error => {
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 1000)
+                    console.log(error.response.data.message)
+                    this.errorMessage = error.response.data.message;
+                });
             }
         }
     }
