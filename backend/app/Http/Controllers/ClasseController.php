@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Classes;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -10,6 +12,8 @@ class ClasseController extends Controller
      */
     public function index()
     {
+        $class = Classes::all();
+        return response()->json(['success'=>true, 'data'=>$class], 200);
     }
 
     /**
