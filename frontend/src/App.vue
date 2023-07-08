@@ -1,29 +1,24 @@
-<script setup>
-import SideBar from './components/sidebar/SideBar.vue';
-import NavigationBar from './components/navbar/NavigationBar.vue';
-</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-view/>
-  </nav>
   <v-app>
-    <side-bar></side-bar>
-    <navigation-bar></navigation-bar>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-// import LoginView from './views/login/LoginView.vue'
+import { userInformations } from '@/store/userStore'
 export default {
-
-  methods:{
-    login(login){
-      alert(login)
-
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData
     }
-  }
+  },
 
 }
+
 </script>
+

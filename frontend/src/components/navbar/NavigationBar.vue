@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="bg-blue-lighten-3">
+  <v-app-bar color="#B6EDFF">
     <template v-slot:prepend>
       <h3>Passerelles Numeriques Cambodia</h3>
     </template>
@@ -19,8 +19,8 @@
           <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
         </template>
 
-        <v-list class="d-flex rounded-0 hover bg-gray pointer" v-for="(item, i) in items" :key="i" >
-          <v-list-item >
+        <v-list class="d-flex rounded-0 hover bg-gray pointer" v-for="(item, i) in items" :key="i">
+          <v-list-item>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item>
           <v-list-item>
@@ -37,8 +37,8 @@ export default {
     return {
       isVertical: false,
       items: [
-        {title: "Log Out", icon:"mdi-logout"},
-        {title: "Reset Password", icon:"mdi-update"},
+        { title: "Log Out", icon: "mdi-logout" },
+        { title: "Reset Password", icon: "mdi-update" },
       ],
     };
   },
@@ -51,10 +51,11 @@ export default {
 };
 </script>
 <style scoped>
-*{
+* {
   padding: 0;
   margin: 0;
 }
+
 .hover:hover {
   background-color: #d9d6d6ed;
   cursor: pointer;
