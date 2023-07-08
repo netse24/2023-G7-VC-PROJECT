@@ -58,6 +58,7 @@ class UserController extends Controller
         return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
     }
 
+    
     /**
      * Search name of user.
      */
