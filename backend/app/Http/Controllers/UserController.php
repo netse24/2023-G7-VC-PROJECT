@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -58,13 +59,15 @@ class UserController extends Controller
         return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
     }
 
-    
     /**
-     * Search name of user.
+     * Search name of the user.
      */
-    public function searchUserName($searchUser)
+    public function searchUserByName($searchUser)
     {
-        $user = User::where('first_name', 'like','%' .$searchUser .'%')->get();
-        return $user;
+        $searchUserName = DB::table('Users')
+        ->where('first_name', 'like', '%' .$searchUser. '%')
+        ->orWhere('last_name', 'like', '%'. $searchUser. '%')
+        ->get();
+        return $searchUserName;
     }
 }

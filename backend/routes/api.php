@@ -35,5 +35,5 @@ Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
 
 // search student and teacher by first_name
-Route::get('search/{name}', [UserController::class,'searchUserName']);
+Route::get('search/{name}', [UserController::class,'searchUserByName']);
 
