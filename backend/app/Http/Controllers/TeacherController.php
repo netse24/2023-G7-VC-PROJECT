@@ -22,8 +22,6 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        $teacher = Teacher::store($request);
-        return response()->json(['success'=>true,'data'=>$teacher], 201);
     }
 
     /**
