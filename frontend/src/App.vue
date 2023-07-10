@@ -1,47 +1,32 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-view/>
-  </nav> -->
-  <form-create-user @user-emit="createUser" @teacher-emit="createTeacher"></form-create-user>
+  <form-create-user
+    @teacher-emit="createUser"
+    @student-emit="createUser"
+  ></form-create-user>
+ 
 </template>
 <script>
 import axios from "axios";
-import FormCreateUser from "./views/FormCreateUser.vue"
+import FormCreateUser from "./views/FormCreateUser.vue";
 // import LoginView from './views/login/LoginView.vue'
 export default {
-  components:{
-    FormCreateUser
+  components: {
+    FormCreateUser,
   },
-
-  methods:{
-    login(login){
-      alert(login)
+  methods: {
+    login(login) {
+      alert(login);
     },
-    createUser(userInfo){
+    createUser(userInfo) {
+      console.log(userInfo);
       axios.post("http://127.0.0.1:8000/api/user", userInfo)
-              .then(response=>{
-                  console.log(response.data)
-              })
-              .catch(error=>{
-                  console.log(error)
-    })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
-    createTeacher(teacherInfo){
-      console.log(teacherInfo)
-      axios.post("http://127.0.0.1:8000/api/teacher", teacherInfo)
-              .then(response=>{
-                  console.log(response.data)
-              })
-              .catch(error=>{
-              console.log(error)
-      })
-      },
-  }
-  
-
-}
+  },
+};
 </script>
-
-
