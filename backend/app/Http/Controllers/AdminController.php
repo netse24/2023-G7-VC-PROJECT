@@ -1,28 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Role;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-    
-        $role = Role::all();
-        return response()->json(['success'=>true, 'data'=>$role], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $admin =Admin::all();
+        return response()->json(['success'=>true, 'data'=>$admin], 200);
     }
 
     /**
@@ -30,8 +17,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        
-        //
+        $admin =Admin::store($request);
+        return response()->json(['success'=>true,'data'=>$admin], 201);
     }
 
     /**
@@ -39,15 +26,6 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -55,7 +33,8 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $admin =Admin::store($request, $id);
+        return response()->json(['success'=>true, 'data' => $admin], 200);
     }
 
     /**
@@ -63,6 +42,8 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $admin = Admin::find($id);
+        $admin -> delete();
+        return response()->json(['success'=>true, 'message' => 'Admin delete successfully'], 200);
     }
 }

@@ -8,13 +8,22 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@mdi/font": "5.9.55",
+=======
+    "axios": "^1.4.0",
+>>>>>>> createUser
     "core-js": "^3.8.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
+<<<<<<< HEAD
     "vue-router": "^4.0.3",
     "vuetify": "^3.3.5",
     "webfontloader": "^1.0.0"
+=======
+    "vue-router": "^4.0.13",
+    "vuetify": "^3.3.5"
+>>>>>>> createUser
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
