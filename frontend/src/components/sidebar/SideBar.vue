@@ -1,6 +1,6 @@
 <template>
   
-  <VNavigationDrawer expand-on-hover  class="bg-blue-lighten-3" rail>
+  <VNavigationDrawer expand-on-hover class="bg-[#cdcbcb]" rail>
     <link
     href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
     rel="stylesheet"
@@ -28,9 +28,6 @@
         <router-link to="/admin/schedule">
           <VListItem prepend-icon="mdi-table" title="Schedule" value="schedule"></VListItem>
         </router-link>
-        
-        
-        
       </VList>
   </VNavigationDrawer>
 </template>
@@ -57,6 +54,7 @@ export default {
 a {
   text-decoration: none;
   color: black;
+  /* color: #cdcbcb; */
 }
 
 </style>

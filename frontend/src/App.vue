@@ -8,19 +8,15 @@
   </v-app>
 </template>
 
-<script>
+<script setup>
 import SideBar from "./components/sidebar/SideBar.vue";
 import NavBar from "./components/navbar/NavigationBar.vue";
-export default {
-  name: 'App',
+// export default {
+//   name: 'App',
 
-  data: () => ({
-    //
-  }),
-  setup() {
-    return {
-      SideBar, NavBar
-    }
-  }
-}
+//   data: () => ({
+//     //
+//   }),
+
+// }
 </script>
