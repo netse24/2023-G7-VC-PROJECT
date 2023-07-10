@@ -1,4 +1,5 @@
 <template>
+  <section>
   <base-button color="primary" @click="showDialog">CREATE</base-button>
   <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
   <link
@@ -156,6 +157,7 @@
       </base-dialog>
     </v-dialog>
   </v-row>
+  </section>
 </template>
 
 <script>
