@@ -1,6 +1,6 @@
 <template>
-    <base-button color="primary" @click="showDialog">CREATE</base-button>
-    <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
+  <base-button color="primary" @click="showDialog">CREATE</base-button>
+  <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
   <link
     href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
     rel="stylesheet"
@@ -11,10 +11,11 @@
         <template #body>
           <v-sheet width="auto">
             <!-- form create studnet/teacher -->
-            <v-form>
+            <v-form @submit.prevent="createUser">
               <v-row class="d-flex">
                 <v-col>
                   <v-text-field
+                    required
                     density="compact"
                     v-model="firstName"
                     label="Enter Firstname"
@@ -141,14 +142,16 @@
                   </v-select>
                 </v-col>
               </v-row>
+              <v-list class="d-flex justify-space-between">
+                <v-btn @click="clearForm" type="#####" class="bg-grey-lighten-1"
+                  >CANCEL</v-btn
+                >
+                <v-btn type="submit" class="bg-cyan"
+                  >Create</v-btn
+                >
+              </v-list>
             </v-form>
           </v-sheet>
-        </template>
-         <template #cencel>
-          <base-button @click="dialog = false" class="bg-grey-lighten-1">Cencel</base-button>
-        </template>
-        <template #actions>
-          <base-button class="bg-cyan" @click="createUser">Create</base-button>
         </template>
       </base-dialog>
     </v-dialog>
@@ -157,7 +160,6 @@
 
 <script>
 import axios from "axios";
-
 
 export default {
   emits: ["student-emit", "teacher-emit"],
@@ -188,7 +190,6 @@ export default {
       listCourse: [],
       listClass: [],
       listRole: [],
-      listRoom: [],
       //Validation all of form
       firstNameRules: [
         (value) => {
@@ -227,8 +228,8 @@ export default {
           return "Password must be filled out at least 8 characters";
         },
         (value) => {
-          if (/[^0-9]/.test(value)) return true;
-          return "Password must be include at least 1 letter";
+          if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) return true;
+          return "Password must contain at least one letter and one number";
         },
       ],
       addressRules: [
@@ -321,29 +322,33 @@ export default {
       ) {
         if (this.courses !== "") {
           this.$emit("teacher-emit", teacherInfo);
+          this.dialog = false;
         } else if (this.classes !== "" && this.generation !== "") {
           this.$emit("student-emit", studentInfo);
+          this.dialog = false;
         }
-        // clear after add already
-        this.firstName = "";
-        this.lastName = "";
-        this.email = "";
-        this.password = "";
-        this.gender = "";
-        this.address = "";
-        this.role = "";
-        this.date = "";
-        this.classes = "";
-        this.courses = "";
-        this.gender = "";
-        this.generation = "";
-        this.selectedCourse = null;
-        this.selectedGender = null;
-        this.selectedRole = null;
-        this.isTeacher = false;
-        this.isStudent = false;
-        this.dialog = false
+        this.clearForm();
       }
+    },
+    clearForm() {
+      this.firstName = "";
+      this.lastName = "";
+      this.email = "";
+      this.password = "";
+      this.gender = "";
+      this.address = "";
+      this.role = "";
+      this.date = "";
+      this.classes = "";
+      this.courses = "";
+      this.generation = "";
+      this.selectedClass = null;
+      this.selectedCourse = null;
+      this.selectedGender = null;
+      this.selectedRole = null;
+      this.isTeacher= false,
+      this.isStudent= false,
+      this.dialog = false;
     },
     getCourses() {
       axios
@@ -411,4 +416,3 @@ export default {
   },
 };
 </script>
-

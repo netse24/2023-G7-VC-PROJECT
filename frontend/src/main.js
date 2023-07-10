@@ -4,15 +4,9 @@ import App from "./App.vue";
 import { createPinia } from 'pinia'
 import './style.css'
 import VueCryptoJS from 'vue-cryptojs';
-import App from './App.vue'
 import router from './router'
-
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import { createPinia } from 'pinia'
-// Vuetify
-// import { createVuetify } from 'vuetify'
-// import LoginView from './views/login/LoginView.vue'
 loadFonts()
 import BaseButton from "./components/widget/button/BaseButton.vue";
 import BaseDialog from "./components/widget/dialog/BaseDialog.vue";

@@ -1,23 +1,13 @@
 <template>
   <v-card>
     <slot name="header">
-      <h1 class="d-flex bold justify-center bg-cyan pa-3">
+      <h1 class="d-flex justify-center bg-cyan pa-3 text-xl font-weight-bold">
         CREATE USER
       </h1>
     </slot>
     <section>
       <slot name="body"></slot>
     </section>
-    <menu>
-      <div>
-        <slot name="cencel">
-        </slot>
-      </div>
-      <div>
-        <slot name="actions">
-        </slot>
-      </div>
-    </menu>
   </v-card>
 </template>
 <script>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -18,6 +19,9 @@ class Classes extends Model
     ];
     public function room():BelongsTo{
         return $this->belongsTo(Room::class);
+    }
+    public function student():HasMany{
+        return $this->hasMany(Student::class);
     }
     public static function store($request, $id = null)
     {
