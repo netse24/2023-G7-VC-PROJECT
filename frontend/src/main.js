@@ -1,12 +1,15 @@
+
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./style.css";
-import VueCryptoJS from 'vue-cryptojs';
-import router from './router'
-import { loadFonts } from './plugins/webfontloader'
-import vuetify from './plugins/vuetify'
 import { createPinia } from 'pinia'
+import './style.css'
+import VueCryptoJS from 'vue-cryptojs';
+import App from './App.vue'
+import router from './router'
 
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
+import { createPinia } from 'pinia'
 // Vuetify
 // import { createVuetify } from 'vuetify'
 // import LoginView from './views/login/LoginView.vue'
@@ -22,4 +25,5 @@ app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)
 app.use(router)
-app.mount("#app");
+app.mount('#app')
+
