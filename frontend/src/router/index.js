@@ -56,6 +56,11 @@ const routes = [
     component: () => import('../views/student/StudentView.vue'),
   },
   {
+    path: '/admin/studentList',
+    name: 'students',
+    component: () => import('../views/student/StudentCardView.vue'),
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('../views/404/PageNotFound.vue'),
