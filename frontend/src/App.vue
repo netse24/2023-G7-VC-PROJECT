@@ -1,17 +1,18 @@
-<script setup>
-import SideBar from './components/sidebar/SideBar.vue';
-import NavigationBar from './components/navbar/NavigationBar.vue';
-</script>
+
 <template>
+<<<<<<< HEAD
 <<<<<<< HEAD
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
     <router-view/>
   </nav>
+=======
+>>>>>>> a48eb9e84aa63d24e3257b38430929f08df1404d
   <v-app>
-    <side-bar></side-bar>
-    <navigation-bar></navigation-bar>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </v-app>
 =======
   <!-- <nav>
@@ -23,6 +24,7 @@ import NavigationBar from './components/navbar/NavigationBar.vue';
 >>>>>>> createUser
 </template>
 <script>
+<<<<<<< HEAD
 <<<<<<< HEAD
 // import LoginView from './views/login/LoginView.vue'
 export default {
@@ -70,3 +72,19 @@ export default {
 
 
 >>>>>>> createUser
+=======
+import { userInformations } from '@/store/userStore'
+export default {
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData
+    }
+  },
+
+}
+
+</script>
+
+>>>>>>> a48eb9e84aa63d24e3257b38430929f08df1404d
