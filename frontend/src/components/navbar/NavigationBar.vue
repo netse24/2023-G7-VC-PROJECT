@@ -8,7 +8,7 @@
       class="ma-3"
       contain
     ></v-img>
-      <v-breadcrumbs :items="paths" class="mt-3">
+      <v-breadcrumbs v-if="breadcrum.length > 0" :items="breadCrum" class="mt-3">
         <template v-slot:divider>
           <v-icon icon="mdi-chevron-right"></v-icon>
         </template>
@@ -46,19 +46,25 @@
 </template>
 <script>
 export default {
+  props:{
+    breadCrumb: Array,
+  },
   data() {
     return {
       isVertical: false,
+      breadcrum: [],
       items: [
         { title: "Your Profile", icon: "mdi-account-circle" },
         { title: "Reset Password", icon: "mdi-update" },
         { title: "Log Out", icon: "mdi-logout" },
       ],
-      paths: [
-        { title: "Home", href: "/" },
-        { title: "Admin", href: "/admin" },
-        { title: "Class", href: "/admin/teachers" },
-      ],
+      // breadcrum: [
+      //   { title: "Home", href: "/admin" },
+      //   { title: "Admin", href: "/admin" },
+      //   { title: "Class", href: "/admin/teachers" },
+      //   { title: "Class", href: "/admin/teachers" },
+      //   { title: "Class", href: "/admin/teachers" },
+      // ],
     };
   },
   methods: {

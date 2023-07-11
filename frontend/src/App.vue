@@ -1,50 +1,27 @@
 <template>
   <v-app>
-    <NavBar />
     <v-main>
       <router-view></router-view>
     </v-main>
-    <form-create-user
-      @user-emit="createUser"
-      @teacher-emit="createTeacher"
-    ></form-create-user>
   </v-app>
 </template>
 <script>
-import axios from "axios";
-// import FormCreateUser from "./views/FormCreateUser.vue"
-import NavBar from "./components/navbar/NavigationBar.vue";
-// import Admin from './views/teacher/TeacherView.vue'
+import {userInformations} from "@/store/userStore";
 export default {
-  components: {
-    NavBar, 
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData,
+    }
   },
 
-  methods: {
-    login(login) {
-      alert(login);
-    },
-    createUser(userInfo) {
-      axios
-        .post("http://127.0.0.1:8000/api/user", userInfo)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    createTeacher(teacherInfo) {
-      console.log(teacherInfo);
-      axios
-        .post("http://127.0.0.1:8000/api/teacher", teacherInfo)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+  beforeCreate() {
+    if (this.userData.getCookie('user_id')) {
+      this.userData.getUserData();
+    }
   },
-};
+
+}
+
 </script>

@@ -46,12 +46,12 @@ const routes = [
     }
   },
   {
-    path: '/teacher',
+    path: '/teachers',
     name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/student',
+    path: '/students',
     name: 'student',
     component: () => import('../views/student/StudentView.vue'),
     meta: {
