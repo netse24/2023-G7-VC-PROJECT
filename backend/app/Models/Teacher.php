@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Teacher extends Model
 {
@@ -12,6 +13,14 @@ class Teacher extends Model
         'user_id',
         'course_id',
     ];
+
+    public function user():BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+
+    public function course():BelongsTo{
+        return $this->belongsTo(Course::class);
+    }
     public static function store($request, $id = null)
     {
         $teacher = $request->only([

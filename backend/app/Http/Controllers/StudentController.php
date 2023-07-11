@@ -26,8 +26,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $student = Student::store($request);
-        return response()->json(['success'=>true,'data'=>$student], 201);
+        
     }
 
     /**
@@ -78,3 +77,4 @@ class StudentController extends Controller
 
     // }
 }
+
