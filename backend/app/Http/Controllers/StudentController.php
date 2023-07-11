@@ -16,7 +16,6 @@ class StudentController extends Controller
     public function index()
     {
         $student = Student::all();
-        // $students = $student->groupBy('class_id');
         $student = StudentResource::collection($student);
         return response()->json(['success'=>true, 'data'=>$student], 200);
     }
@@ -60,21 +59,11 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['success'=>true, 'message' => 'Student delete successfully'], 200);
     }
-    // public function getgeneration(){
-    //     $students = DB::table('students')
-    //     ->select('generation')
-    //     ->distinct()
-    //     ->get();
-
-    //     return response()->json(['success' => true, 'data' => $students], 200);
-    // }
-    // public function getClass(){
-    //     $students = DB::table('students')
-    //     ->select('class_id')
-    //     ->distinct()
-    //     ->get();
-    //     return response()->json(['success' => true, 'data' => $students], 200);
-
-    // }
+    public function getgeneration(){
+        $student = Student::all();
+        $student = StudentResource::collection($student);
+        $generation = $student->groupBy('generation');
+        return response()->json(['success' => true, 'data' => $generation], 200);
+    }
 }
 

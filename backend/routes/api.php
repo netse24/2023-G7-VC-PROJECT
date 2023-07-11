@@ -36,7 +36,6 @@ Route::resource('role', RoleController::class);
 Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
 Route::get('/generation',[StudentController::class, 'getgeneration']);
-Route::get('/getClass', [StudentController::class, 'getClass']);
 
 
 
