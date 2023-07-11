@@ -81,6 +81,7 @@ class UserController extends Controller
         return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
 
+    // get user by id that stored in storage cookie. 
     public function getUserById($id){
         $user = User::where('id', '=', $id)->first();
         return response()->json([
@@ -89,12 +90,12 @@ class UserController extends Controller
         ]);
     }
 
-
+    // user to logout user and delete that users' token 
     public function logoutUser()
     {
         Auth::user()->tokens()->delete();
         return response()->json([
-            'message'=>'logout success'
+            'message'=>'logout user successfully'
         ]);
     }
 }

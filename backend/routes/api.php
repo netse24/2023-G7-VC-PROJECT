@@ -31,6 +31,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // get user by if with their if store in cookie 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    // protect route if they are not allowed by authenticated user
     Route::get('/users/{id}', [UserController::class, "getUserById"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
 });
