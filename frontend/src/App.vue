@@ -1,7 +1,7 @@
 <template>
   
   <section>
-    <!-- <student-card-view></student-card-view> -->
+    <student-card-view></student-card-view>
     <!-- <StudentListView></StudentListView> -->
 
     <!-- <v-app>
@@ -23,7 +23,7 @@ import { userInformations } from "@/store/userStore";
 export default {
   components:{
     // StudentListView,
-    // StudentCardView
+    StudentCardView
   },
   setup() {
     const userData = userInformations();
