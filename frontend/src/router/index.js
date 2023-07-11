@@ -38,7 +38,7 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('../views/SchoolAdmin.vue'),
+    component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
       role: 'admin',
@@ -48,7 +48,7 @@ const routes = [
   {
     path: '/admin/teachers',
     name: 'teachers',
-    component: () => import('../views/TeacherView.vue'),
+    component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
     path: '/admin/students',

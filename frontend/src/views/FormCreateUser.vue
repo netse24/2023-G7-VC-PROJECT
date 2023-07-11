@@ -8,7 +8,6 @@
     <v-sheet width="auto" class="pa-5 pb-7">
       <!-- form create studnet/teacher -->
       <v-form @submit.prevent="createUser">
-        
         <v-row class="d-flex">
           <v-col>
             <v-text-field
