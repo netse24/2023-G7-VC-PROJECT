@@ -7,11 +7,14 @@ import VueCryptoJS from 'vue-cryptojs';
 import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import { createPinia } from 'pinia'
 
-
+// Vuetfy
+// import { createVuetify } from 'vuetify'
+// import LoginView from './views/login/LoginView.vue'
 loadFonts()
-const app = createApp(App)
+import BaseButton from "./components/widget/button/BaseButton.vue";
+import BaseDialog from "./components/widget/dialog/BaseDialog.vue";
+const app = createApp(App);
 const pinia = createPinia();
 
 app.component("BaseButton", BaseButton);
