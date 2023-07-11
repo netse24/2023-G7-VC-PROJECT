@@ -1,10 +1,19 @@
 <template>
-  <v-app-bar class="bg-blue-lighten-3">
-    <template v-slot:prepend>
-      <h3>Passerelles Numeriques Cambodia</h3>
-    </template>
+  <v-app-bar>
+    <v-img
+      src="../../assets/school-1.png"
+      alt="Logo"
+      max-width="60"
+      max-height="50"
+      class="ma-3"
+      contain
+    ></v-img>
+      <v-breadcrumbs :items="paths" class="mt-3">
+        <template v-slot:divider>
+          <v-icon icon="mdi-chevron-right"></v-icon>
+        </template>
+      </v-breadcrumbs>
     <v-spacer></v-spacer>
-
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
@@ -19,8 +28,12 @@
           <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
         </template>
 
-        <v-list class="d-flex rounded-0 hover bg-gray pointer" v-for="(item, i) in items" :key="i" >
-          <v-list-item >
+        <v-list
+          class="d-flex rounded-0 hover bg-gray pointer"
+          v-for="(item, i) in items"
+          :key="i"
+        >
+          <v-list-item>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item>
           <v-list-item>
@@ -37,8 +50,14 @@ export default {
     return {
       isVertical: false,
       items: [
-        {title: "Log Out", icon:"mdi-logout"},
-        {title: "Reset Password", icon:"mdi-update"},
+        { title: "Your Profile", icon: "mdi-account-circle" },
+        { title: "Reset Password", icon: "mdi-update" },
+        { title: "Log Out", icon: "mdi-logout" },
+      ],
+      paths: [
+        { title: "Home", href: "/" },
+        { title: "Admin", href: "/admin" },
+        { title: "Class", href: "/admin/teachers" },
       ],
     };
   },
@@ -51,10 +70,11 @@ export default {
 };
 </script>
 <style scoped>
-*{
+* {
   padding: 0;
   margin: 0;
 }
+
 .hover:hover {
   background-color: #d9d6d6ed;
   cursor: pointer;

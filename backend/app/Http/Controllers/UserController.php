@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json(['success'=>true,'data'=>$user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -23,8 +25,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::store($request);
-        return response()->json(['success'=>true,'data'=>$user], 201);
+        $user = User::create($request->input('user'));
+        $userId = $user->id;
+        $role = $user->role_id;
+        if ($role == 2) {
+            $teacherData = $request->input('teacher');
+            $teacherData['user_id'] = $userId;
+            $teacher = Teacher::create($teacherData);
+            return response()->json([
+                'success'=>true,
+                'user' => $user,
+                'teacher' => $teacher
+            ],201);
+        } else if ($role == 3) {
+            $studentData = $request->input('student');
+            $studentData['user_id'] = $userId;
+            $student = Student::create($studentData);
+            return response()->json([
+                'success'=>true,
+                'user' => $user,
+                'student' => $student
+            ],201);
+        }
     }
 
     /**
@@ -33,11 +55,11 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::find($id);
-        if(!$user){
-            return response()->json(['massage'=>'Not Found'],404);
+        if (!$user) {
+            return response()->json(['massage' => 'Not Found'], 404);
         }
         $user = new UserResource($user);
-        return response()->json(['success'=>true,'data'=>$user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -46,7 +68,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $user = User::store($request, $id);
-        return response()->json(['success'=>true, 'data' => $user], 200);
+        return response()->json(['success' => true, 'data' => $user], 200);
     }
 
     /**
@@ -55,8 +77,8 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::find($id);
-        $user ->delete();
-        return response()->json(['success'=>true, 'message' => 'Data delete successfully'], 200);
+        $user->delete();
+        return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
 
     /**

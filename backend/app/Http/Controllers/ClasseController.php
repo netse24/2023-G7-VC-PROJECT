@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
 use Illuminate\Http\Request;
+use App\Models\Classes;
 
 class ClasseController extends Controller
 {
@@ -21,6 +21,8 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
+        $class = Classes::store($request);
+        return response()->json(['success'=>true,'data'=>$class], 201);
     }
 
     /**

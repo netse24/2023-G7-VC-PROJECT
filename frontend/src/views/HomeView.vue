@@ -1,5 +1,6 @@
 <template>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <HelloWorld />
 </template>
 
@@ -31,3 +32,6 @@ export default defineComponent({
 }
 >>>>>>> 87d96eb42f43020e088e60f78469cd501e6e12eb
 </script>
+=======
+</template>
+>>>>>>> 66bbd6d746ee89a5f4cb5c6195bafafc9aaef9ac
