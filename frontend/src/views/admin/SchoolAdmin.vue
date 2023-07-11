@@ -1,69 +1,38 @@
 <template>
   <section>
-    <SideBar />
-    <NavBar />
-    <v-container class="mt-10 text-h3">
-      <v-row dense>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-shaped">
-            <v-icon class="mdi mdi-account-tie text-10"></v-icon>
-            <div class="text-subtitle-2">ALL TEACHERS</div>
-            <div class="text-subtitle-1">44</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-shaped">
-            <v-icon class="mdi mdi-school-outline"></v-icon>
-            <div class="text-subtitle-2">ALL STUDENTS</div>
-            <div class="text-subtitle-1">4430</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-ts-xl">
-            <v-icon class="mdi mdi-chart-line"></v-icon>
-            <div class="text-subtitle-2">TOTAL USERS</div>
-            <div class="text-subtitle-1">4474</div>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
+    <nav-bar />
+    <div class="mt-5 w-100 ">
+      <div class="row row-cols-1 row-cols-md-4 row-cols-sm-2 w-75 m-auto px-1 d-flex justify-content-center gap-10">
+        <div class="card text-center mb-3" style="width: 18rem" v-for="schoolItem in schoolItems" :key="schoolItem">
+          <div class="card-body">
+            <h5 class="card-title">{{ schoolItem.title }}</h5>
+            <div class="d-flex justify-content-center">
+              <img :src="schoolItem.image" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
+<script>
 
-<script >
-import SideBar from '../../components/sidebar/SideBar.vue'
-import NavBar from '../../components/navbar/NavigationBar.vue'
-import { storeManageCookie } from '@/store/cookie'
-import { userInformations } from '@/store/userStore'
 export default {
-  components: {
-    SideBar,
-    NavBar,
-  },
-
-  setup() {
-    const userCookies = storeManageCookie();
-    const userData = userInformations();
-    return {
-      userCookies,
-      userData,
-    }
-  },
   data() {
     return {
-
-    }
+      schoolItems: [
+        { title: "Students", image: require("../../assets/student.png") },
+        { title: "Teachers", image: require("../../assets/teacher.png") },
+        { title: "Schedule", image: require("../../assets/schedule.png") },
+      ],
+    };
   },
-  created() {
-    this.userData.getUserData()
-  },
-}
-
+};
 </script>
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  font-family: 'Jost', sans-serif;
+.card:hover {
+  cursor: pointer;
+  transition: ease-in-out 0.1s;
+  border: 2px solid #48b8f4;
 }
 </style>

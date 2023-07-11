@@ -14,13 +14,14 @@ function getCookie(user_token_in_store) {
       return cookie.substring(cookieName.length, cookie.length);
     }
   }
-  return "";
+  return ;
 }
 const token = getCookie('user_token')
 const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
 const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
 console.log(role);
 console.log(id);
+
 
 const routes = [
   {
@@ -41,7 +42,6 @@ const routes = [
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
-      // role: role,
       token: token
     }
   },
@@ -49,11 +49,6 @@ const routes = [
     path: '/teacher',
     name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),
-    meta: {
-      requireAuth: true,
-      // role: role,
-      token: token
-    }
   },
   {
     path: '/student',

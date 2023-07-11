@@ -40,7 +40,7 @@
 <script>
 import image from '../../assets/background-1-1.png';
 import imageForm from '../../assets/bg-login.png';
-import axiosClient from '../../axios-http';
+import {axiosClient} from '../../axios-http';
 import { storeManageCookie } from '@/store/cookie'
 import { userInformations } from '@/store/userStore'
 export default {
@@ -73,66 +73,6 @@ export default {
       ],
     }
   },
-  // methods: {
-  //     timeLoarding() {
-  //         setTimeout(() => {
-  //             this.loading = false
-  //             this.snackbar = true
-  //             this.email = null
-  //             this.password = null
-  //         }, 2000)
-  //     },
-  //     async login() {
-  //         if (this.$refs.form.validate() && this.passwordRules && this.emailRules, this.email, this.password) {
-  //             this.loading = true
-  //             let user = {
-  //                 email: this.email,
-  //                 password: this.password,
-  //             }
-  //             await axiosClient.post('login', user).then((res) => {
-  //                 this.timeLoarding()
-  //                 let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Screat id").toString();
-  //                 let userRole = this.$CryptoJS.AES.encrypt(res.data.role.name.toString(), "Screat role").toString();
-  //                 if (res.status == 202) {
-  //                     setTimeout(() => {
-  //                         this.loginSuccess = true
-  //                     }, 500)
-
-  //                     // set cookie 
-  //                     this.userCookies.setCookie('user_token', res.data.token, 30)
-  //                     this.userCookies.setCookie('user_id', userId, 30)
-  //                     this.userCookies.setCookie('user_role', userRole, 30)
-
-  //                     // load token from cookie after login
-  //                     this.userData.getUserData();
-  //                     if (res.data.role.name === 'admin') {
-  //                         setTimeout(() => {
-  //                             this.$router.push('admin');
-  //                         }, 1500)
-  //                     }
-  //                     else if (res.data.role.name === 'teacher') {
-  //                         setTimeout(() => {
-  //                             this.$router.push('teacher')
-  //                         }, 1500)
-  //                     }
-  //                     else if (res.data.role.name === 'student') {
-  //                         setTimeout(() => {
-  //                             this.$router.push('student')
-  //                         }, 1500)
-  //                     }
-  //                 }
-  //             }).catch(error => {
-  //                 setTimeout(() => {
-  //                     this.loading = false;
-  //                 }, 1000)
-  //                 this.errorMessage = error.response.data.message;
-  //             });
-  //         }
-  //     }
-  // },
-  // beforeMount(){
-  //     this.userData.getUserData();
-  // }
   methods: {
     timeLoading() {
       setTimeout(() => {

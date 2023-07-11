@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -11,6 +12,17 @@ class RoleController extends Controller
      */
     public function index()
     {
+    
+        $role = Role::all();
+        return response()->json(['success'=>true, 'data'=>$role], 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -18,12 +30,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        
+        //
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
         //
     }

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
-use App\Models\Classes;
 
-class ClasseController extends Controller
+class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $class = Classes::all();
-        return response()->json(['success'=>true, 'data'=>$class], 200);
+        $course = Course::all();
+        return response()->json(['success'=>true, 'data'=>$course],200);
     }
 
     /**
@@ -21,8 +21,8 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
-        $class = Classes::store($request);
-        return response()->json(['success'=>true,'data'=>$class], 201);
+        $course = Course::store($request);
+        return response()->json(['success'=>true,'data'=>$course], 201);
     }
 
     /**
@@ -30,6 +30,7 @@ class ClasseController extends Controller
      */
     public function show(string $id)
     {
+        //
     }
 
     /**
@@ -37,6 +38,7 @@ class ClasseController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //
     }
 
     /**
@@ -44,5 +46,6 @@ class ClasseController extends Controller
      */
     public function destroy(string $id)
     {
+        //
     }
 }

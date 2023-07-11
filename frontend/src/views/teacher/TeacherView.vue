@@ -1,53 +1,58 @@
 <template>
-  <section>
-    <SideBar />
-    <NavBar />
-    <v-container class="mt-10 text-h3">
-      <v-row dense>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-lg  ">
-            <v-icon class="mdi mdi-account-box text-10"></v-icon>
-            <div class="text-subtitle-2">YOUR BACKGROUND</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-lg">
-            <v-icon class="mdi mdi-timetable"></v-icon>
-            <div class="text-subtitle-2">SCHEDULES</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-lg">
-            <v-icon class="mdi mdi-folder-download"></v-icon>
-            <div class="text-subtitle-2">ASSIGNMENT</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-lg">
-            <v-icon class="mdi mdi-school"></v-icon>
-            <div class="text-subtitle-2">TRANSCRIPT</div>
-          </v-sheet>
-        </v-col>
-        <v-col>
-          <v-sheet color="#5AB9C1" height="210" class="d-flex flex-column align-center justify-center rounded-lg">
-            <v-icon class="mdi mdi-file-document"></v-icon>
-            <div class="text-subtitle-2">CURRICULUM</div>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-  </section>
+  <div class="mt-5 w-100 px-2">
+    <div
+      class="w-100 m-auto row row-cols-1 row-cols-md-4 row-cols-sm-2 d-flex justify-content-center gap-6"
+    >
+      <div
+        class="card text-center mb-3"
+        style="width: 15rem"
+        v-for="schoolItem in schoolItems"
+        :key="schoolItem"
+      >
+        <div class="card-body">
+          <h5 class="card-title">{{ schoolItem.title }}</h5>
+          <div class="d-flex justify-content-center">
+            <img :src="schoolItem.image" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
-
-<script setup>
-import SideBar from '../../components/sidebar/SideBar.vue'
-import NavBar from '../../components/navbar/NavigationBar.vue'
+<script>
+export default {
+  data() {
+    return {
+      schoolItems: [
+        {
+          title: "Background",
+          image: require("../../assets/user-background.png"),
+        },
+        { title: "Schedule", image: require("../../assets/schedule.png") },
+        { title: "Assignment", image: require("../../assets/assignment.png") },
+        { title: "Transcript", image: require("../../assets/transcript.png") },
+        { title: "Curriculum", image: require("../../assets/curriculum.png") },
+      ],
+    };
+  },
+  created() {
+    console.log(`Here is data ${this.schoolItems}`);
+  },
+};
 </script>
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  font-family: 'Jost', sans-serif;
+.card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border: 5px solid #000;
+  background: #000;
+}
+.card:hover {
+  cursor: pointer;
+  transition: ease-in-out 0.1s;
+  border: 2px solid #48b8f4;
+}
+h5 {
+  padding: 5px;
+  background: #48b8f4;
 }
 </style>
-

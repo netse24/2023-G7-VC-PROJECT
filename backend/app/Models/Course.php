@@ -4,24 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Room extends Model
+class Course extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
- 
     use HasFactory;
     protected $fillable = [
-        'name',
+        'course'
     ];
+    public function teacher():HasMany{
+        return $this->hasMany(Teacher::class);
+    }
     public static function store($request, $id = null)
     {
-        $room = $request->only([
-             'name'
+        $course = $request->only([
+             'course',
         ]);
-        $room = self::updateOrCreate(['id' => $id], $room);
-        return $room;
+        $course = self::updateOrCreate(['id' => $id], $course);
+        return $course;
     }
 }

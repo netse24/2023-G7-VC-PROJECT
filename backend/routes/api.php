@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +28,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/users/{user_id}', [UserController::class, "show"]);
+// get user by if with their if store in cookie 
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/users/{id}', [UserController::class, "getUserById"]);
+    Route::post('/logout', [UserController::class, "logoutUser"]);
 });
+
+Route::resource('teacher', TeacherController::class);
+Route::resource('student', StudentController::class);
+Route::resource('users', UserController::class);
+Route::resource('course', CourseController::class);

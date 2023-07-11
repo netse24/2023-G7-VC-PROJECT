@@ -1,19 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Admin;
 use Illuminate\Http\Request;
-use App\Models\Classes;
 
-class ClasseController extends Controller
+class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $class = Classes::all();
-        return response()->json(['success'=>true, 'data'=>$class], 200);
+        $admin =Admin::all();
+        return response()->json(['success'=>true, 'data'=>$admin], 200);
     }
 
     /**
@@ -21,8 +17,8 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
-        $class = Classes::store($request);
-        return response()->json(['success'=>true,'data'=>$class], 201);
+        $admin =Admin::store($request);
+        return response()->json(['success'=>true,'data'=>$admin], 201);
     }
 
     /**
@@ -37,6 +33,8 @@ class ClasseController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $admin =Admin::store($request, $id);
+        return response()->json(['success'=>true, 'data' => $admin], 200);
     }
 
     /**
@@ -44,5 +42,8 @@ class ClasseController extends Controller
      */
     public function destroy(string $id)
     {
+        $admin = Admin::find($id);
+        $admin -> delete();
+        return response()->json(['success'=>true, 'message' => 'Admin delete successfully'], 200);
     }
 }

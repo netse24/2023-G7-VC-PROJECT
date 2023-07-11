@@ -15,13 +15,12 @@ export const storeManageCookie = defineStore('manage-cookie', {
         },
     },
     actions: {
-
-      
+        //
         deleteCookie: (cookieName) => {
             var date = new Date();
             date.setTime(date.getTime() - (60 * 60 * 1000));
             var expires = 'expires=' + date.toGMTString();
-            document.cookie = cookieName + '=;' + expires + ';path=/';
+            document.cookie = cookieName + '=; ' + expires + '; path=/';
         },
 
         // set token in browser cookie
@@ -30,17 +29,14 @@ export const storeManageCookie = defineStore('manage-cookie', {
             var date = new Date();
             date.setTime(date.getTime() + (ex_date * 24 * 60 * 60 * 1000));
             var expires = 'expires=' + date.toGMTString();
-            document.cookie = cookieName + '=' + value + ';' + expires + ';path=/';
+            document.cookie = cookieName + '=' + value + '; ' + expires + '; path=/';
         },
-
-        // get token from cookie in browser
-        //other sources: https://stackoverflow.com/questions/54782565/get-cookie-variable-set-by-vue-js-component-in-header-script
         getCookie(user_token_in_store) {
-            var cookieName = user_token_in_store + '=';
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var splitToJsonFormat = decodedCookie.split(';');
-            for (var i = 0; i < splitToJsonFormat.length; i++) {
-                var cookie = splitToJsonFormat[i];
+            let cookieName = user_token_in_store + '=';
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let splitToJsonFormat = decodedCookie.split(';');
+            for (let i = 0; i < splitToJsonFormat.length; i++) {
+                let cookie = splitToJsonFormat[i];
                 while (cookie.charAt(0) == ' ') {
                     cookie = cookie.substring(1);
                 }
@@ -48,9 +44,7 @@ export const storeManageCookie = defineStore('manage-cookie', {
                     return cookie.substring(cookieName.length, cookie.length);
                 }
             }
-            return "";
+            return '';
         },
-
-
     }
 });
