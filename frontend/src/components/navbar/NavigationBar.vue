@@ -67,14 +67,13 @@ export default {
     logout() {
       if (confirm('Do you want to logout?')) {
         this.$router.push('/')
-        axiosClient.post('logout').then(response => {
-          console.log(response.data)
+        axiosClient.post('logout').then(() => {
           this.userCookie.deleteCookie('user_token')
           this.userCookie.deleteCookie('user_role')
           this.userCookie.deleteCookie('user_id')
         }).catch(error => {
           if (error.response.status === 401) {
-            console.log('unauth')
+            console.log('un-auth')
           }
         })
 
