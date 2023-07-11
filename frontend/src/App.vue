@@ -3,6 +3,7 @@
   <v-app>
     <v-main>
       <router-view></router-view>
+
     </v-main>
   </v-app>
 </template>
@@ -14,9 +15,16 @@ export default {
   setup() {
     const userData = userInformations();
     return {
-      userData
+      userData,
     }
   },
+
+  beforeCreate() {
+    if (this.userData.getCookie('user_id')) {
+      this.userData.getUserData();
+    }
+  },
+
 
 }
 

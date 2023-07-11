@@ -1,7 +1,7 @@
 <template>
   <v-app-bar color="#B6EDFF">
     <template v-slot:prepend>
-      <h3>Passerelles Numeriques Cambodia</h3>
+      <h3 class="bold text-bold">Passerelles Numeriques Cambodia</h3>
     </template>
     <v-spacer></v-spacer>
 
@@ -18,10 +18,9 @@
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-dots-vertical" v-bind="props"></v-btn>
         </template>
-
         <v-list class="d-flex rounded-0 hover bg-gray pointer" v-for="(item, i) in items" :key="i">
           <v-list-item>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon @click="logout" v-if="key == 'logout'">{{ item.icon }}</v-icon>
           </v-list-item>
           <v-list-item>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -32,13 +31,20 @@
   </v-app-bar>
 </template>
 <script>
+import { storeManageCookie } from '@/store/cookie';
 export default {
+  setup() {
+    const userCookie = storeManageCookie();
+    return {
+      userCookie
+    }
+  },
   data() {
     return {
       isVertical: false,
       items: [
-        { title: "Log Out", icon: "mdi-logout" },
-        { title: "Reset Password", icon: "mdi-update" },
+        { title: "Log Out", icon: "mdi-logout", key: 'logout' },
+        { title: "Reset Password", icon: "mdi-update", key: 'resetPW' },
       ],
     };
   },

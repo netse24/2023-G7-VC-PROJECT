@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <SideBar />
@@ -31,9 +30,35 @@
   </section>
 </template>
 
-<script setup>
-import SideBar from '../components/sidebar/SideBar.vue'
-import NavBar from '../components/navbar/NavigationBar.vue'
+<script >
+import SideBar from '../../components/sidebar/SideBar.vue'
+import NavBar from '../../components/navbar/NavigationBar.vue'
+import { storeManageCookie } from '@/store/cookie'
+import { userInformations } from '@/store/userStore'
+export default {
+  components: {
+    SideBar,
+    NavBar,
+  },
+
+  setup() {
+    const userCookies = storeManageCookie();
+    const userData = userInformations();
+    return {
+      userCookies,
+      userData,
+    }
+  },
+  data() {
+    return {
+
+    }
+  },
+  created() {
+    this.userData.getUserData()
+  },
+}
+
 </script>
 <style>
 * {

@@ -11,14 +11,12 @@ export const storeManageCookie = defineStore('manage-cookie', {
     },
     getters: {
         getToken() {
-            if (this.token == null) {
-                this.getCookie('user_token')
-            } else {
-                this.token;
-            }
-        }
+            return this.token === null ? this.getCookie('user_token') : this.token;
+        },
     },
     actions: {
+
+      
         deleteCookie: (cookieName) => {
             var date = new Date();
             date.setTime(date.getTime() - (60 * 60 * 1000));
@@ -43,7 +41,7 @@ export const storeManageCookie = defineStore('manage-cookie', {
             var splitToJsonFormat = decodedCookie.split(';');
             for (var i = 0; i < splitToJsonFormat.length; i++) {
                 var cookie = splitToJsonFormat[i];
-                while (cookie.charAt(0) == '') {
+                while (cookie.charAt(0) == ' ') {
                     cookie = cookie.substring(1);
                 }
                 if (cookie.indexOf(cookieName) == 0) {
@@ -51,7 +49,8 @@ export const storeManageCookie = defineStore('manage-cookie', {
                 }
             }
             return "";
-        }
+        },
+
 
     }
 });

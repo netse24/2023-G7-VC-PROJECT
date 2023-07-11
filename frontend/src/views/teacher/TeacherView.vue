@@ -40,8 +40,8 @@
 </template>
 
 <script setup>
-import SideBar from '../components/sidebar/SideBar.vue'
-import NavBar from '../components/navbar/NavigationBar.vue'
+import SideBar from '../../components/sidebar/SideBar.vue'
+import NavBar from '../../components/navbar/NavigationBar.vue'
 </script>
 <style>
 * {
@@ -49,5 +49,5 @@ import NavBar from '../components/navbar/NavigationBar.vue'
   margin: 0;
   font-family: 'Jost', sans-serif;
 }
-</style>>
+</style>
 
