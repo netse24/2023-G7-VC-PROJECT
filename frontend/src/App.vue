@@ -1,4 +1,3 @@
-
 <template>
   <v-app>
     <NavBar />
@@ -50,4 +49,3 @@ export default {
   },
 };
 </script>
-

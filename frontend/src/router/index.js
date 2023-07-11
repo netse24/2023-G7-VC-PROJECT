@@ -21,6 +21,7 @@ const role = CryptoJS.AES.decrypt(getCookie('user_role'), "Screat role").toStrin
 console.log(token)
 console.log(role)
 
+
 const routes = [
   {
     path: "/",
