@@ -16,7 +16,7 @@
 import axios from "axios";
 // import FormCreateUser from "./views/FormCreateUser.vue"
 import NavBar from "./components/navbar/NavigationBar.vue";
-import Admin from './views/student/StudentView.vue'
+import Admin from './views/teacher/TeacherView.vue'
 export default {
   components: {
     NavBar, Admin
