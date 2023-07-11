@@ -14,6 +14,13 @@ class Student extends Model
         'class_id',
         'generation',
     ];
+
+    public function user():BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+    public function class():BelongsTo{
+        return $this->belongsTo(Classes::class);
+    }
     public static function store($request, $id = null)
     {
         $student = $request->only([
@@ -22,10 +29,5 @@ class Student extends Model
         $student = self::updateOrCreate(['id' => $id], $student);
         return $student;
     }
-    public function user():BelongsTo{
-        return $this->belongsTo(User::class);
-    }
-    public function class():BelongsTo{
-        return $this->belongsTo(Classes::class);
-    }
+
 }
