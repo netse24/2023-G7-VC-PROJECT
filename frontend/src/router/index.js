@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CryptoJS from 'crypto-js'
+import { AES, enc } from 'crypto-js';
 
 function getCookie(user_token_in_store) {
-  var cookieName = user_token_in_store + '=';
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var splitToJsonFormat = decodedCookie.split(';');
-  for (var i = 0; i < splitToJsonFormat.length; i++) {
-    var cookie = splitToJsonFormat[i];
+  let cookieName = user_token_in_store + '=';
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let splitToJsonFormat = decodedCookie.split(';');
+  for (let i = 0; i < splitToJsonFormat.length; i++) {
+    let cookie = splitToJsonFormat[i];
     while (cookie.charAt(0) == ' ') {
       cookie = cookie.substring(1);
     }
@@ -17,9 +17,10 @@ function getCookie(user_token_in_store) {
   return "";
 }
 const token = getCookie('user_token')
-const role = CryptoJS.AES.decrypt(getCookie('user_role'), "Screat role").toString(CryptoJS.enc.Utf8)
-console.log(token)
-console.log(role)
+const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
+const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
+console.log(role);
+console.log(id);
 
 
 const routes = [
@@ -34,7 +35,6 @@ const routes = [
     meta: {
       requireAuth: false,
     },
-
   },
   {
     path: '/admin',
@@ -42,24 +42,29 @@ const routes = [
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
-      role: 'admin',
-
+      token: token
     }
   },
   {
-    path: '/admin/teachers',
-    name: 'teachers',
+    path: '/teacher',
+    name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/admin/students',
-    name: 'students',
+    path: '/student',
+    name: 'student',
     component: () => import('../views/student/StudentView.vue'),
+    meta: {
+      requireAuth: true,
+      // role: role,
+      token: token
+    }
   },
+
   {
     path: '/404',
     name: '404',
-    component: () => import('../views/404/PageNotFound.vue'),
+    component: () => import("../views/404/PageNotFound.vue"),
     meta: {
       requireAuth: false,
     },
@@ -72,17 +77,17 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, _, next) => {
-  if (to.meta.requireAuth) {
-    if (token) {
-      if (to.meta.role == role) {
-        next();
-      } else {
-        next('/404');
-      }
-    }
-  }
-});
+// router.beforeEach((to, _, next) => {
+//   if (to.meta.requireAuth) {
+//     if (token) {
+//       if (to.meta.role == role) {
+//         next();
+//       } else {
+//         next('/404');
+//       }
+//     }
+//   }
+// });
 
 
 export default router

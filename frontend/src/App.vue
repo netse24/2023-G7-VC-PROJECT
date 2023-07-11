@@ -3,7 +3,6 @@
     <NavBar />
     <v-main>
       <router-view></router-view>
-      <Admin/>
     </v-main>
     <form-create-user
       @user-emit="createUser"
@@ -15,10 +14,10 @@
 import axios from "axios";
 // import FormCreateUser from "./views/FormCreateUser.vue"
 import NavBar from "./components/navbar/NavigationBar.vue";
-import Admin from './views/teacher/TeacherView.vue'
+// import Admin from './views/teacher/TeacherView.vue'
 export default {
   components: {
-    NavBar, Admin
+    NavBar, 
   },
 
   methods: {

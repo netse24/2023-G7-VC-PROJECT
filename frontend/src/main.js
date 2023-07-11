@@ -7,7 +7,6 @@ import VueCryptoJS from 'vue-cryptojs';
 import router from './router'
 import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
-import { createPinia } from 'pinia'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 // Vuetfy
