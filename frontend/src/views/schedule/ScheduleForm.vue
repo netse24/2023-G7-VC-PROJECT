@@ -32,11 +32,12 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="mb-2 d-flex flex-column">
+              <div class="time d-flex gap-5">
+              <div class="mb-2 w-50 d-flex flex-column">
                 <label for="recipient-name" class="col-form-label"
                   >Subject:</label
                 >
-                <select name="subject" id="subject" class="form-select">
+                <select name="subject" id="subject" class="form-select" v-model="subjectName">
                   <option value="" disabled selected>Choose A Subject</option>
                   <option
                     v-for="(subject, index) in itemSubjects"
@@ -47,11 +48,11 @@
                   </option>
                 </select>
               </div>
-              <div class="mb-2 d-flex flex-column">
+              <div class="mb-2 w-50 d-flex flex-column">
                 <label for="recipient-name" class="col-form-label"
                   >Teacher:</label
                 >
-                <select name="teacher" id="teacher" class="form-select">
+                <select name="teacher" id="teacher" class="form-select" v-model="teacherName">
                   <option value="" disabled selected>Choose A Teacher</option>
                   <option
                     v-for="(teacher, index) in teachers"
@@ -62,9 +63,24 @@
                   </option>
                 </select>
               </div>
-              <div class="mb-2 d-flex flex-column">
+              </div>
+              <div class="time d-flex gap-5">
+              <div class="mb-2 w-50 d-flex flex-column">
+                <label for="recipient-name" class="col-form-label">Class:</label>
+                <select name="room" id="room" class="form-select" v-model="className">
+                  <option value="" disabled selected>Choose A Class</option>
+                  <option
+                    v-for="(room, index) in rooms"
+                    :key="index"
+                    :value="room"
+                  >
+                    {{ room }}
+                  </option>
+                </select>
+              </div>
+              <div class="mb-2 w-50 d-flex flex-column">
                 <label for="recipient-name" class="col-form-label">Room:</label>
-                <select name="room" id="room" class="form-select">
+                <select name="room" id="room" class="form-select" v-model="roomName">
                   <option value="" disabled selected>Choose A Room</option>
                   <option
                     v-for="(room, index) in rooms"
@@ -75,22 +91,29 @@
                   </option>
                 </select>
               </div>
-              <div class="mb-2">
-                <label for="message-text" class="col-form-label">Date:</label>
-                <input type="date" id="date" class="form-control" />
+              </div>
+              <div class="time d-flex gap-5">
+              <div class="mb-2 w-50">
+                <label for="message-text" class="col-form-label">Start Date:</label>
+                <input type="date" id="date" class="form-control" v-model="startDate" />
+              </div>
+              <div class="mb-2 w-50">
+                <label for="message-text" class="col-form-label">End Date:</label>
+                <input type="date" id="date" class="form-control" v-model="endDate" />
+              </div>
               </div>
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50">
                   <label for="message-text" class="col-form-label"
                     >Start-Time:</label
                   >
-                  <input type="time" id="date" class="form-control" />
+                  <input type="time" id="date" class="form-control" v-model="startTime" />
                 </div>
                 <div class="mb-2 w-50">
                   <label for="message-text" class="col-form-label"
                     >End-time:</label
                   >
-                  <input type="time" id="date" class="form-control" />
+                  <input type="time" id="date" class="form-control" v-model="endTime" />
                 </div>
               </div>
             </form>
