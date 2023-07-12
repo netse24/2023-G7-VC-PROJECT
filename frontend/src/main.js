@@ -9,12 +9,9 @@ import vuetify from './plugins/vuetify';
 import { loadFonts } from './plugins/webfontloader'
 
 
-<<<<<<< HEAD
 import { createPinia } from 'pinia'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
-=======
->>>>>>> 6d81a191ce00193330415549598097f0206b159c
 // Vuetfy
 // import { createVuetify } from 'vuetify'
 // import LoginView from './views/login/LoginView.vue'

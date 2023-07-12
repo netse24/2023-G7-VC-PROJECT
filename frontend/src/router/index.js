@@ -54,7 +54,7 @@ const routes = [
   {
     path: '/generation/studentList',
     name: 'student',
-    component: () => import('../views/TeacherView.vue'),
+    component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
     path: '/404',
