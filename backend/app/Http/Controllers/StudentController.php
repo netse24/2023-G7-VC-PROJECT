@@ -62,6 +62,7 @@ class StudentController extends Controller
         $generation = DB::table('students')
               ->distinct()
               ->select('generation')
+              ->orderBy('generation')
               ->get();
 
         return response()->json(['success' => true, 'data' => $generation], 200);
