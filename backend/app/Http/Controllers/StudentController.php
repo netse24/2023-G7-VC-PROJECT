@@ -57,6 +57,7 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
+  
     public function getGeneration()
     {
         $generation = DB::table('students')
