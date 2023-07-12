@@ -19,21 +19,17 @@ export const userInformations = defineStore('userInfo', {
             var decodedCookie = decodeURIComponent(document.cookie);
             var splitDataToJsonFormat = decodedCookie.split(";");
             for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-              var cookie = splitDataToJsonFormat[i];
-              while (cookie.charAt(0) == " ") {
-                cookie = cookie.substring(1);
-              }
-              if (cookie.indexOf(cname) == 0) {
-                return cookie.substring(cname.length, cookie.length);
-              }
+                var cookie = splitDataToJsonFormat[i];
+                while (cookie.charAt(0) == " ") {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cname) == 0) {
+                    return cookie.substring(cname.length, cookie.length);
+                }
             }
             return "";
-          },
+        },
         getUserData() {
-            // axiosClient.get("/users/" + userId).then((res) => {
-            //     this.userStore = res.data
-            //     // alert(res.data)
-            // })
             let userId = AES.decrypt(this.getCookie('user_id'), "Screat id").toString(enc.Utf8)
             axiosClient.get("/users/" + userId).then((res) => {
                 this.userStore = res.data

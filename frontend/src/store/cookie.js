@@ -36,15 +36,15 @@ export const storeManageCookie = defineStore('manageCookie', {
             var decodedCookie = decodeURIComponent(document.cookie);
             var splitDataToJsonFormat = decodedCookie.split(";");
             for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-              var cookie = splitDataToJsonFormat[i];
-              while (cookie.charAt(0) == " ") {
-                cookie = cookie.substring(1);
-              }
-              if (cookie.indexOf(cname) == 0) {
-                return cookie.substring(cname.length, cookie.length);
-              }
+                var cookie = splitDataToJsonFormat[i];
+                while (cookie.charAt(0) == " ") {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cname) == 0) {
+                    return cookie.substring(cname.length, cookie.length);
+                }
             }
             return "";
-          }
+        }
     }
 });

@@ -140,9 +140,9 @@ export default {
       }
     },
   },
-  mounted() {
-    this.userData.getUserData();
-  }
+  // mounted() {
+  //   this.userData.getUserData();
+  // }
 }
 
 </script>
