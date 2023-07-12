@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CryptoJS from 'crypto-js';
-
-function getCookie(name) {
-  var cname = name + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var splitDataToJsonFormat = decodedCookie.split(";");
-  for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-    var cookie = splitDataToJsonFormat[i];
-    while (cookie.charAt(0) == " ") {
+function getCookie(user_token_in_store) {
+ let cookieName = user_token_in_store + '=';
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let splitToJsonFormat = decodedCookie.split(';');
+  for (let i = 0; i < splitToJsonFormat.length; i++) {
+    let cookie = splitToJsonFormat[i];
+    while (cookie.charAt(0) == ' ') {
       cookie = cookie.substring(1);
     }
     if (cookie.indexOf(cname) == 0) {
@@ -59,6 +58,17 @@ const routes = [
       token: token
     }
   },
+  {
+    path: '/student',
+    name: 'student',
+    component: () => import('../views/student/StudentView.vue'),
+    meta: {
+      requireAuth: true,
+      // role: role,
+      token: token
+    }
+  },
+
   {
     path: '/404',
     name: '404',

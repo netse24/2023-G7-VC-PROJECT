@@ -6,6 +6,7 @@ use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,7 @@ Route::resource('student', StudentController::class);
 Route::resource('users', UserController::class);
 Route::resource('course', CourseController::class);
 Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
+Route::resource('schedule', ScheduleController::class);
 
 
 
