@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ShowTeacherResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -14,7 +16,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teacher = Teacher::all();
-        return response()->json(['success'=>true, 'data'=>$teacher], 200);
+        return response()->json(['success' => true, 'data' => $teacher], 200);
     }
 
     /**
@@ -30,11 +32,11 @@ class TeacherController extends Controller
     public function show(string $id)
     {
         $teacher = Teacher::find($id);
-        if(!$teacher){
-            return response()->json(['massage'=>'Not Found'],404);
+        if (!$teacher) {
+            return response()->json(['massage' => 'Not Found'], 404);
         }
         $teacher = new TeacherResource($teacher);
-        return response()->json(['success'=>true,'data'=>$teacher], 200);
+        return response()->json(['success' => true, 'data' => $teacher], 200);
     }
 
     /**
@@ -43,7 +45,7 @@ class TeacherController extends Controller
     public function update(Request $request, string $id)
     {
         $teacher = Teacher::store($request, $id);
-        return response()->json(['success'=>true, 'data' => $teacher], 200);
+        return response()->json(['success' => true, 'data' => $teacher], 200);
     }
 
     /**
@@ -51,8 +53,26 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
-        $teacher =Teacher::find($id);
-        $teacher -> delete();
-        return response()->json(['success'=>true, 'message' => 'Teacher delete successfully'], 200);
+        $teacher = Teacher::find($id);
+        $teacher->delete();
+        return response()->json(['success' => true, 'message' => 'Teacher delete successfully'], 200);
+    }
+
+    public function getTeacher($id)
+    {
+        $teacher = Teacher::where('id', $id)->first();
+        if (!empty($teacher)) {
+            $user = new ShowTeacherResource($teacher);
+            if (!empty($user)) {
+                return response()->json([
+                    'message' => 'Get Teacher successfully',
+                    'teacher_info' => $user
+                ]);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Teacher not found',
+            ]);
+        }
     }
 }
