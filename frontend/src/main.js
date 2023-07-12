@@ -1,7 +1,7 @@
 
 import { createApp } from "vue";
 import App from "./App.vue";
-import { createPinia } from 'pinia'
+// import { createPinia } from 'pinia'
 import './style.css'
 import VueCryptoJS from 'vue-cryptojs';
 import router from './router'
@@ -10,8 +10,8 @@ import { loadFonts } from './plugins/webfontloader'
 
 
 import { createPinia } from 'pinia'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.bundle.min';
 // Vuetfy
 // import { createVuetify } from 'vuetify'
 // import LoginView from './views/login/LoginView.vue'

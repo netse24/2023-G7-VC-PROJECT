@@ -21,10 +21,6 @@ import { userInformations } from "@/store/userStore";
 // import StudentListView from './components/student/StudentList.vue';
 
 export default {
-  components:{
-    // StudentListView,
-    StudentCardView
-  },
   setup() {
     const userData = userInformations();
     return {
