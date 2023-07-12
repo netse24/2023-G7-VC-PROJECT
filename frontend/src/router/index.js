@@ -52,14 +52,9 @@ const routes = [
     component: () => import('../views/TeacherView.vue'),
   },
   {
-    path: '/admin/students',
-    name: 'students',
-    component: () => import('../views/student/StudentView.vue'),
-  },
-  {
-    path: '/admin/studentList',
-    name: 'students',
-    component: () => import('../views/student/StudentCardView.vue'),
+    path: '/generation/studentList',
+    name: 'student',
+    component: () => import('../views/TeacherView.vue'),
   },
   {
     path: '/404',

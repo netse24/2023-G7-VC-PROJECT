@@ -13,11 +13,18 @@ import { loadFonts } from './plugins/webfontloader'
 loadFonts()
 import BaseButton from "./components/widget/button/BaseButton.vue";
 import BaseDialog from "./components/widget/dialog/BaseDialog.vue";
+import GenerationListView from './views/student/GenerationListView.vue';
+import StudentListView from './views/student/StudentListView.vue';
+
 const app = createApp(App);
 const pinia = createPinia();
 
 app.component("BaseButton", BaseButton);
 app.component("BaseDialog", BaseDialog);
+app.component("GenerationListView", GenerationListView);
+app.component("StudentListView", StudentListView);
+
+
 app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)
