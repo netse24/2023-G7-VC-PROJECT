@@ -9,9 +9,12 @@ import vuetify from './plugins/vuetify';
 import { loadFonts } from './plugins/webfontloader'
 
 
+<<<<<<< HEAD
 import { createPinia } from 'pinia'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/js/bootstrap.bundle.min';
+=======
+>>>>>>> 6d81a191ce00193330415549598097f0206b159c
 // Vuetfy
 // import { createVuetify } from 'vuetify'
 // import LoginView from './views/login/LoginView.vue'
@@ -19,11 +22,18 @@ loadFonts()
 
 import BaseButton from "./components/widget/button/BaseButton.vue";
 import BaseDialog from "./components/widget/dialog/BaseDialog.vue";
+import GenerationListView from './views/student/GenerationListView.vue';
+import StudentListView from './views/student/StudentListView.vue';
+
 const app = createApp(App);
 const pinia = createPinia();
 
 app.component("BaseButton", BaseButton);
 app.component("BaseDialog", BaseDialog);
+app.component("GenerationListView", GenerationListView);
+app.component("StudentListView", StudentListView);
+
+
 app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)

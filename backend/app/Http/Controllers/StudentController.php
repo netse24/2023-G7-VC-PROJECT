@@ -57,11 +57,13 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
+  
     public function getGeneration()
     {
         $generation = DB::table('students')
               ->distinct()
               ->select('generation')
+              ->orderBy('generation')
               ->get();
 
         return response()->json(['success' => true, 'data' => $generation], 200);

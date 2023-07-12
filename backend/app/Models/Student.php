@@ -20,6 +20,9 @@ class Student extends Model
     public function class():BelongsTo{
         return $this->belongsTo(Classes::class);
     }
+    public function generation():BelongsTo{
+        return $this->belongsTo(Generation::class);
+    }
     public static function store($request, $id = null)
     {
         $student = $request->only([

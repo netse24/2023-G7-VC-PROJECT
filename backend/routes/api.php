@@ -31,11 +31,11 @@ Route::post('/login', [AuthController::class,'login']);
 Route::resource('teacher', TeacherController::class);
 Route::resource('student', StudentController::class);
 Route::resource('user', UserController::class);
-Route::resource('admin', AdminController::class);
-Route::resource('role', RoleController::class);
-Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
 Route::get('/students/generation',[StudentController::class, 'getGeneration']);
+
+
+
 
 
 

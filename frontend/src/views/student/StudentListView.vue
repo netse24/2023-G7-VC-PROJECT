@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="d-flex gap-5 mb-5 w-75">
+    <div class="d-flex gap-5 mb-5 w-75 p-14">
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28"
       >
@@ -17,28 +17,22 @@
         Delete
       </button>
       <button
-        @click="getDetail"
-        class="bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 px-4 border border-orange-700 rounded w-28">
+        class="bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 px-4 border border-orange-700 rounded w-28"
+      >
         See More
       </button>
     </div>
     <hr />
     <div class="d-flex gap-9 mb-3 my-4 justify-center">
       <button
+        v-for="(student, index) in students"
+        :key="index"
+        click="showStudentList"
         class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12"
       >
-        Class
+        {{ student.class }}
       </button>
-      <button
-        class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12"
-      >
-        Class
-      </button>
-      <button
-        class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12"
-      >
-        Class
-      </button>
+
       <div class="d-flex gap-5 mb-3 my-4 justify-center">
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"
@@ -72,32 +66,28 @@
         </svg>
       </div>
     </div>
-    <table class="border-collapse border w-10/12 m-auto">
-      <thead class="bg-teal-600">
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Gender</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(student, index) in students" :key="index">
-          <td class="border border-slate-300 py-2 px-4 ml-2">
-            <input
-              id="default-checkbox"
-              type="checkbox"
-              v-model="selectedUsers"
-              :value="student.id"
-              class="accent-emerald-500/25 w-4 h-4 rounded text-center"
-            />{{ student.user.first_name }}
-          </td>
-          <td class="border border-slate-300 ...">
-            {{ student.user.last_name }}
-          </td>
-          <td class="border border-slate-300...">{{ student.user.gender }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="d-flex justify-center">
+      <table class="border w-10/12 border-collapse">
+        <thead class="bg-teal-600 text-left text-xl text-white">
+          <tr>
+            <th></th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Gender</th>
+          </tr>
+        </thead>
+        <tbody 
+        v-for="(student, index) in classes"
+        :key="index">
+          <tr>
+            <td><input id="default-checkbox" type="checkbox" value="{{student.id}}" /></td>
+            <td>{{student.first_name}}</td>
+            <td>{{student.last_name}}</td>
+            <td>{{student.gender}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>
 <script>
@@ -105,35 +95,32 @@ import axios from "axios";
 export default {
   data() {
     return {
-      classes: [],
+        classes: [],
       students: [],
-      selectedUsers: [],
-      isSelected: false,
     };
   },
   methods: {
+    getClass(){
+          axios.get("http://127.0.0.1:8000/api/user").then((res)=>{
+              this.classes = res.data.data
+              console.log(this.classes);
+          })
+      },
     getStudent() {
       axios.get("http://127.0.0.1:8000/api/student").then((res) => {
         this.students = res.data.data;
-        
+        console.log(this.students);
       });
     },
-    getDetail() {
-      if (this.selectedUsers.length > 1) {
-        confirm('can not detail');
-      } else {
-        let user_id = this.selectedUsers
-        axios.get("http://127.0.0.1:8000/api/student/"+ user_id).then((res) => {
-            console.log(res.data);
-        }).catch(err=> console.error(err))
-      }
-    },
+    showStudentList(){
+
+    }
   },
   mounted() {
+      this.getClass()
     this.getStudent();
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
