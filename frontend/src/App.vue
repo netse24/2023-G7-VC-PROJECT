@@ -1,48 +1,49 @@
 <template>
-  <section>
-    <LoginView @add-form="login"></LoginView>
-    <v-app>
-      <v-main>
-        <router-view></router-view>
-      </v-main>
-    </v-app>
+  <v-app>
+    <NavBar />
+    <v-main>
+      <router-view></router-view>
+      <Admin/>
+    </v-main>
     <form-create-user
-      @teacher-emit="createUser"
-      @student-emit="createUser"
+      @user-emit="createUser"
+      @teacher-emit="createTeacher"
     ></form-create-user>
-  </section>
+  </v-app>
 </template>
 <script>
-import { userInformations } from "@/store/userStore";
 import axios from "axios";
-import FormCreateUser from "./views/FormCreateUser.vue";
-// import LoginView from './views/login/LoginView.vue'
-
-// import LoginView from './views/login/LoginView.vue'
+// import FormCreateUser from "./views/FormCreateUser.vue"
+import NavBar from "./components/navbar/NavigationBar.vue";
+import Admin from './views/teacher/TeacherView.vue'
 export default {
-  name: "App",
-  setup() {
-    const userData = userInformations();
-    return {
-      userData,
-    };
-  },
   components: {
-    FormCreateUser,
+    NavBar, Admin
   },
+
   methods: {
     login(login) {
       alert(login);
     },
     createUser(userInfo) {
-      console.log(userInfo);
       axios
         .post("http://127.0.0.1:8000/api/user", userInfo)
         .then((response) => {
           console.log(response.data);
         })
         .catch((error) => {
-          console.error(error);
+          console.log(error);
+        });
+    },
+    createTeacher(teacherInfo) {
+      console.log(teacherInfo);
+      axios
+        .post("http://127.0.0.1:8000/api/teacher", teacherInfo)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
   },
