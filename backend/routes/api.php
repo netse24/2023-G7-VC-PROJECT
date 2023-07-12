@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,7 @@ Route::resource('admin', AdminController::class);
 Route::resource('role', RoleController::class);
 Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
+Route::resource('schedule', ScheduleController::class);
 
 
 
