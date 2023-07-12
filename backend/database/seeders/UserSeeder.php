@@ -46,6 +46,36 @@ class UserSeeder extends Seeder
                 'address' => 'Kompong Cham',
                 'role_id' => 3,
             ],
+            [
+                'first_name' => 'Soknoeurn',
+                'last_name' => 'Srun',
+                'gender' => 'female',
+                'email' => 'soknoeurn.srun@gmail.com',
+                'password' => bcrypt('123456789'),
+                'date_of_birth' => Carbon::create('2003-2-6'),
+                'address' => 'Preyveng',
+                'role_id' => 2,
+            ],
+            [
+                'first_name' => 'Srey pheap',
+                'last_name' => 'Khim',
+                'gender' => 'female',
+                'email' => 'sreypheap.khim@gmail.com',
+                'password' => bcrypt('123456789'),
+                'date_of_birth' => Carbon::create('2004-12-12'),
+                'address' => 'Porsat',
+                'role_id' => 2,
+            ],
+            [
+                'first_name' => 'Dariya',
+                'last_name' => 'Thorn',
+                'gender' => 'female',
+                'email' => 'dariya.thorn@gmail.com',
+                'password' => bcrypt('123456789'),
+                'date_of_birth' => Carbon::create('2002-4-24'),
+                'address' => 'Oddarmeanchey',
+                'role_id' => 3,
+            ],
         ];
 
         foreach ($users as $user) {
