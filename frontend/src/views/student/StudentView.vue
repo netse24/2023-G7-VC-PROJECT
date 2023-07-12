@@ -56,6 +56,7 @@
 export default {
   data() {
     return {
+      breadCrumb: [],
       schoolItems: [
         {
           title: "Background",
@@ -68,13 +69,17 @@ export default {
       ],
     };
   },
+  methods: {
+    onClickCategory(index) {
+      this.breadCrumb = [];
+      this.breadCrumb.push({ title: 'Home', href:'/students'}, { title: `${this.schoolItems[index].title}`, href: `/students/${this.schoolItems[index].title.toLowerCase()}`});
+    }
+  }
 };
 </script>
 <style>
 .card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  border: 5px solid #000;
-  background: #000;
 }
 
 .card:hover {

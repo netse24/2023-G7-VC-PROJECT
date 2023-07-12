@@ -1,11 +1,18 @@
 <template>
   <v-app-bar>
-    <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-    <v-breadcrumbs :items="paths" class="mt-3">
-      <template v-slot:divider>
-        <v-icon icon="mdi-chevron-right"></v-icon>
-      </template>
-    </v-breadcrumbs>
+    <v-img
+      src="../../assets/school-1.png"
+      alt="Logo"
+      max-width="60"
+      max-height="50"
+      class="ma-3"
+      contain
+    ></v-img>
+      <v-breadcrumbs v-if="breadcrum.length > 0" :items="breadCrum" class="mt-3">
+        <template v-slot:divider>
+          <v-icon icon="mdi-chevron-right"></v-icon>
+        </template>
+      </v-breadcrumbs>
     <v-spacer></v-spacer>
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
@@ -45,19 +52,25 @@ export default {
       userData,
     }
   },
+  props:{
+    breadCrumb: Array,
+  },
   data() {
     return {
       isVertical: false,
+      breadcrum: [],
       items: [
         { title: "Your Profile", icon: "mdi-account-circle", type: "profile" },
         { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
         { title: "Log Out", icon: "mdi-logout", type: "logout" },
       ],
-      paths: [
-        { title: "Home", href: "/" },
-        { title: "Admin", href: "/admin" },
-        { title: "Class", href: "/admin/teachers" },
-      ],
+      // breadcrum: [
+      //   { title: "Home", href: "/admin" },
+      //   { title: "Admin", href: "/admin" },
+      //   { title: "Class", href: "/admin/teachers" },
+      //   { title: "Class", href: "/admin/teachers" },
+      //   { title: "Class", href: "/admin/teachers" },
+      // ],
     };
   },
   methods: {
