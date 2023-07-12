@@ -1,91 +1,89 @@
 <template>
-<section>
-    <div class="d-flex gap-5 mb-5 w-75">
-        <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28">Back
-        </button>
-        <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28">Update
-        </button>
-        <button
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded w-28">Delete
-        </button>
-        <button
-            class="bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 px-4 border border-orange-700 rounded w-28">See More
-        </button>
-    </div>
-    <hr>
-    <div class="d-flex gap-9 mb-3 my-4 justify-center ">
-        <button
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12">
-            Class
-        </button>
-        <button
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12">
-            Class
-        </button>
-        <button
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border border-orange-700 rounded-full w-2/12">
-            Class
-        </button>
-        <div class="d-flex gap-5  mb-3 my-4 justify-center">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
-                </svg>
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                </svg>
+  <section class="w-10/12 m-auto">
+    <div class="flex gap-2 my-2">
+      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28">Back</button>
+      <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28">Update</button>
+      <button class="btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-red-800 rounded w-28">Delete</button>
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded w-28">
+        <v-dialog v-if="selectedUsers.length>1 || selectedUsers.length==0 " class="w-50" v-model="dialog">
+          <template v-slot:activator="{ props }">
+            <v-text v-bind="props">See more</v-text>
+          </template>
+          <v-card>
+            <v-card-title class="border-gray-200 bg-cyan-500">Detail User</v-card-title>
+            <v-card-text>
+              <v-container class="d-flex justify-start">
+                <p v-if="selectedUsers.length>1">You can detail only 1 user one time</p>
+                <p v-else>Please select checkbox</p>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn 
+                color="font-normal text-1xl font-bold" variant="text" @click="dialog = false">OK
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <div v-else> 
+          <router-link :to="`/admin/batch/student_detail/${selectedUsers}`" >See more</router-link> 
         </div>
+      </button>
     </div>
-    <table class="border-collapse border w-10/12 m-auto ">
-    <thead class="bg-teal-600 ">
+    <hr class="w-full h-0.5 bg-gray-300 dark:bg-cyan-900"/>
+    <div class="flex justify-around mb-3 my-4 w-11/12 m-auto">
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 border rounded-full w-2/12">2020B</button>
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 border rounded-full w-2/12">2020E</button>
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 border rounded-full w-2/12">2020A</button>
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 border rounded-full w-2/12">2020C</button>
+    </div>
+    <table class="border-collapse border w-10/12 m-auto">
+      <thead class="bg-cyan-500">
         <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Gender</th>
+          <th class="px-4 py-4 w-2">ID</th>
+          <th class="px-4 py-4 w-64">First Name</th>
+          <th class="px-4 py-4 w-64">Last Name</th>
+          <th class="px-4 py-4 w-64">Gender</th>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <td class="border border-slate-300 py-2 px-4 ml-2"> <input id="default-checkbox" type="checkbox" value="" class=" accent-emerald-500/25 w-4 h-4 rounded text-center">student</td>
-        <td class="border border-slate-300  ...">name</td>
-        <td class="border border-slate-300...">gender</td>
-        </tr>   
-    </tbody>
+      </thead>
+      <tbody>
+        <tr v-for="(student, index) in students" :key="index">
+          <td class=" border border-slate-300 pl-4">
+            <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="student.id" class="accent-cyan-500 w-4 h-4 rounded"/>
+          </td>
+          <td class="py-2 px-4  border border-slate-300">{{student.user.first_name}}</td>
+          <td class="py-2 px-4 ml-2 border border-slate-300">{{student.user.last_name}}</td>
+          <td class="py-2 px-4 ml-2 border border-slate-300">{{student.user.gender}}</td>
+        </tr>
+      </tbody>
     </table>
-    </section>
+  </section>
 </template>
+
 <script>
-// import axios from 'axios'
+import axios from "axios";
 export default {
-    data(){
-        return{
-            classes: [],
-            students: [],
-        }
+  data() {
+    return {
+      dialog: false,
+      students: [],
+      selectedUsers: [],
+      classroom:[],
+    };
+  },
+  methods: {
+    getStudent() {
+      let user_id = this.selectedUsers
+      axios
+        .get("http://127.0.0.1:8000/api/student/" + user_id)
+        .then((Response) => {
+          this.students = Response.data.data;
+        })
+        .catch((err) =>console.log(err)
+      );
     },
-    // methods:{
-    //     getClass(){
-    //         axios.get("http://127.0.0.1:8000/api/class").then((res)=>{
-    //             this.classes = res.data.data
-    //             console.log(this.classes);
-    //         })
-    //     },
-    //     getStudent(){
-    //         axios.get("http://127.0.0.1:8000/api/student").then((res)=>{
-    //             this.students = res.data.data
-    //             console.log(this.students);
-    //         })
-    //     }
-    // },
-    // mounted() {
-    //     this.getClass()
-    //     this.getStudent()
-    // },
-
-}
+  },
+  mounted() {
+    this.getStudent();
+  },
+};
 </script>
-
-<style>
-
-</style>

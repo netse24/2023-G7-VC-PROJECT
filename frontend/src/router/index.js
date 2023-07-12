@@ -62,14 +62,24 @@ const routes = [
     component: () => import('../views/student/StudentCardView.vue'),
   },
   {
+    path: '/admin/batch/student_list',
+    name: 'student_list',
+    component: () => import('../components/student/StudentList.vue'),
+  },
+  {
+    props:true,
+    path: '/admin/batch/student_detail/:user_id',
+    name: 'student_detail',
+    component: () => import('../views/student/StudentDetailView.vue'),
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('../views/404/PageNotFound.vue'),
     meta: {
       requireAuth: false,
     },
-
-  }
+  },
 ]
 
 const router = createRouter({
@@ -77,17 +87,17 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, _, next) => {
-  if (to.meta.requireAuth) {
-    if (token) {
-      if (to.meta.role == role) {
-        next();
-      } else {
-        next('/404');
-      }
-    }
-  }
-});
+// router.beforeEach((to, _, next) => {
+//   if (to.meta.requireAuth) {
+//     if (token) {
+//       if (to.meta.role == role) {
+//         next();
+//       } else {
+//         next('/404');
+//       }
+//     }
+//   }
+// });
 
 
 export default router

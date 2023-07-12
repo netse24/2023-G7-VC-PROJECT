@@ -13,8 +13,8 @@ loadFonts()
 const app = createApp(App)
 const pinia = createPinia();
 
-app.component("BaseButton", BaseButton);
-app.component("BaseDialog", BaseDialog);
+// app.component("BaseButton", BaseButton);
+// app.component("BaseDialog", BaseDialog);
 app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)
