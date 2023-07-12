@@ -1,18 +1,11 @@
 <template>
   <v-app-bar>
-    <v-img
-      src="../../assets/school-1.png"
-      alt="Logo"
-      max-width="60"
-      max-height="50"
-      class="ma-3"
-      contain
-    ></v-img>
-      <v-breadcrumbs :items="breadCrum" class="mt-3">
-        <template v-slot:divider>
-          <v-icon icon="mdi-chevron-right"></v-icon>
-        </template>
-      </v-breadcrumbs>
+    <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
+    <v-breadcrumbs :items="breadCrum" class="mt-3">
+      <template v-slot:divider>
+        <v-icon icon="mdi-chevron-right"></v-icon>
+      </template>
+    </v-breadcrumbs>
     <v-spacer></v-spacer>
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
@@ -51,9 +44,6 @@ export default {
       userCookie,
       userData,
     }
-  },
-  props:{
-    breadCrumb: Array,
   },
   props: ['breadCrum'],
   data() {
