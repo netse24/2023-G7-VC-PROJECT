@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\StudentClassResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -58,6 +57,7 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
+<<<<<<< HEAD
     public function getgeneration()
     {
         $student = Student::all();
@@ -67,5 +67,15 @@ class StudentController extends Controller
         //     return $data->generation;
         //    }
         return $student;
+=======
+    public function getGeneration()
+    {
+        $generation = DB::table('students')
+              ->distinct()
+              ->select('generation')
+              ->get();
+
+        return response()->json(['success' => true, 'data' => $generation], 200);
+>>>>>>> 8b0cbb3369cb496158f105529760d10b0b9fddf9
     }
 }
