@@ -157,6 +157,10 @@ export default {
 .fc-event-time {
   display: none;
 }
+.fc-col-header-cell-cushion {
+  color: #000;
+  text-decoration: none;
+}
 #teachers {
   width: 50%;
   margin: 10px auto;

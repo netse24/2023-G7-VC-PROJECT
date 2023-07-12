@@ -1,22 +1,27 @@
 <template>
   <v-app>
-    <SideBar/>
-    <NavBar/>
     <v-main>
-      <router-view/>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
+<script>
+import {userInformations} from "@/store/userStore";
+export default {
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData,
+    }
+  },
 
-<script setup>
-import SideBar from "./components/sidebar/SideBar.vue";
-import NavBar from "./components/navbar/NavigationBar.vue";
-// export default {
-//   name: 'App',
+  beforeCreate() {
+    if (this.userData.getCookie('user_id')) {
+      this.userData.getUserData();
+    }
+  },
 
-//   data: () => ({
-//     //
-//   }),
+}
 
-// }
 </script>
