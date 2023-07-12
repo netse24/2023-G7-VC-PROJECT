@@ -41,3 +41,6 @@ Route::get('/generation',[StudentController::class, 'getgeneration']);
 
 
 
+
+
+

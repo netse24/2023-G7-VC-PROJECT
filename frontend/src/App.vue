@@ -2,7 +2,7 @@
   
   <section>
     <!-- <student-card-view></student-card-view> -->
-    <!-- <StudentListView></StudentListView> -->
+    <StudentListView></StudentListView>
 
     <!-- <v-app>
       <v-main>
@@ -18,11 +18,11 @@
 <script>
 import { userInformations } from "@/store/userStore";
 // import StudentCardView from './views/student/StudentCardView.vue';
-// import StudentListView from './components/student/StudentList.vue';
+import StudentListView from './components/student/StudentList.vue';
 
 export default {
   components:{
-    // StudentListView,
+    StudentListView,
     // StudentCardView
   },
   setup() {
