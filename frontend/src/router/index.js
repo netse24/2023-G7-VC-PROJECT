@@ -14,7 +14,7 @@ function getCookie(user_token_in_store) {
       return cookie.substring(cookieName.length, cookie.length);
     }
   }
-  return ;
+  return "";
 }
 const token = getCookie('user_token')
 const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)

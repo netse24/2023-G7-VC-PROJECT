@@ -19,6 +19,7 @@
     "pinia": "^2.1.4",
     "roboto-fontface": "*",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.7.16",
     "vee-validate": "^4.10.6",
     "vue": "^3.3.4",
     "vue-cookie": "^1.1.4",
