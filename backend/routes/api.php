@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -34,6 +35,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
     Route::get('/users/{id}', [UserController::class, "getUserById"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
+    Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
+    Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
 });
 
 Route::resource('teacher', TeacherController::class);

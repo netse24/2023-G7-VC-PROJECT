@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { AES, enc } from 'crypto-js';
+import CryptoJS from 'crypto-js';
 
-function getCookie(user_token_in_store) {
-  let cookieName = user_token_in_store + '=';
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let splitToJsonFormat = decodedCookie.split(';');
-  for (let i = 0; i < splitToJsonFormat.length; i++) {
-    let cookie = splitToJsonFormat[i];
-    while (cookie.charAt(0) == ' ') {
+function getCookie(name) {
+  var cname = name + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var splitDataToJsonFormat = decodedCookie.split(";");
+  for (var i = 0; i < splitDataToJsonFormat.length; i++) {
+    var cookie = splitDataToJsonFormat[i];
+    while (cookie.charAt(0) == " ") {
       cookie = cookie.substring(1);
     }
-    if (cookie.indexOf(cookieName) == 0) {
-      return cookie.substring(cookieName.length, cookie.length);
+    if (cookie.indexOf(cname) == 0) {
+      return cookie.substring(cname.length, cookie.length);
     }
   }
-  return ;
+  return "";
 }
 const token = getCookie('user_token')
-const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
-const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
+const role = CryptoJS.AES.decrypt(getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
+const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
 console.log(role);
 console.log(id);
 
@@ -56,11 +56,9 @@ const routes = [
     component: () => import('../views/student/StudentView.vue'),
     meta: {
       requireAuth: true,
-      // role: role,
       token: token
     }
   },
-
   {
     path: '/404',
     name: '404',
