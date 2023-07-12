@@ -80,7 +80,16 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
-
+    /**
+     * select remove 
+     */
+    public function delete($ids)
+    {
+        $ids = explode(',', $ids);
+        User::whereIn('id', $ids)->delete();
+        
+        return response()->json(['message' => 'Users deleted successfully']);
+    }
     // get user by id that stored in storage cookie. 
     public function getUserById($id)
     {
