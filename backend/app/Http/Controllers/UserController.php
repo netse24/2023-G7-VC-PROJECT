@@ -91,11 +91,12 @@ class UserController extends Controller
         return response()->json(['message' => 'Users deleted successfully']);
     }
     // get user by id that stored in storage cookie. 
-    public function getUserById($id){
+    public function getUserById($id)
+    {
         $user = User::where('id', '=', $id)->first();
         return response()->json([
-            'message'=> 'success',
-            'data'=> $user
+            'message' => 'success',
+            'data' => $user
         ]);
     }
 
@@ -104,7 +105,7 @@ class UserController extends Controller
     {
         Auth::user()->tokens()->delete();
         return response()->json([
-            'message'=>'logout user successfully'
+            'message' => 'logout user successfully'
         ]);
     }
 }

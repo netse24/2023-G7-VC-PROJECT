@@ -1,7 +1,7 @@
 <template>
   <section>
     <v-app :style="{ backgroundImage: `url(${image})` }" class="bg-no-repeat h-screen">
-      <v-alert type="success" title="Success " v-if="loginSuccess" class="w-50 m-auto"></v-alert>
+      <!-- <v-alert type="success" title="Success " v-if="loginSuccess" class="w-50 m-auto"></v-alert> -->
       <v-main class="d-flex justify-center align-center">
         <v-col cols="10" lg="4" class="mx-auto">
           <h1 class="pa-5 text-3xl text-center bold font-bold">Welcome to <br> School Management System</h1>
@@ -30,9 +30,9 @@
           </v-card>
         </v-col>
       </v-main>
-      <v-snackbar top color="light-green" v-model="snackbar">
+      <!-- <v-snackbar top color="light-green" v-model="snackbar">
         Login success
-      </v-snackbar>
+      </v-snackbar> -->
     </v-app>
   </section>
 </template>
@@ -40,7 +40,7 @@
 <script>
 import image from '../../assets/background-1-1.png';
 import imageForm from '../../assets/bg-login.png';
-import {axiosClient} from '../../axios-http';
+import { axiosClient } from '../../axios-http';
 import { storeManageCookie } from '@/store/cookie'
 import { userInformations } from '@/store/userStore'
 export default {
@@ -71,6 +71,7 @@ export default {
         value => !!value || 'Password is required',
         value => (value && value.length >= 6) || 'Password must be 6  characters or more!',
       ],
+      errorMessage: null,
     }
   },
   methods: {
@@ -92,9 +93,10 @@ export default {
         };
         try {
           const res = await axiosClient.post('login', user);
+          // console.log(res);
           this.timeLoading();
+          var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
           let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
-          let userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
           if (res.status == 202) {
             setTimeout(() => {
               this.loginSuccess = true;
@@ -107,32 +109,40 @@ export default {
 
             // load token from cookie after login
             this.userData.getUserData();
-            if (res.data.role.name === 'admin') {
+            this.$swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Login Success',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            if (res.data.role.name == 'admin') {
               setTimeout(() => {
                 this.$router.push('admin');
               }, 1500);
-            } else if (res.data.role.name === 'teacher') {
+            } else if (res.data.role.name == 'teacher') {
               setTimeout(() => {
                 this.$router.push('teacher');
               }, 1500);
-            } else if (res.data.role.name === 'student') {
+            } else if (res.data.role.name == 'student') {
               setTimeout(() => {
                 this.$router.push('student');
               }, 1500);
             }
           }
         } catch (error) {
+          this.errorMessage = error.response.data.message;
           setTimeout(() => {
             this.loading = false;
+            this.$swal.fire(this.errorMessage)
           }, 1000);
-          this.errorMessage = error.response.data.message;
         }
       }
     },
   },
-  mounted() {
-    this.userData.getUserData();
-  }
+  // mounted() {
+  //   this.userData.getUserData();
+  // }
 }
 
 </script>
