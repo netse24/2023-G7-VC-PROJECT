@@ -80,7 +80,6 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
-<<<<<<< HEAD
     /**
      * select remove 
      */
@@ -90,8 +89,7 @@ class UserController extends Controller
         User::whereIn('id', $ids)->delete();
         
         return response()->json(['message' => 'Users deleted successfully']);
-=======
-
+    }
     // get user by id that stored in storage cookie. 
     public function getUserById($id){
         $user = User::where('id', '=', $id)->first();
@@ -108,6 +106,5 @@ class UserController extends Controller
         return response()->json([
             'message'=>'logout user successfully'
         ]);
->>>>>>> 6fce2b7ace7016cda1b80342157a6a7df3b5ba39
     }
 }
