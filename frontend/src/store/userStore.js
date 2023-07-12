@@ -14,26 +14,22 @@ export const userInformations = defineStore('userInfo', {
         }
     },
     actions: {
-        getCookie(user_token_in_store) {
-            let cookieName = user_token_in_store + '=';
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let splitToJsonFormat = decodedCookie.split(';');
-            for (let i = 0; i < splitToJsonFormat.length; i++) {
-                let cookie = splitToJsonFormat[i];
-                while (cookie.charAt(0) == ' ') {
+        getCookie(name) {
+            var cname = name + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var splitDataToJsonFormat = decodedCookie.split(";");
+            for (var i = 0; i < splitDataToJsonFormat.length; i++) {
+                var cookie = splitDataToJsonFormat[i];
+                while (cookie.charAt(0) == " ") {
                     cookie = cookie.substring(1);
                 }
-                if (cookie.indexOf(cookieName) == 0) {
-                    return cookie.substring(cookieName.length, cookie.length);
+                if (cookie.indexOf(cname) == 0) {
+                    return cookie.substring(cname.length, cookie.length);
                 }
             }
             return "";
         },
         getUserData() {
-            // axiosClient.get("/users/" + userId).then((res) => {
-            //     this.userStore = res.data
-            //     // alert(res.data)
-            // })
             let userId = AES.decrypt(this.getCookie('user_id'), "Screat id").toString(enc.Utf8)
             axiosClient.get("/users/" + userId).then((res) => {
                 this.userStore = res.data

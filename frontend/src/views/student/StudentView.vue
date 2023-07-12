@@ -2,7 +2,6 @@
   <section>
     <nav-bar />
     <div class="mt-5 w-100 px-2">
-
       <div class="w-100 m-auto row row-cols-1 row-cols-md-4 row-cols-sm-2 d-flex justify-content-center gap-6">
         <div class="card text-center mb-3" style="width: 15rem" v-for="schoolItem in schoolItems" :key="schoolItem">
           <div class="card-body">

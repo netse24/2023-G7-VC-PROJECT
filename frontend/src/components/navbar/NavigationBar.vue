@@ -93,14 +93,78 @@ export default {
       }
     },
     resetPW() {
-      let alert = this.$swal('Hello world!');
-      console.log(alert)
+      this.$swal.fire({
+        title: 'Reset your password?',
+        input: 'email',
+        inputPlaceholder: 'Enter your Email',
+        confirmButtonText: 'Continue',
+        inputAttributes: {
+          autocapitalize: 'Cancel'
+        },
+        showCancelButton: true,
+        showLoaderOnConfirm: true,
+        preConfirm: (emailInput) => {
+          return axiosClient.post('check_email', { email: emailInput })
+            .then(response => {
+              if (!response.status) {
+                throw new Error(response.statusText)
+              }
+              return response.data.status
+            })
+            .catch(error => {
+              this.$swal.showValidationMessage(
+                `Request failed: ${error}`
+              )
+            })
+        },
+        allowOutsideClick: () => !this.$swal.isLoading()
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$swal.fire({
+            confirmButtonText: 'Confirm',
+            inputAttributes: {
+              autocapitalize: 'Cancel'
+            },
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            title: 'Change Password',
+            html:
+              '<input id="current_pass" class="swal2-input" type="password" style="width:80%" placeholder="current password">' +
+              '<input id="new_pass" class="swal2-input" type="password"  style="width:80%" placeholder="new password">',
+            focusConfirm: false,
+            preConfirm: () => {
+              let current = document.getElementById('current_pass').value
+              let new_pass = document.getElementById('current_pass').value
+              let input_body = {
+                current_password: current,
+                new_password: new_pass
+              }
+              return axiosClient.put('changepass', input_body).then((response) => {
+                if (!response.status == 200) {
+                  throw new Error(response)
+                } else {
+                  return this.$swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: response.data.message,
+                    timer: 2000
+                  })
+                }
+              }).catch(error => {
+                this.$swal.showValidationMessage(
+                  error.response.data.message,
+                )
+              })
+            }
+          })
+        }
+      })
     },
+
     detailPF() {
       this.$swal.fire({
         title: 'Do you want to logout?',
       })
-
     },
 
     handleItemClick(action) {
