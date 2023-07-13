@@ -343,9 +343,9 @@ export default {
       this.selectedCourse = null;
       this.selectedGender = null;
       this.selectedRole = null;
-      this.isTeacher= false,
-      this.isStudent= false,
-      this.dialog = false;
+      this.isTeacher = false,
+        this.isStudent = false,
+        this.dialog = false;
     },
     getCourses() {
       axios

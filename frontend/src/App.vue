@@ -1,8 +1,8 @@
 <template>
   
   <section>
-    <generation-list-view></generation-list-view>
-    <!-- <student-list-view></student-list-view> -->
+    <!-- <generation-list-view></generation-list-view> -->
+    <student-list-view></student-list-view>
 
     <!-- <v-app>
       <v-main>
@@ -19,9 +19,12 @@
 import { userInformations } from "@/store/userStore";
 // import StudentCardView from './views/student/StudentCardView.vue';
 
-// import StudentListView from './components/student/StudentList.vue';
+import StudentListView from './components/student/StudentList.vue';
 
 export default {
+  components:{
+    StudentListView,
+  },
   setup() {
     const userData = userInformations();
     return {

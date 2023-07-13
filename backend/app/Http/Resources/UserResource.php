@@ -16,6 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' =>$this->id,
+<<<<<<< HEAD
             'first_name' =>$this->first_name,
             'last_name' =>$this->last_name,
             'email' =>$this->email,
@@ -24,6 +25,16 @@ class UserResource extends JsonResource
             'gender' =>$this->gender,
             'address' =>$this->address,
             'role' =>$this->role->name,
+=======
+            'firstName' =>$this->FirstName,
+            'lastName' =>$this->LastName,
+            'email' =>$this->Email,
+            'password' =>$this->Password,
+            'date_birth' =>$this->DateOfBirth,
+            'gender' =>$this->Gender,
+            'address' =>$this->Address,
+            'role_id' =>$this->role,
+>>>>>>> e91a672f0103173d97b8498441449e64dfed80a6
         ];
     }
 }

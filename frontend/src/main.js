@@ -34,5 +34,8 @@ app.component("StudentListView", StudentListView);
 app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)
+app.use(pinia)
+app.use(vuetify)
+// app.use(VueSweetalert2)
 app.use(router)
 app.mount('#app')
