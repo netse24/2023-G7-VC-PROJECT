@@ -54,7 +54,8 @@ class TeacherController extends Controller
     public function destroy(string $id)
     {
         $teacher =Teacher::find($id);
-        $teacher -> delete();
+        $findInUser = User::where('id' ,'=', $teacher->user_id)->first();
+        $findInUser -> delete();
         return response()->json(['success'=>true, 'message' => 'Teacher delete successfully'], 200);
     }
 }

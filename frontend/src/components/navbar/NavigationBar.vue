@@ -52,14 +52,10 @@ export default {
       userData,
     }
   },
-<<<<<<< HEAD
   props:{
     breadCrumb: Array,
   },
   // props: ['breadCrum'],
-=======
-  props: ['breadCrum'],
->>>>>>> 30251d2247aa400632830c70e980db3ef8ded313
   data() {
     return {
       isVertical: false,

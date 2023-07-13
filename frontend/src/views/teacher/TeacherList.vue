@@ -49,7 +49,7 @@
                     class="bg-cyan" color="flex justify-center font-normal text-1xl font-bold" variant="text" @click="dialogDelete = false">Cancel
                   </v-btn>
                   <v-btn 
-                    class="bg-red" color="flex justify-center font-normal text-1xl font-bold" variant="text" @click="dialogDelete = false">Delete
+                    class="bg-red" color="flex justify-center font-normal text-1xl font-bold" variant="text" @click="deleteTeacher(dialogDelete = false)">Delete
                   </v-btn>
                 </div>
                 <v-btn v-else
@@ -140,6 +140,18 @@ export default {
         })
         .catch((err) =>console.log(err.respone.data.message)
       );
+    },
+    deleteTeacher() {
+      this.selectedUsers.forEach((userId) => {
+        axios
+          .delete(`http://127.0.0.1:8000/api/teacher/${userId}`)
+          .then((res) => {
+            console.log(res.data);
+            this.getTeacher();
+            location.reload();
+          })
+          .catch((err) => console.error(err));
+      });
     },
   },
   mounted() {
