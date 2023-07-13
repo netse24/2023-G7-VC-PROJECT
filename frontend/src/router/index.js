@@ -50,11 +50,6 @@ const routes = [
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/generation/studentList',
-    name: 'student',
-    component: () => import('../views/teacher/TeacherView.vue'),
-  },
-  {
     path: '/student',
     name: 'student',
     component: () => import('../views/student/StudentView.vue'),
@@ -69,7 +64,6 @@ const routes = [
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
   },
-
   {
     path: '/404',
     name: '404',
@@ -77,7 +71,6 @@ const routes = [
     meta: {
       requireAuth: false,
     },
-
   }
 ]
 

@@ -41,11 +41,9 @@ export default {
             dialog: false,
             students: "",
             selectedUsers: [],
-            isSelected: false,
         };
     },
     methods: {
-        //get all user role student
         getStudent() {
             axios
                 .get("http://127.0.0.1:8000/api/student/" + this.user_id)
