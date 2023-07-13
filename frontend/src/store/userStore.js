@@ -5,13 +5,18 @@ import { axiosClient } from "../axios-http";
 export const userInformations = defineStore('userInfo', {
     state() {
         return {
-            userStore: null
+            userStore: null,
+            storeGeneration:[]
         }
     },
     getters: {
         getStoreData() {
             return this.userStore;
+        },
+        showlistStudent(){
+            return this.storeGeneration
         }
+
     },
     actions: {
         getCookie(name) {
@@ -35,6 +40,17 @@ export const userInformations = defineStore('userInfo', {
                 this.userStore = res.data
             })
         },
+        showlistStudent(index){
+            axiosClient
+            .get("generations/"+index)
+             .then((response) => {
+                this.storeGeneration = response.data.data;
+                // console.log(this.studentsList);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          },
 
     }
 })

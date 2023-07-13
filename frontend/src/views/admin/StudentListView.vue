@@ -23,7 +23,7 @@
       </button>
     </div>
     <hr />
-    <div class="d-flex gap-9 mb-3 my-4 justify-center">
+    <div class="d-flex gap-9 mb-3 my-4 justify-center">{{studentData}}
       <button
         v-for="(student, index) in students"
         :key="index"
@@ -91,34 +91,24 @@
   </section>
 </template>
 <script>
-import axios from "axios";
+// import { userInformations } from '@/store/userStore'
 export default {
+  //  setup() {
+  //   const studentData = userInformations();
+  //   return {
+  //     studentData
+  //   }
+  // },
   data() {
     return {
-        classes: [],
+      classes: [],
       students: [],
     };
   },
   methods: {
-    getClass(){
-          axios.get("http://127.0.0.1:8000/api/user").then((res)=>{
-              this.classes = res.data.data
-              console.log(this.classes);
-          })
-      },
-    getStudent() {
-      axios.get("http://127.0.0.1:8000/api/student").then((res) => {
-        this.students = res.data.data;
-        console.log(this.students);
-      });
-    },
-    showStudentList(){
-
-    }
+    
   },
   mounted() {
-      this.getClass()
-    this.getStudent();
   },
 };
 </script>
