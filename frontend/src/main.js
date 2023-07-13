@@ -29,8 +29,6 @@ app.component("BaseButton", BaseButton);
 app.component("BaseDialog", BaseDialog);
 app.component("GenerationListView", GenerationListView);
 app.component("StudentListView", StudentListView);
-
-
 app.use(vuetify)
 app.use(pinia)
 app.use(VueCryptoJS)

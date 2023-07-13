@@ -57,15 +57,14 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
-  
-    public function getGeneration()
+    public function getgeneration()
     {
-        $generation = DB::table('students')
-              ->distinct()
-              ->select('generation')
-              ->orderBy('generation')
-              ->get();
-
-        return response()->json(['success' => true, 'data' => $generation], 200);
+        $student = Student::all();
+        $student = StudentResource::collection($student);
+        // $generation = $student->groupBy('generation');
+        //    foreach( $student as $data){
+        //     return $data->generation;
+        //    }
+        return $student;
     }
 }
