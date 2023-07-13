@@ -53,6 +53,8 @@ const routes = [
     path: '/teacher/schedule',
     name: 'teacher-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
+  },
+  {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
