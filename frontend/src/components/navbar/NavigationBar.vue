@@ -1,20 +1,17 @@
 <template>
   <v-app-bar>
-    <v-img
-      src="../../assets/school-1.png"
-      alt="Logo"
-      max-width="60"
-      max-height="50"
-      class="ma-3"
-      contain
-    ></v-img>
-      <v-breadcrumbs v-if="breadcrum.length > 0" :items="breadCrum" class="mt-3">
-        <template v-slot:divider>
-          <v-icon icon="mdi-chevron-right"></v-icon>
-        </template>
-      </v-breadcrumbs>
+    <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
+    <v-breadcrumbs :items="breadCrum" class="mt-3">
+      <template v-slot:divider>
+        <v-icon icon="mdi-chevron-right"></v-icon>
+      </template>
+    </v-breadcrumbs>
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn v-if="showSearchBar" class="search-bar">
+      <input v-model="searchQuery" placeholder="Search..." class="input-search" />
+      <v-icon @click="toggleSearchBar">mdi-magnify</v-icon>
+    </v-btn>
+    <v-btn @click="toggleSearchBar" icon v-else>
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
 
@@ -52,26 +49,19 @@ export default {
       userData,
     }
   },
-  props:{
-    breadCrumb: Array,
-  },
+  props: ['breadCrum'],
   data() {
     return {
       isVertical: false,
       breadcrum: [],
       items: [
-        { title: "Your Profile", icon: "mdi-account-circle", type: "profile" },
-        { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
-        { title: "Log Out", icon: "mdi-logout", type: "logout" },
+        { title: "Your Profile", icon: "mdi-account-circle", type:"profile" },
+        { title: "Reset Password", icon: "mdi-update",   type:"resetPW"},
+        { title: "Log Out", icon: "mdi-logout", type:"logout" },
       ],
-      // breadcrum: [
-      //   { title: "Home", href: "/admin" },
-      //   { title: "Admin", href: "/admin" },
-      //   { title: "Class", href: "/admin/teachers" },
-      //   { title: "Class", href: "/admin/teachers" },
-      //   { title: "Class", href: "/admin/teachers" },
-      // ],
-    };
+      showSearchBar: false,
+      searchQuery: null,
+    }
   },
   methods: {
     onClickVertical() {
@@ -163,7 +153,7 @@ export default {
 
     detailPF() {
       this.$swal.fire({
-        title: 'Do you want to logout?',
+        title: 'DO you want to see you profile?',
       })
     },
 
@@ -175,7 +165,10 @@ export default {
       } else if (action.type == "logout") {
         this.logout();
       }
-    }
+    },
+    toggleSearchBar() {
+      this.showSearchBar = !this.showSearchBar;
+    },
   },
 
 }
@@ -194,6 +187,16 @@ export default {
 
 v-list-item:focus {
   background-color: cyan;
+}
 
+.search-bar {
+  background: #d1d1d1;
+}
+
+.input-search {
+  padding: 8px;
+  width: 15rem;
+  outline: none;
+  opacity: 0.8;
 }
 </style>

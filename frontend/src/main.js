@@ -26,6 +26,7 @@ app.component("BaseButton", BaseButton);
 app.component("BaseDialog", BaseDialog);
 app.component("nav-bar", navigationBar);
 app.use(VueCryptoJS)
+
 app.use(pinia)
 app.use(vuetify)
 app.use(VueSweetalert2)

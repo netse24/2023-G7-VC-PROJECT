@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CryptoJS from 'crypto-js';
-
 function getCookie(name) {
   var cname = name + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
@@ -59,6 +58,17 @@ const routes = [
       token: token
     }
   },
+  {
+    path: '/student',
+    name: 'student',
+    component: () => import('../views/student/StudentView.vue'),
+    meta: {
+      requireAuth: true,
+      // role: role,
+      token: token
+    }
+  },
+
   {
     path: '/404',
     name: '404',

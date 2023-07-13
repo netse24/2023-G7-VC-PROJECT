@@ -8,7 +8,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     /**
@@ -80,6 +80,18 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
+
+    /**
+     * Search name of the user.
+     */
+    public function searchUserByName($searchUser)
+    {
+        $searchUserName = DB::table('Users')
+        ->where('first_name', 'like', '%' .$searchUser. '%')
+        ->orWhere('last_name', 'like', '%'. $searchUser. '%')
+        ->get();
+        return $searchUserName;
+    }
     /**
      * select remove 
      */
@@ -109,3 +121,5 @@ class UserController extends Controller
         ]);
     }
 }
+
+
