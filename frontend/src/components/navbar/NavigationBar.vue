@@ -1,11 +1,6 @@
 <template>
   <v-app-bar>
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-    <v-breadcrumbs :items="breadCrum" class="mt-3">
-      <template v-slot:divider>
-        <v-icon icon="mdi-chevron-right"></v-icon>
-      </template>
-    </v-breadcrumbs>
     <v-spacer></v-spacer>
     <v-btn v-if="showSearchBar" class="search-bar">
       <input v-model="searchQuery" placeholder="Search..." class="input-search" />
@@ -55,9 +50,9 @@ export default {
       isVertical: false,
       breadcrum: [],
       items: [
-        { title: "Your Profile", icon: "mdi-account-circle", type:"profile" },
-        { title: "Reset Password", icon: "mdi-update",   type:"resetPW"},
-        { title: "Log Out", icon: "mdi-logout", type:"logout" },
+        { title: "Your Profile", icon: "mdi-account-circle", type: "profile" },
+        { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
+        { title: "Log Out", icon: "mdi-logout", type: "logout" },
       ],
       showSearchBar: false,
       searchQuery: null,

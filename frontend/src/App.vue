@@ -1,25 +1,35 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view></router-view>
-    </v-main>
-  </v-app>
+  <section>
+    <v-app>
+      <v-main>
+        <router-view></router-view>
+      </v-main>
+    </v-app>
+  </section>
 </template>
 <script>
-import {userInformations} from "@/store/userStore";
+import { userInformations } from "@/store/userStore";
 export default {
-  name: 'App',
   setup() {
     const userData = userInformations();
     return {
       userData,
     }
   },
-
-  beforeCreate() {
-    if (this.userData.getCookie('user_id')) {
-      this.userData.getUserData();
-    }
+  methods: {
+    login(login) {
+      alert(login);
+    },
+    // createUser(userInfo) {
+    //   console.log(userInfo);
+    //   axios.post("http://127.0.0.1:8000/api/user", userInfo)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error(error.message);
+    //     });
+    // },
   },
 
 }

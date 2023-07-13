@@ -12,7 +12,7 @@ class Student extends Model
     protected $fillable = [
         'user_id',
         'class_id',
-        'generation',
+        'generation_id',
     ];
 
     public function user():BelongsTo{
@@ -27,7 +27,7 @@ class Student extends Model
     public static function store($request, $id = null)
     {
         $student = $request->only([
-            'user_id', 'class_id', 'generation',
+            'user_id', 'class_id', 'generation_id',
         ]);
         $student = self::updateOrCreate(['id' => $id], $student);
         return $student;

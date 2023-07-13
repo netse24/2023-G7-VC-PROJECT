@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -11,7 +12,10 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        $room = Room::all();
+        return response()->json(['success' => true, 'data' => $room], 200);
+
+
     }
 
     /**
