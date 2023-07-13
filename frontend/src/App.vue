@@ -1,17 +1,19 @@
 <template>
-  <form-create-user
-    @teacher-emit="createUser"
-    @student-emit="createUser"
-  ></form-create-user>
+  <v-app>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 <script>
-// import LoginView from './views/login/LoginView.vue'
-import axios from "axios";
-import FormCreateUser from "./views/FormCreateUser.vue";
-// import LoginView from './views/login/LoginView.vue'
+import {userInformations} from "@/store/userStore";
 export default {
-  components: {
-    FormCreateUser,
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData,
+    }
   },
   methods: {
     login(login) {
@@ -28,11 +30,7 @@ export default {
         });
     },
   },
-};
+
+}
+
 </script>
-
-
-
-
-
-

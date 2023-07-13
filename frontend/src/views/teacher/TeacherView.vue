@@ -1,9 +1,9 @@
 <template>
   <section>
-    <nav-bar />
+    <NavBar />
     <div class="m-3" style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
       <ol class="breadcrumb" >
-        <li class="breadcrumb-item" v-if="breadCrumb.length > 0"><a href="/students">Home</a></li>
+        <li class="breadcrumb-item" v-if="breadCrumb.length > 0"><a href="/teachers">Home</a></li>
         <li class="breadcrumb-item " aria-current="page" v-for="(item, index) in breadCrumb" :key="index"><a :href="item.href"> {{ item.title }}</a></li>
       </ol>
     </div>
@@ -26,59 +26,13 @@
           </div>
         </div>
       </div>
-      <div class="feedback w-75 m-auto">
-        <h5>Latest Feedback</h5>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img
-              class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt=""
-            />
-            <div
-              class="user-info ml-2 d-flex flex-column justify-content-start"
-            >
-              <h5>Rady</h5>
-              <p>Good job A++</p>
-            </div>
-          </div>
-        </div>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img
-              class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt=""
-            />
-            <div
-              class="user-info ml-2 d-flex flex-column justify-content-start"
-            >
-              <h5>Rady</h5>
-              <p>Good job A++</p>
-            </div>
-          </div>
-        </div>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img
-              class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt=""
-            />
-            <div
-              class="user-info ml-2 d-flex flex-column justify-content-start"
-            >
-              <h5>Rady</h5>
-              <p>Good job A++</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 </template>
 <script>
+import NavBar from "./../../components/navbar/NavigationBar.vue";
 export default {
+  props: ['breadcrumbs'],
   data() {
     return {
       breadCrumb: [],
@@ -94,18 +48,21 @@ export default {
       ],
     };
   },
+  components: {
+    NavBar,
+  },
   methods: {
     onClickCategory(index) {
       this.breadCrumb = [];
       this.breadCrumb.push(
         {
           title: `${this.schoolItems[index].title}`,
-          href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
+          href: `/teachers/${this.schoolItems[index].title.toLowerCase()}`,
         }
       );
       this.breadCrumb.forEach(path => {
           if(path) {
-            this.$router.push(`/students/${path.title.toLowerCase()}`);    
+            this.$router.push(`/teachers/${path.title.toLowerCase()}`);    
           }else {
             this.$router.push('/404');
           }
@@ -116,26 +73,19 @@ export default {
 </script>
 <style>
 .card {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
 }
-
 .card:hover {
   cursor: pointer;
   transition: ease-in-out 0.1s;
   border: 2px solid #48b8f4;
 }
-
-.card h5 {
+h5 {
   padding: 5px;
   background: #48b8f4;
 }
-
-.card-info {
-  border-radius: 7px;
-  background: #d0cfcfda;
-}
-
-img {
-  border-radius: 50%;
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>

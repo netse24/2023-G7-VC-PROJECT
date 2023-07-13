@@ -99,8 +99,6 @@ class UserController extends Controller
                     }
                 } elseif (Generation::where('name', $generationData['name'])->exists()) {
                     $generations = Generation::all();
-                    // $generationId=null;
-                    // return $generationData['name'];
                     foreach ($generations as $generation) {
                         if ($generation->name == $generationData['name']) {
                             $generationId = $generation->id;

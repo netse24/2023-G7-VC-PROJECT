@@ -1,25 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CryptoJS from 'crypto-js'
-
+import CryptoJS from 'crypto-js';
 function getCookie(user_token_in_store) {
-  var cookieName = user_token_in_store + '=';
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var splitToJsonFormat = decodedCookie.split(';');
-  for (var i = 0; i < splitToJsonFormat.length; i++) {
-    var cookie = splitToJsonFormat[i];
+ let cookieName = user_token_in_store + '=';
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let splitToJsonFormat = decodedCookie.split(';');
+  for (let i = 0; i < splitToJsonFormat.length; i++) {
+    let cookie = splitToJsonFormat[i];
     while (cookie.charAt(0) == ' ') {
       cookie = cookie.substring(1);
     }
-    if (cookie.indexOf(cookieName) == 0) {
-      return cookie.substring(cookieName.length, cookie.length);
+    if (cookie.indexOf(cname) == 0) {
+      return cookie.substring(cname.length, cookie.length);
     }
   }
   return "";
 }
 const token = getCookie('user_token')
-const role = CryptoJS.AES.decrypt(getCookie('user_role'), "Screat role").toString(CryptoJS.enc.Utf8)
-console.log(token)
-console.log(role)
+const role = CryptoJS.AES.decrypt(getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
+const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
+console.log(role);
+console.log(id);
 
 
 const routes = [
@@ -34,32 +34,45 @@ const routes = [
     meta: {
       requireAuth: false,
     },
-
   },
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('../views/SchoolAdmin.vue'),
+    component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
-      role: 'admin',
-
+      token: token
     }
   },
   {
-    path: '/admin/teachers',
-    name: 'teachers',
-    component: () => import('../views/TeacherView.vue'),
+    path: '/teachers',
+    name: 'teacher',
+    component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/admin/students',
-    name: 'students',
+    path: '/students',
+    name: 'student',
     component: () => import('../views/student/StudentView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token
+    }
   },
+  {
+    path: '/student',
+    name: 'student',
+    component: () => import('../views/student/StudentView.vue'),
+    meta: {
+      requireAuth: true,
+      // role: role,
+      token: token
+    }
+  },
+
   {
     path: '/404',
     name: '404',
-    component: () => import('../views/404/PageNotFound.vue'),
+    component: () => import("../views/404/PageNotFound.vue"),
     meta: {
       requireAuth: false,
     },
