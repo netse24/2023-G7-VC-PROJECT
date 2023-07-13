@@ -42,6 +42,7 @@
       </button>
       <button
         class="bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 px-4 border border-orange-700 rounded w-28"
+        @click="onClickDetail"
       >
         See More
       </button>
