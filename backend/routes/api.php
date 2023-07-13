@@ -28,16 +28,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/login', [AuthController::class,'login']);
-Route::resource('teacher', TeacherController::class);
-Route::resource('student', StudentController::class);
-Route::resource('users', UserController::class);
+Route::post('/login', [AuthController::class, 'login']);
 Route::resource('admin', AdminController::class);
-Route::resource('role', RoleController::class);
-Route::resource('room', RoomController::class);
-Route::resource('class', ClasseController::class);
-Route::resource('course', CourseController::class);
-Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
 Route::resource('schedule', ScheduleController::class);
 
 // get user by if with their if store in cookie 
@@ -48,9 +40,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
+    Route::resource('users', UserController::class);
+    Route::resource('students', StudentController::class);
+    Route::resource('teachers', TeacherController::class);
+    Route::resource('rooms', RoomController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('classes', ClasseController::class);
+    Route::resource('courses', CourseController::class);
+    Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
+    Route::get('search/{name}', [UserController::class, 'searchUserByName']);
 });
 
 
 // search student and teacher by first_name
-Route::get('search/{name}', [UserController::class,'searchUserByName']);
-

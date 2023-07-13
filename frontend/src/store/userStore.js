@@ -35,6 +35,7 @@ export const userInformations = defineStore('userInfo', {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
+        
 
     }
 })
