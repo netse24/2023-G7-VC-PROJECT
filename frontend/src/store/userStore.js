@@ -6,13 +6,17 @@ export const userInformations = defineStore('userInfo', {
     state() {
         return {
             userStore: null,
-            storeGeneration: []
+            storeGeneration:[]
         }
     },
     getters: {
         getStoreData() {
             return this.userStore;
         },
+        showlistStudent(){
+            return this.storeGeneration
+        }
+
     },
     actions: {
         getCookie(name) {
@@ -36,6 +40,17 @@ export const userInformations = defineStore('userInfo', {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
+        showlistStudent(index){
+            axiosClient
+            .get("generations/"+index)
+             .then((response) => {
+                this.storeGeneration = response.data.data;
+                // console.log(this.studentsList);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          },
 
         getGenerationData(generation_id) {
             axiosClient.get('generation' + generation_id).then((res) => {

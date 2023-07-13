@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentResource;
 use Illuminate\Http\Request;
 use App\Models\Classes;
 use Illuminate\Support\Facades\DB;
+use App\Models\Student;
+use PhpParser\Node\Stmt\Class_;
+
 class ClasseController extends Controller
 {
     /**
@@ -39,6 +43,13 @@ class ClasseController extends Controller
      */
     public function show(string $id)
     {
+        $class = Classes::find($id);
+        $student = Student::where('class_id',$id)->get();
+        if (!$class) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        $class = StudentResource::collection($student);
+        return response()->json(['success' => true, 'data' => $class], 200);
     }
 
     /**

@@ -1,29 +1,5 @@
 <template>
   <section>
-    <div
-      class="m-3"
-      style="
-        --bs-breadcrumb-divider: url(
-          &#34;data:image/svg + xml,
-          %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
-        );
-      "
-      aria-label="breadcrumb"
-    >
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item" v-if="breadCrumb.length > 0" >
-          <a href="/admin">Home</a>
-        </li>
-        <li
-          class="breadcrumb-item"
-          aria-current="page"
-          v-for="(item, index) in breadCrumb"
-          :key="index"
-        >
-          <a :href="item.href"> {{ item.title }}</a>
-        </li>
-      </ol>
-    </div>
     <div class="d-flex gap-5 mb-5 w-75 p-14">
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28"
@@ -42,13 +18,12 @@
       </button>
       <button
         class="bg-orange-800 hover:bg-orange-700 text-white font-bold py-2 px-4 border border-orange-700 rounded w-28"
-        @click="onClickDetail"
       >
         See More
       </button>
     </div>
     <hr />
-    <div class="d-flex gap-9 mb-3 my-4 justify-center">
+    <div class="d-flex gap-9 mb-3 my-4 justify-center">{{studentData}}
       <button
         v-for="(student, index) in students"
         :key="index"
@@ -116,43 +91,24 @@
   </section>
 </template>
 <script>
-import axios from "axios";
+// import { userInformations } from '@/store/userStore'
 export default {
-  props:['breadCrum'],
+  //  setup() {
+  //   const studentData = userInformations();
+  //   return {
+  //     studentData
+  //   }
+  // },
   data() {
     return {
-        classes: [],
+      classes: [],
       students: [],
     };
   },
   methods: {
-    getClass(){
-          axios.get("http://127.0.0.1:8000/api/user").then((res)=>{
-              this.classes = res.data.data
-              console.log(this.classes);
-          })
-      },
-    getStudent() {
-      axios.get("http://127.0.0.1:8000/api/student").then((res) => {
-        this.students = res.data.data;
-        console.log(this.students);
-      });
-    },
-    onClickDetail(){
-      this.breadCrum = [];
-      this.breadCrumb.push({title: "Detail", href: "admin/students/detail"});
-      this.breadCrumb.forEach(path => {
-          if(path) {
-            this.$router.push(`admin/students/detail`);    
-          }else {
-            this.$router.push('/404');
-          }
-      });
-    }
+    
   },
   mounted() {
-      this.getClass()
-    this.getStudent();
   },
 };
 </script>

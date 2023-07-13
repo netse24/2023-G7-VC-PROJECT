@@ -68,6 +68,12 @@ const routes = [
     component: () => import('../views/admin/GenerationListView.vue'),
   },
   {
+    path: '/generations/students',
+    name: 'students',
+    component: () => import('../views/admin/StudentListView.vue'),
+  },
+
+  {
     path: '/404',
     name: '404',
     component: () => import("../views/404/PageNotFound.vue"),
