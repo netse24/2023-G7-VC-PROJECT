@@ -1,26 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import CryptoJS from 'crypto-js'
+import { createRouter, createWebHistory } from "vue-router";
+import CryptoJS from "crypto-js";
 
-function getCookie(user_token_in_store) {
-  var cookieName = user_token_in_store + '=';
+function getCookie(name) {
+  var cname = name + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
-  var splitToJsonFormat = decodedCookie.split(';');
-  for (var i = 0; i < splitToJsonFormat.length; i++) {
-    var cookie = splitToJsonFormat[i];
-    while (cookie.charAt(0) == ' ') {
+  var splitDataToJsonFormat = decodedCookie.split(";");
+  for (var i = 0; i < splitDataToJsonFormat.length; i++) {
+    var cookie = splitDataToJsonFormat[i];
+    while (cookie.charAt(0) == " ") {
       cookie = cookie.substring(1);
     }
-    if (cookie.indexOf(cookieName) == 0) {
-      return cookie.substring(cookieName.length, cookie.length);
+    if (cookie.indexOf(cname) == 0) {
+      return cookie.substring(cname.length, cookie.length);
     }
   }
   return "";
 }
-const token = getCookie('user_token')
-const role = CryptoJS.AES.decrypt(getCookie('user_role'), "Screat role").toString(CryptoJS.enc.Utf8)
-console.log(token)
-console.log(role)
-
+const token = getCookie("user_token");
+const role = CryptoJS.AES.decrypt(
+  getCookie("user_role"),
+  "Secret role"
+).toString(CryptoJS.enc.Utf8);
+const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(
+  CryptoJS.enc.Utf8
+);
+console.log(role);
+console.log(id);
 
 const routes = [
   {
@@ -28,59 +33,66 @@ const routes = [
     redirect: "/login",
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/login/LoginView.vue'),
+    path: "/login",
+    name: "login",
+    component: () => import("../views/login/LoginView.vue"),
     meta: {
       requireAuth: false,
     },
-
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: () => import('../views/admin/SchoolAdmin.vue'),
+    path: "/admin",
+    name: "admin",
+    component: () => import("../views/admin/SchoolAdmin.vue"),
     meta: {
       requireAuth: true,
-      role: 'admin',
-
-    }
+      token: token,
+    },
   },
   {
-    path: '/admin/teachers',
-    name: 'teachers',
-    component: () => import('../views/teacher/TeacherView.vue'),
+    path: "/teachers",
+    name: "teacher",
+    component: () => import("../views/teacher/TeacherView.vue"),
   },
   {
-    path: '/generation/studentList',
-    name: 'student',
-    component: () => import('../views/TeacherView.vue'),
+    path: "/generation/studentList",
+    name: "student",
+    component: () => import("../views/TeacherView.vue"),
   },
   {
-    path: '/admin/batch/student_list',
-    name: 'student_list',
-    component: () => import('../components/student/StudentList.vue'),
+    path: "/admin/batch/student_list",
+    name: "student_list",
+    component: () => import("../components/student/StudentList.vue"),
   },
   {
-    props:true,
-    path: '/admin/batch/student_detail/:user_id',
-    name: 'student_detail',
-    component: () => import('../views/student/StudentDetailView.vue'),
+    props: true,
+    path: "/admin/batch/student_detail/:user_id",
+    name: "student_detail",
+    component: () => import("../views/student/StudentDetailView.vue"),
   },
   {
-    path: '/404',
-    name: '404',
-    component: () => import('../views/404/PageNotFound.vue'),
+    path: "/students",
+    name: "student",
+    component: () => import("../views/student/StudentView.vue"),
+    meta: {
+      requireAuth: true,
+      token: token,
+    },
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("../views/404/PageNotFound.vue"),
     meta: {
       requireAuth: false,
     },
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 // router.beforeEach((to, _, next) => {
 //   if (to.meta.requireAuth) {
@@ -94,5 +106,4 @@ const router = createRouter({
 //   }
 // });
 
-
-export default router
+export default router;

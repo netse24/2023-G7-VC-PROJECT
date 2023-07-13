@@ -1,6 +1,6 @@
 <template>
-<<<<<<< HEAD
   <section>
+
   <base-button color="primary" @click="showDialog">CREATE</base-button>
   <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
   <link
@@ -119,7 +119,6 @@
           </v-col>
         </v-row>
         <v-row v-if="isStudent" @click="getClasses">
-=======
   <v-app-bar>
     <base-button color="primary" @click="showDialog">CREATE</base-button>
     <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
@@ -128,11 +127,20 @@
       rel="stylesheet"
     />
       <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Create form info</h1>
+
+    <base-button color="primary" @click="showDialog">CREATE</base-button>
+    <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Create form info</h1>
+    <v-card>
       <v-sheet width="auto" class="pa-5 pb-7">
         <!-- form create studnet/teacher -->
         <v-form @submit.prevent="createUser">
           <v-row class="d-flex">
->>>>>>> 827f5abbfc3d99529ffba17f327ac4bca3570c8d
+
             <v-col>
               <v-text-field
                 density="compact"
@@ -212,6 +220,7 @@
               >
               </v-select>
             </v-col>
+
             <v-col 
             >
               <v-select
@@ -269,8 +278,7 @@
               width="270"
               >ADD</v-btn
             >
-<<<<<<< HEAD
-            </v-select>
+            <!-- </v-select>
           </v-col>
         </v-row>
         <v-list class="w-100 d-flex justify-space-between mt-10">
@@ -285,13 +293,152 @@
       </v-form>
     </v-sheet>
 =======
-            <v-btn class="bg-cyan pa-4 pa-5 pb-7" width="270" >CANCEL</v-btn>
+            <v-col>
+              <v-select
+                label="Choose Role"
+                v-model="selectedRole"
+                class="form-control-select"
+                density="compact"
+                :rules="roleRules"
+                :items="roleItem"
+                prepend-inner-icon="mdi mdi-account-key"
+              >
+              </v-select>
+            </v-col>
+          </v-row>
+          <v-row v-if="isTeacher" @click="getCourses">
+            <v-col>
+              <v-select
+                prepend-inner-icon="mdi mdi-briefcase"
+                density="compact"
+                v-model="selectedCourse"
+                label="Choose Course For Teacher"
+                :rules="coursesRules"
+                :items="['HTML', 'OOP', 'DB', 'LARAVEL']"
+              >
+              </v-select>
+            </v-col>
+          </v-row>
+          <v-row v-if="isStudent" @click="getClasses">
+            <v-col>
+              <v-text-field
+                density="compact"
+                v-model="generation"
+                label="Enter Generation"
+                :rules="generationRules"
+                prepend-inner-icon="mdi mdi-account-multiple"
+              >
+              </v-text-field>
+            </v-col>
+            <v-col>
+              <v-select
+                prepend-inner-icon="mdi mdi-school"
+                density="compact"
+                v-model="selectedClass"
+                label="Choose Classe For Student"
+                :rules="classesRules"
+                :items="['SNA', 'WEP A', 'WEP B']"
+              >
+              </v-select>
+            </v-col>
+          </v-row>
+          <v-list class="w-100 d-flex justify-space-between mt-10">
+            <v-btn
+              type="#####"
+              class="bg-grey-lighten-1 pa-4 pa-5 pb-7"
+              width="270"
+              >ADD</v-btn
+            >
+            <v-btn class="bg-cyan pa-4 pa-5 pb-7" width="270">CANCEL</v-btn>
           </v-list>
         </v-form>
       </v-sheet>
-    <!-- </v-card> -->
-  </v-app-bar>
->>>>>>> 827f5abbfc3d99529ffba17f327ac4bca3570c8d
+    </v-card> -->
+    <v-row justify="center">
+      <v-dialog ref="dialog" v-model="dialog" persistent width="1000">
+        <base-dialog>
+          <template #body>
+            <v-sheet width="auto">
+              <!-- form create studnet/teacher -->
+              <v-form @submit.prevent="createUser">
+                <v-row class="d-flex">
+                  <v-col>
+                    <v-text-field required density="compact" v-model="firstName" label="Enter Firstname"
+                      :rules="firstNameRules" prepend-inner-icon="mdi-account-box">
+                    </v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field density="compact" v-model="lastName" label="Enter Lastname" :rules="lastNameRules"
+                      prepend-inner-icon="mdi-account-box">
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field density="compact" v-model="email" label="Enter Email" :rules="emailRules"
+                      prepend-inner-icon="mdi-email">
+                    </v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field type="password" density="compact" v-model="password" label="Enter Password"
+                      :rules="passwordRules" prepend-inner-icon="mdi-lock">
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field prepend-inner-icon="mdi mdi-calendar-clock" density="compact" type="date"
+                      label="Date Of Birth" v-model="date" :rules="dateRules">
+                    </v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-text-field density="compact" v-model="address" label="Enter Address" :rules="addressRules"
+                      prepend-inner-icon="mdi-map-marker-radius">
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-select prepend-inner-icon="mdi-account-box" density="compact" label="Choose Gender"
+                      v-model="selectedGender" :rules="genderRules" :items="['Female', 'Male']">
+                    </v-select>
+                  </v-col>
+                  <v-col>
+                    <v-select label="Choose Role" v-model="selectedRole" class="form-control-select" density="compact"
+                      :rules="roleRules" :items="roleItem" prepend-inner-icon="mdi mdi-account-key">
+                    </v-select>
+                  </v-col>
+                </v-row>
+                <v-row v-if="isTeacher" @click="getCourses">
+                  <v-col>
+                    <v-select prepend-inner-icon="mdi mdi-briefcase" density="compact" v-model="selectedCourse"
+                      label="Choose Course For Teacher" :rules="coursesRules" :items="coursesItems">
+                    </v-select>
+                  </v-col>
+                </v-row>
+                <v-row v-if="isStudent" @click="getClasses">
+                  <v-col>
+                    <v-text-field density="compact" v-model="generation" label="Enter Generation" :rules="generationRules"
+                      prepend-inner-icon="mdi mdi-account-multiple">
+                    </v-text-field>
+                  </v-col>
+                  <v-col>
+                    <v-select prepend-inner-icon="mdi mdi-school" density="compact" v-model="selectedClass"
+                      label="Choose Classe For Student" :rules="classesRules" :items="classesItems">
+                    </v-select>
+                  </v-col>
+                </v-row>
+                <v-list class="d-flex justify-space-between">
+                  <v-btn @click="clearForm" type="#####" class="bg-grey-lighten-1">CANCEL</v-btn>
+                  <v-btn type="submit" class="bg-cyan">Create</v-btn>
+                </v-list>
+              </v-form>
+            </v-sheet>
+          </template>
+        </base-dialog>
+      </v-dialog>
+    </v-row>
+  </section>
 </template>
 
 <script>
@@ -482,9 +629,9 @@ export default {
       this.selectedCourse = null;
       this.selectedGender = null;
       this.selectedRole = null;
-      this.isTeacher= false,
-      this.isStudent= false,
-      this.dialog = false;
+      this.isTeacher = false,
+        this.isStudent = false,
+        this.dialog = false;
     },
     getCourses() {
       axios
