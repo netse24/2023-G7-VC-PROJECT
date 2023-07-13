@@ -12,7 +12,10 @@ class GenerationController extends Controller
      */
     public function index()
     {
-        //
+        $generation = Generation::all();
+        return response()->json(['success' => true, 'data' => $generation], 200);
+
+
     }
 
     /**

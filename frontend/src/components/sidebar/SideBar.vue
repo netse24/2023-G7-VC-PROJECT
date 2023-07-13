@@ -18,6 +18,15 @@
         :subtitle="`${user.email}`" class="bold text-bold">
       </VListItem>
     </VList>
+    <VNavigationDrawer expand-on-hover class="bg-[#cdcbcb]" rail/>
+    <link
+    href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css"
+    rel="stylesheet"
+    />
+    <VList>
+      <VListItem prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="John Smith"
+        subtitle="johnsmith@gmail.com"></VListItem>
+    </VList>
     <VDivider />
 
     <VList>
@@ -31,11 +40,11 @@
       <router-link to="/admin/teachers">
         <VListItem prepend-icon="mdi-account-tie" title="Teachers" value="starred" class="my-10">
         </VListItem>
-      </router-link>
-      <router-link to="/admin/schedule">
-        <VListItem prepend-icon="mdi-table" title="Schedule" value="schedule"></VListItem>
-      </router-link>
-    </VList>
+        </router-link>
+        <router-link to="/admin/schedule">
+          <VListItem prepend-icon="mdi-table" title="Schedule" value="schedule"></VListItem>
+        </router-link>
+      </VList>
   </VNavigationDrawer>
 </template>
 <script>
@@ -73,5 +82,6 @@ export default {
 a {
   text-decoration: none;
   color: black;
+  /* color: #cdcbcb; */
 }
 </style>
