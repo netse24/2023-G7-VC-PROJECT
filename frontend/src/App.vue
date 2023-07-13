@@ -1,44 +1,27 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <router-view/>
-  </nav>
-  <!-- <v-app>
-    <side-bar></side-bar>
-    <navigation-bar></navigation-bar>
-  </v-app> -->
+  <v-app>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 <script>
-// import LoginView from './views/login/LoginView.vue'
+import {userInformations} from "@/store/userStore";
 export default {
+  name: 'App',
+  setup() {
+    const userData = userInformations();
+    return {
+      userData,
+    }
+  },
 
-  methods: {
-    login(login) {
-      alert(login);
-    },
-    createUser(userInfo) {
-      axios
-        .post("http://127.0.0.1:8000/api/user", userInfo)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    createTeacher(teacherInfo){
-      console.log(teacherInfo)
-      axios.post("http://127.0.0.1:8000/api/teacher", teacherInfo)
-              .then(response=>{
-                  console.log(response.data)
-              })
-              .catch(error=>{
-              console.log(error)
-      })
-      },
-  }
-  
+  beforeCreate() {
+    if (this.userData.getCookie('user_id')) {
+      this.userData.getUserData();
+    }
+  },
 
 }
+
 </script>

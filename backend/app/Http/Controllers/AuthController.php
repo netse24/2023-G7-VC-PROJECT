@@ -37,4 +37,5 @@ class AuthController extends Controller
       return response()->json(['message' => 'invalid', 'email' => request()->email, 'password' => request()->password], 404);
     }
   }
+
 }

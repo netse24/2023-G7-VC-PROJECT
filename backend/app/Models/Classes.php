@@ -23,6 +23,9 @@ class Classes extends Model
     public function student():HasMany{
         return $this->hasMany(Student::class);
     }
+    public function schedule(): BelongsTo{
+        return $this->belongsTo(Schedule::class);
+    }
     public static function store($request, $id = null)
     {
         $classe = $request->only([

@@ -7,8 +7,8 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
 class UserController extends Controller
 {
     /**
@@ -33,19 +33,19 @@ class UserController extends Controller
             $teacherData['user_id'] = $userId;
             $teacher = Teacher::create($teacherData);
             return response()->json([
-                'success'=>true,
+                'success' => true,
                 'user' => $user,
                 'teacher' => $teacher
-            ],201);
+            ], 201);
         } else if ($role == 3) {
             $studentData = $request->input('student');
             $studentData['user_id'] = $userId;
             $student = Student::create($studentData);
             return response()->json([
-                'success'=>true,
+                'success' => true,
                 'user' => $user,
                 'student' => $student
-            ],201);
+            ], 201);
         }
     }
 
@@ -92,4 +92,34 @@ class UserController extends Controller
         ->get();
         return $searchUserName;
     }
+    /**
+     * select remove 
+     */
+    public function delete($ids)
+    {
+        $ids = explode(',', $ids);
+        User::whereIn('id', $ids)->delete();
+        
+        return response()->json(['message' => 'Users deleted successfully']);
+    }
+    // get user by id that stored in storage cookie. 
+    public function getUserById($id)
+    {
+        $user = User::where('id', '=', $id)->first();
+        return response()->json([
+            'message' => 'success',
+            'data' => $user
+        ]);
+    }
+
+    // user to logout user and delete that users' token 
+    public function logoutUser()
+    {
+        Auth::user()->tokens()->delete();
+        return response()->json([
+            'message' => 'logout user successfully'
+        ]);
+    }
 }
+
+
