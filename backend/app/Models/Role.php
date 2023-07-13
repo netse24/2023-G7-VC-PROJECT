@@ -12,15 +12,9 @@ class Role extends Model
     protected $fillable = [
         'name'
     ];
-<<<<<<< HEAD
     public function user():HasMany{
         return $this->hasMany(User::class);
     }
- 
-=======
->>>>>>> ca024fa76526cb65f52b796285b1734e279699e4
-
-
     public static function store($request, $id = null)
     {
         $role = $request->only(['name']);
