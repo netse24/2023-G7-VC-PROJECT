@@ -45,6 +45,26 @@ const routes = [
     }
   },
   {
+    path: '/admin/teachers',
+    name: 'admin-teachers',
+    component: () => import('../views/teacher/TeacherList.vue'),
+  },
+  {
+    path: '/admin/students',
+    name: 'admin-students',
+    component: () => import('../views/student/StudentListView.vue'),
+  },
+  {
+    path: '/admin/students/detail',
+    name: 'admin-students-detail',
+    component: () => import('../views/student/StudentDetailView.vue'),
+  },
+  {
+    path: '/admin/teachers/detail',
+    name: 'admin-teachers-detail',
+    component: () => import('../views/teacher/TeacherDetailView.vue'),
+  },
+  {
     path: '/teachers',
     name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),

@@ -32,7 +32,6 @@
 <script>
 import NavBar from "./../../components/navbar/NavigationBar.vue";
 export default {
-  props: ['breadcrumbs'],
   data() {
     return {
       breadCrumb: [],
