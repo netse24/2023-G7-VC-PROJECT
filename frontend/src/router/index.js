@@ -45,7 +45,7 @@ const routes = [
     name: "admin",
     component: () => import("../views/admin/SchoolAdmin.vue"),
     meta: {
-      requireAuth: true,
+      // requireAuth: true,
       token: token,
     },
   },
@@ -56,13 +56,13 @@ const routes = [
   },
   {
     path: "/generation/studentList",
-    name: "student",
-    component: () => import("../views/TeacherView.vue"),
+    name: "generation",
+    component: () => import("../views/teacher/TeacherView.vue"),
   },
   {
     path: "/admin/batch/student_list",
     name: "student_list",
-    component: () => import("../components/student/StudentList.vue"),
+    component: () => import("../views/student/StudentList.vue"),
   },
   {
     props: true,
