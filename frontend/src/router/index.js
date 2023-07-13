@@ -45,14 +45,15 @@ const routes = [
       token: token
     }
   },
+  
   {
-    path: '/teacher',
-    name: 'teacher',
-    component: () => import('../views/teacher/TeacherView.vue'),
+    path: '/admin/schedule',
+    name: 'admin-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
   },
   {
-    path: '/schedule',
-    name: 'schedule',
+    path: '/teacher/schedule',
+    name: 'teacher-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
   },
   {
@@ -64,6 +65,11 @@ const routes = [
       // role: role,
       token: token
     }
+  },
+  {
+    path: '/student/schedule',
+    name: 'student-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
   },
 
   {
