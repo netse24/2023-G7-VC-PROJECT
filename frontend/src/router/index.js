@@ -40,9 +40,15 @@ const routes = [
     name: 'admin',
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
+<<<<<<< HEAD
       requireAuth: true,
       token: token
     }
+=======
+      // requireAuth: true,
+      token: token,
+    },
+>>>>>>> 0219b403e8424665a7aed89f40048d623912a169
   },
   {
     path: '/teachers',
