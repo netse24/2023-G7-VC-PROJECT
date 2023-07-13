@@ -32,6 +32,7 @@
 <script>
 import NavBar from "./../../components/navbar/NavigationBar.vue";
 export default {
+  props: ['breadcrumbs'],
   data() {
     return {
       breadCrumb: [],
@@ -52,7 +53,6 @@ export default {
   },
   methods: {
     onClickCategory(index) {
-      console.log(this.schoolItems[index]);
       this.breadCrumb = [];
       this.breadCrumb.push(
         {
@@ -60,13 +60,20 @@ export default {
           href: `/teachers/${this.schoolItems[index].title.toLowerCase()}`,
         }
       );
+      this.breadCrumb.forEach(path => {
+          if(path) {
+            this.$router.push(`/teachers/${path.title.toLowerCase()}`);    
+          }else {
+            this.$router.push('/404');
+          }
+      });
     },
   },
 };
 </script>
 <style>
 .card {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: #00000029 0px 3px 6px, #0000003b 0px 3px 6px;
 }
 .card:hover {
   cursor: pointer;
@@ -76,5 +83,9 @@ export default {
 h5 {
   padding: 5px;
   background: #48b8f4;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>

@@ -93,6 +93,7 @@ export default {
         };
         try {
           const res = await axiosClient.post('login', user);
+          alert(res)
           // console.log(res);
           this.timeLoading();
           var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();

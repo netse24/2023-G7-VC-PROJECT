@@ -26,6 +26,54 @@
           </div>
         </div>
       </div>
+      <div class="feedback w-75 m-auto">
+        <h5>Latest Feedback</h5>
+        <div class="card-info p-2 my-2 d-flex">
+          <div class="img w-25 h-25 d-flex">
+            <img
+              class="w-25 h-25"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
+              alt=""
+            />
+            <div
+              class="user-info ml-2 d-flex flex-column justify-content-start"
+            >
+              <h5>Rady</h5>
+              <p>Good job A++</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-info p-2 my-2 d-flex">
+          <div class="img w-25 h-25 d-flex">
+            <img
+              class="w-25 h-25"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
+              alt=""
+            />
+            <div
+              class="user-info ml-2 d-flex flex-column justify-content-start"
+            >
+              <h5>Rady</h5>
+              <p>Good job A++</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-info p-2 my-2 d-flex">
+          <div class="img w-25 h-25 d-flex">
+            <img
+              class="w-25 h-25"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
+              alt=""
+            />
+            <div
+              class="user-info ml-2 d-flex flex-column justify-content-start"
+            >
+              <h5>Rady</h5>
+              <p>Good job A++</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -49,9 +97,21 @@ export default {
   methods: {
     onClickCategory(index) {
       this.breadCrumb = [];
-      this.breadCrumb.push({ title: `${this.schoolItems[index].title}`, href: `/students/${this.schoolItems[index].title.toLowerCase()}`});
-    }
-  }
+      this.breadCrumb.push(
+        {
+          title: `${this.schoolItems[index].title}`,
+          href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
+        }
+      );
+      this.breadCrumb.forEach(path => {
+          if(path) {
+            this.$router.push(`/students/${path.title.toLowerCase()}`);    
+          }else {
+            this.$router.push('/404');
+          }
+      });
+    },
+  },
 };
 </script>
 <style>

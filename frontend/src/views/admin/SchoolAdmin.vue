@@ -48,6 +48,13 @@ export default {
     onClickCategory(index) {
       this.breadCrumb = [];
       this.breadCrumb.push({ title: `${this.schoolItems[index].title}`, href: `/admin/${this.schoolItems[index].title.toLowerCase()}`});
+      this.breadCrumb.forEach(path => {
+          if(path) {
+            this.$router.push(`/admin/${path.title.toLowerCase()}`);    
+          }else {
+            this.$router.push('/404');
+          }
+      });
     }
   },
 };

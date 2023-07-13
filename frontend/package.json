@@ -30,7 +30,7 @@
     "vee-validate": "^4.10.6",
     "vue": "^3.3.4",
     "vue-cookie": "^1.1.4",
-    "vue-cryptojs": "^2.3.0",
+    "vue-cryptojs": "^2.4.3",
     "vue-router": "^4.2.4",
     "vue-sweetalert2": "^5.0.5",
     "vue-tailwind": "^2.5.1",
