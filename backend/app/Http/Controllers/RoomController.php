@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -27,7 +28,8 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $room = Room::store($request);
+        return response()->json(['success'=>true,'data'=>$room], 201);
     }
 
     /**

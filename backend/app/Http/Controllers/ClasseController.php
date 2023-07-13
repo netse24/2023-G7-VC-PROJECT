@@ -4,15 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Classes;
-
+use Illuminate\Support\Facades\DB;
 class ClasseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $class = Classes::all();
+        $query = DB::table('classes')
+        ->join('rooms', 'rooms.id', '=', 'classes.room_id')
+        ->select('classes.*', 'rooms.name as roomName');
+        $queryParams = $request->all();
+        if (count($queryParams) > 0) {
+            foreach ($queryParams as $key => $value) {
+                $query->where($key, '=', $value);
+            };
+        }
+        $class = $query->get();
         return response()->json(['success'=>true, 'data'=>$class], 200);
     }
 
