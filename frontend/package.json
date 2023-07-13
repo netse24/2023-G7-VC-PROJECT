@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/font": "7.2.96",
     "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/interaction": "^6.1.8",
@@ -15,7 +16,6 @@
     "@fullcalendar/multimonth": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
-    "@mdi/font": "7.2.96",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.3",
     "axios": "^1.4.0",
@@ -25,14 +25,13 @@
     "crypto-js": "^4.1.1",
     "pinia": "^2.1.4",
     "roboto-fontface": "*",
+    "vue-cookie": "^1.1.4",
+    "vue-cryptojs": "^2.4.3",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.16",
     "vee-validate": "^4.10.6",
     "vue": "^3.3.4",
-    "vue-cookie": "^1.1.4",
-    "vue-cryptojs": "^2.4.3",
     "vue-router": "^4.2.4",
-    "vue-sweetalert2": "^5.0.5",
     "vue-tailwind": "^2.5.1",
     "vuetify": "^3.3.7",
     "webfontloader": "^1.6.28"

@@ -45,6 +45,16 @@ const routes = [
     }
   },
   {
+    path: '/admin/students',
+    name: 'admin-students',
+    component: () => import('../views/admin/StudentListView.vue'),
+  },
+  {
+    path: '/admin/students/detail',
+    name: 'admin-students-detail',
+    component: () => import('../views/student/StudentDetailView.vue'),
+  },
+  {
     path: '/teachers',
     name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),

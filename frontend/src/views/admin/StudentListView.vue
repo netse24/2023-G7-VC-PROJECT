@@ -1,5 +1,29 @@
 <template>
   <section>
+    <div
+      class="m-3"
+      style="
+        --bs-breadcrumb-divider: url(
+          &#34;data:image/svg + xml,
+          %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
+        );
+      "
+      aria-label="breadcrumb"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" v-if="breadCrumb.length > 0" >
+          <a href="/admin">Home</a>
+        </li>
+        <li
+          class="breadcrumb-item"
+          aria-current="page"
+          v-for="(item, index) in breadCrumb"
+          :key="index"
+        >
+          <a :href="item.href"> {{ item.title }}</a>
+        </li>
+      </ol>
+    </div>
     <div class="d-flex gap-5 mb-5 w-75 p-14">
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28"
@@ -93,6 +117,7 @@
 <script>
 import axios from "axios";
 export default {
+  props:['breadCrum'],
   data() {
     return {
         classes: [],
@@ -112,8 +137,16 @@ export default {
         console.log(this.students);
       });
     },
-    showStudentList(){
-
+    onClickDetail(){
+      this.breadCrum = [];
+      this.breadCrumb.push({title: "Detail", href: "admin/students/detail"});
+      this.breadCrumb.forEach(path => {
+          if(path) {
+            this.$router.push(`admin/students/detail`);    
+          }else {
+            this.$router.push('/404');
+          }
+      });
     }
   },
   mounted() {
