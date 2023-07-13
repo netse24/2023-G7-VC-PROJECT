@@ -50,13 +50,9 @@ const routes = [
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/students',
+    path: '/generation/studentList',
     name: 'student',
-    component: () => import('../views/student/StudentView.vue'),
-    meta: {
-      requireAuth: true,
-      token: token
-    }
+    component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
     path: '/student',

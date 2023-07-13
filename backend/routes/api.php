@@ -42,6 +42,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::resource('teacher', TeacherController::class);
 Route::resource('student', StudentController::class);
+Route::resource('course', CourseController::class);
+Route::get('/students/generation',[StudentController::class, 'getGeneration']);
+
+
+
 Route::resource('users', UserController::class);
 Route::resource('course', CourseController::class);
 Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
