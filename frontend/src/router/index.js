@@ -5,21 +5,31 @@ function getCookie(name) {
   var decodedCookie = decodeURIComponent(document.cookie);
   var splitDataToJsonFormat = decodedCookie.split(";");
   for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-      var cookie = splitDataToJsonFormat[i];
-      while (cookie.charAt(0) == " ") {
-          cookie = cookie.substring(1);
-      }
-      if (cookie.indexOf(cname) == 0) {
-          return cookie.substring(cname.length, cookie.length);
-      }
+    var cookie = splitDataToJsonFormat[i];
+    while (cookie.charAt(0) == " ") {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(cname) == 0) {
+      return cookie.substring(cname.length, cookie.length);
+    }
   }
   return "";
-} 
+}
 const token = getCookie('user_token')
 const role = CryptoJS.AES.decrypt(getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
-const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
-console.log(role);
-console.log(id);
+// const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
+
+// define role 
+var isAdmin = null;
+var isTeacher = null;
+var isStudent = null;
+if (role == 'admin') {
+  isAdmin = role
+} else if (role == 'teacher') {
+  isTeacher = role
+} else if (role == 'student') {
+  isStudent = role
+}
 
 const routes = [
   {
@@ -40,26 +50,54 @@ const routes = [
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
-      token: token
+      token: token,
+      role: isAdmin
     }
   },
+  {
+    path: '/admin/students',
+    name: 'generations',
+    component: () => import('../views/student/GenerationListView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isAdmin
+    }
+  },
+
+  // list generation by admin
+  {
+    path: '/admin/generations/studentList',
+    name: 'studentsList',
+    component: () => import('../views/student/StudentListView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isAdmin
+    }
+  },
+
+
+  // teacher onwer path 
   {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isTeacher
+    }
   },
-  {
-    path: '/generation/studentList',
-    name: 'studentsList',
-    component: () => import('../views/teacher/TeacherView.vue'),
-  },
+  // Student onwer path  
   {
     path: '/students',
     name: 'students',
     component: () => import('../views/student/StudentView.vue'),
     meta: {
       requireAuth: true,
-      token: token
+      token: token,
+      role: isStudent
     }
   },
 

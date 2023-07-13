@@ -5,13 +5,13 @@ import { axiosClient } from "../axios-http";
 export const userInformations = defineStore('userInfo', {
     state() {
         return {
-            userStore: null
+            userStore: null,
         }
     },
     getters: {
         getStoreData() {
             return this.userStore;
-        }
+        },
     },
     actions: {
         getCookie(name) {
@@ -31,11 +31,9 @@ export const userInformations = defineStore('userInfo', {
         },
         getUserData() {
             let userId = CryptoJS.AES.decrypt(this.getCookie('user_id'), "Screat id").toString(CryptoJS.enc.Utf8)
-            axiosClient.get("/users/" + userId).then((res) => {
+            axiosClient.get("users/" + userId).then((res) => {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
-        
-
     }
 })
