@@ -5,16 +5,16 @@ function getCookie(name) {
   var decodedCookie = decodeURIComponent(document.cookie);
   var splitDataToJsonFormat = decodedCookie.split(";");
   for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-    var cookie = splitDataToJsonFormat[i];
-    while (cookie.charAt(0) == " ") {
-      cookie = cookie.substring(1);
-    }
-    if (cookie.indexOf(cname) == 0) {
-      return cookie.substring(cname.length, cookie.length);
-    }
+      var cookie = splitDataToJsonFormat[i];
+      while (cookie.charAt(0) == " ") {
+          cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cname) == 0) {
+          return cookie.substring(cname.length, cookie.length);
+      }
   }
   return "";
-}
+} 
 const token = getCookie('user_token')
 const role = CryptoJS.AES.decrypt(getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
 const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
@@ -50,13 +50,9 @@ const routes = [
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/students',
+    path: '/generation/studentList',
     name: 'student',
-    component: () => import('../views/student/StudentView.vue'),
-    meta: {
-      requireAuth: true,
-      token: token
-    }
+    component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
     path: '/student',
