@@ -55,7 +55,7 @@ export default {
   props:{
     breadCrumb: Array,
   },
-  props: ['breadCrum'],
+  // props: ['breadCrum'],
   data() {
     return {
       isVertical: false,

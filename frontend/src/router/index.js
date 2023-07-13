@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CryptoJS from 'crypto-js';
-function getCookie(user_token_in_store) {
- let cookieName = user_token_in_store + '=';
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let splitToJsonFormat = decodedCookie.split(';');
-  for (let i = 0; i < splitToJsonFormat.length; i++) {
-    let cookie = splitToJsonFormat[i];
-    while (cookie.charAt(0) == ' ') {
-      cookie = cookie.substring(1);
-    }
-    if (cookie.indexOf(cname) == 0) {
-      return cookie.substring(cname.length, cookie.length);
-    }
+function getCookie(name) {
+  var cname = name + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var splitDataToJsonFormat = decodedCookie.split(";");
+  for (var i = 0; i < splitDataToJsonFormat.length; i++) {
+      var cookie = splitDataToJsonFormat[i];
+      while (cookie.charAt(0) == " ") {
+          cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cname) == 0) {
+          return cookie.substring(cname.length, cookie.length);
+      }
   }
   return "";
 }
@@ -68,7 +68,17 @@ const routes = [
       token: token
     }
   },
-
+  {
+    path: '/admin/batch/teacher_list',
+    name: 'teacher_list',
+    component: () => import('../views/teacher/TeacherList.vue'),
+  },
+  {
+    props:true,
+    path: '/admin/batch/teacher_detail/:user_id',
+    name: 'student_detail',
+    component: () => import('../views/teacher/TeacherDetailView.vue'),
+  },
   {
     path: '/404',
     name: '404',

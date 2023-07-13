@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -14,6 +15,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teacher = Teacher::all();
+        $teacher = TeacherResource::collection($teacher);
         return response()->json(['success'=>true, 'data'=>$teacher], 200);
     }
 
