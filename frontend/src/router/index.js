@@ -64,6 +64,11 @@ const routes = [
       token: token
     }
   },
+  {
+    path: '/generations',
+    name: 'generations',
+    component: () => import('../views/admin/GenerationListView.vue'),
+  },
 
   {
     path: '/404',

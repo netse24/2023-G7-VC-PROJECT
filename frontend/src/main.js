@@ -16,8 +16,6 @@ import './style.css'
 import BaseButton from "./components/widget/button/BaseButton.vue";
 import BaseDialog from "./components/widget/dialog/BaseDialog.vue";
 import navigationBar from "./components/navbar/NavigationBar.vue";
-
-
 loadFonts()
 const app = createApp(App);
 const pinia = createPinia();
