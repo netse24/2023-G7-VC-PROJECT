@@ -58,9 +58,9 @@ export default {
       isVertical: false,
       breadcrum: [],
       items: [
-        { title: "Your Profile", icon: "mdi-account-circle" },
-        { title: "Reset Password", icon: "mdi-update" },
-        { title: "Log Out", icon: "mdi-logout" },
+        { title: "Your Profile", icon: "mdi-account-circle", type:"profile" },
+        { title: "Reset Password", icon: "mdi-update",type:"resetPW" },
+        { title: "Log Out", icon: "mdi-logout", type:"logout" },
       ],
     };
   },
