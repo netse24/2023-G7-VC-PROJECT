@@ -72,17 +72,17 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, _, next) => {
-  if (to.meta.requireAuth) {
-    if (token) {
-      if (to.meta.role == role) {
-        next();
-      } else {
-        next('/404');
-      }
-    }
-  }
-});
+// router.beforeEach((to, _, next) => {
+//   if (to.meta.requireAuth) {
+//     if (token) {
+//       if (to.meta.role == role) {
+//         next();
+//       } else {
+//         next('/404');
+//       }
+//     }
+//   }
+// });
 
 
 export default router

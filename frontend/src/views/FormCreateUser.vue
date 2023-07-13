@@ -107,20 +107,19 @@
                     </v-select>
                   </v-col>
                 </v-row>
-                <v-row v-if="isTeacher" @click="getCourses">
+                <v-row v-if="isTeacher">
                   <v-col>
-                    <v-select
-                      prepend-inner-icon="mdi mdi-briefcase"
+                   <v-text-field
                       density="compact"
-                      v-model="selectedCourse"
-                      label="Choose Course For Teacher"
-                      :rules="coursesRules"
-                      :items="coursesItems"
+                      v-model="course"
+                      label="Enter Course For teacher"
+                      :rules="courseRules"
+                      prepend-inner-icon="mdi mdi-briefcase"
                     >
-                    </v-select>
+                    </v-text-field>
                   </v-col>
                 </v-row>
-                <v-row v-if="isStudent" @click="getClasses">
+                <v-row v-if="isStudent">
                   <v-col>
                     <v-text-field
                       density="compact"
@@ -132,13 +131,23 @@
                     </v-text-field>
                   </v-col>
                   <v-col>
-                    <v-select
+                    <v-text-field
                       prepend-inner-icon="mdi mdi-school"
                       density="compact"
-                      v-model="selectedClass"
-                      label="Choose Classe For Student"
+                      v-model="classes"
+                      label="Enter Classe For Student"
                       :rules="classesRules"
-                      :items="classesItems"
+                    >
+                    </v-text-field>
+                  </v-col>
+                   <v-col @click="getRoom">
+                    <v-select
+                      prepend-inner-icon="mdi mdi-domain"
+                      density="compact"
+                      v-model="selectedRoom"
+                      label="Choose Room"
+                      :rules="roomRules"
+                      :items="roomList"
                     >
                     </v-select>
                   </v-col>
@@ -162,8 +171,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
+import axiosClient from '@/axios-http';
 export default {
   emits: ["student-emit", "teacher-emit"],
   data() {
@@ -172,11 +180,8 @@ export default {
       dialogDisplayed: false,
       selectedGender: null,
       selectedRole: null,
-      selectedCourse: null,
-      selectedClass: null,
       roleItem: ["Teacher", "Student"],
-      classesItems: ["SNA", "WEP A", "WEP B"],
-      coursesItems: ["HTML", "OOP", "DB", "LARAVEL"],
+      roomList:["B12", "B13", "B31"],
       isTeacher: false,
       isStudent: false,
       firstName: "",
@@ -187,12 +192,13 @@ export default {
       address: "",
       role: "",
       classes: "",
-      courses: "",
+      course: "",
       date: "",
+      courseId:"",
       generation: "",
-      listCourse: [],
-      listClass: [],
-      listRole: [],
+      listRoom: [],
+      roomId: null,
+      selectedRoom:null,
       //Validation all of form
       firstNameRules: [
         (value) => {
@@ -262,19 +268,25 @@ export default {
       classesRules: [
         (value) => {
           if (value) return true;
-          return "Please select your class room";
+          return "Classe must be filled out";
         },
       ],
-      coursesRules: [
+      courseRules: [
         (value) => {
           if (value) return true;
-          return "Please select your course";
+          return "Course must be filled out";
         },
       ],
       generationRules: [
         (value) => {
           if (value) return true;
           return "Generation must be filled out";
+        },
+      ],
+      roomRules:[
+        (value) => {
+          if (value) return true;
+          return "Room must be select";
         },
       ],
     };
@@ -292,9 +304,11 @@ export default {
           address: this.address,
           role_id: this.role,
         },
-        teacher: {
-          course_id: this.courses,
+        course: {
+          course: this.course,
         },
+        teacher:{
+        }
       };
 
       let studentInfo = {
@@ -308,9 +322,14 @@ export default {
           address: this.address,
           role_id: this.role,
         },
+        generation:{
+          name: this.generation,
+        },
+        class:{
+          name: this.classes,
+          room_id: this.roomId,
+        },
         student: {
-          class_id: this.classes,
-          generation: this.generation,
         },
       };
       if (
@@ -323,10 +342,10 @@ export default {
         this.address !== "" &&
         this.role !== ""
       ) {
-        if (this.courses !== "") {
+        if (this.course !== "") {
           this.$emit("teacher-emit", teacherInfo);
           this.dialog = false;
-        } else if (this.classes !== "" && this.generation !== "") {
+        } else if (this.classes !== "" && this.generation !== "" && this.selectedRoom !== null) {
           this.$emit("student-emit", studentInfo);
           this.dialog = false;
         }
@@ -343,35 +362,13 @@ export default {
       this.role = "";
       this.date = "";
       this.classes = "";
-      this.courses = "";
+      this.course = "";
       this.generation = "";
-      this.selectedClass = null;
-      this.selectedCourse = null;
+      this.roomId= null;
       this.selectedGender = null;
       this.selectedRole = null;
+      this.selectedRoom = null;
       (this.isTeacher = false), (this.isStudent = false), (this.dialog = false);
-    },
-    getCourses() {
-      axios
-        .get("http://127.0.0.1:8000/api/course")
-        .then((response) => {
-          this.listCourse = response.data.data;
-          console.log(this.listCourse);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getClasses() {
-      axios
-        .get("http://127.0.0.1:8000/api/class")
-        .then((response) => {
-          this.listClass = response.data.data;
-          console.log(this.listClass);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     showCreateUser() {
       this.dialogMode = "create";
@@ -383,6 +380,15 @@ export default {
     showDialog() {
       this.dialog = true;
     },
+    getRoom(){
+      axiosClient.get("room") 
+      .then((response) => {
+          this.listRoom = response.data.data
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   },
 
   watch: {
@@ -400,20 +406,14 @@ export default {
     selectedGender(gender) {
       this.gender = gender;
     },
-    selectedClass(classes) {
-      this.listClass.forEach((element) => {
-        if (classes === element.name) {
-          this.classes = element.id;
+    selectedRoom(rooms) {
+      this.listRoom.forEach(room => {
+        if(room.name == rooms){
+          this.roomId = room.id;
         }
       });
     },
-    selectedCourse(course) {
-      this.listCourse.forEach((element) => {
-        if (course === element.course) {
-          this.courses = element.id;
-        }
-      });
-    },
+ 
   },
 };
 </script>

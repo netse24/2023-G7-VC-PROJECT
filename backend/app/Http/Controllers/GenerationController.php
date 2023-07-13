@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
+use App\Models\Generation;
 use Illuminate\Http\Request;
 
-class RoomController extends Controller
+class GenerationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $room = Room::all();
-        return response()->json(['success' => true, 'data' => $room], 200);
-
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        
     }
 
     /**
@@ -37,15 +26,7 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function show(Generation $generation)
     {
         //
     }
@@ -53,7 +34,7 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Generation $generation)
     {
         //
     }
@@ -61,7 +42,7 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Generation $generation)
     {
         //
     }

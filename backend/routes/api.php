@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -25,14 +26,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/login', [AuthController::class,'login']);
-
-
-Route::post('/login', [AuthController::class,'login']);
 Route::resource('teacher', TeacherController::class);
 Route::resource('student', StudentController::class);
 Route::resource('user', UserController::class);
 Route::resource('admin', AdminController::class);
 Route::resource('role', RoleController::class);
+Route::resource('room', RoomController::class);
 Route::resource('class', ClasseController::class);
 Route::resource('course', CourseController::class);
 
