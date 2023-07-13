@@ -40,24 +40,13 @@ const routes = [
     name: 'admin',
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
-<<<<<<< HEAD
       requireAuth: true,
       token: token
     }
-=======
-      // requireAuth: true,
-      token: token,
-    },
->>>>>>> 0219b403e8424665a7aed89f40048d623912a169
   },
   {
     path: '/teachers',
     name: 'teacher',
-    component: () => import('../views/teacher/TeacherView.vue'),
-  },
-  {
-    path: '/generation/studentList',
-    name: 'student',
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
@@ -75,7 +64,6 @@ const routes = [
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
   },
-
   {
     path: '/404',
     name: '404',
@@ -83,7 +71,6 @@ const routes = [
     meta: {
       requireAuth: false,
     },
-
   }
 ]
 
