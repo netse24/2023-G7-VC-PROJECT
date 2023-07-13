@@ -14,8 +14,7 @@ class GenerationController extends Controller
     {
         $generation = Generation::all();
         return response()->json(['success' => true, 'data' => $generation], 200);
-
-
+        //
     }
 
     /**

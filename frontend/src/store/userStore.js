@@ -1,17 +1,18 @@
 //senior sourse: GEN: 2023-G3-Part2-VC2-> userStore.js
 import { defineStore } from "pinia";
-import { AES, enc } from 'crypto-js'
+import CryptoJS from 'crypto-js'
 import { axiosClient } from "../axios-http";
 export const userInformations = defineStore('userInfo', {
     state() {
         return {
-            userStore: null
+            userStore: null,
+            storeGeneration: []
         }
     },
     getters: {
         getStoreData() {
             return this.userStore;
-        }
+        },
     },
     actions: {
         getCookie(name) {
@@ -30,11 +31,20 @@ export const userInformations = defineStore('userInfo', {
             return "";
         },
         getUserData() {
-            let userId = AES.decrypt(this.getCookie('user_id'), "Screat id").toString(enc.Utf8)
-            axiosClient.get("/users/" + userId).then((res) => {
+            let userId = CryptoJS.AES.decrypt(this.getCookie('user_id'), "Screat id").toString(CryptoJS.enc.Utf8)
+            axiosClient.get("users/" + userId).then((res) => {
                 this.userStore = res.data
-            })
+            }).catch(err => console.log(err))
         },
+
+        getGenerationData(generation_id) {
+            axiosClient.get('generation' + generation_id).then((res) => {
+                this.storeGeneration = res.data.data
+            }).catch(err => console.log(err))
+        }
+
+
+
 
     }
 })

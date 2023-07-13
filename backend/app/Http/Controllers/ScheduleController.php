@@ -38,7 +38,7 @@ class ScheduleController extends Controller
             return $validator->errors();
         }
         $schedule = Schedule::create($validator->validated());
-        return response()->json(['message' => 'Schedule Successfully Created!'], 200);
+        return response()->json(['message' => 'Schedule Successfully Created!'], 201);
     }
     /**
      * Display the specified resource.

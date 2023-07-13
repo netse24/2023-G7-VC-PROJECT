@@ -21,7 +21,6 @@ const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(Cryp
 console.log(role);
 console.log(id);
 
-
 const routes = [
   {
     path: "/",
@@ -45,27 +44,21 @@ const routes = [
     }
   },
   {
-    path: '/admin/students',
-    name: 'admin-students',
-    component: () => import('../views/admin/StudentListView.vue'),
-  },
-  {
-    path: '/admin/students/detail',
-    name: 'admin-students-detail',
-    component: () => import('../views/student/StudentDetailView.vue'),
-  },
-  {
     path: '/teachers',
-    name: 'teacher',
+    name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
   },
   {
-    path: '/student',
-    name: 'student',
+    path: '/generation/studentList',
+    name: 'studentsList',
+    component: () => import('../views/teacher/TeacherView.vue'),
+  },
+  {
+    path: '/students',
+    name: 'students',
     component: () => import('../views/student/StudentView.vue'),
     meta: {
       requireAuth: true,
-      // role: role,
       token: token
     }
   },
