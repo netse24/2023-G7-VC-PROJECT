@@ -31,7 +31,6 @@
     </section>
 </template>
 <script>
-import axios from "axios";
 export default {
     props:[
         "user_id",
@@ -43,15 +42,16 @@ export default {
             selectedUsers: [],
         };
     },
-    methods: {
-        getStudent() {
-            axios
-                .get("http://127.0.0.1:8000/api/student/" + this.user_id)
-                .then((res) => {
-                    this.students = res.data.data;
-            })
-        },
-    },
+    // methods: {
+    //     //get all user role student
+    //     getStudent() {
+    //         axios
+    //             .get("http://127.0.0.1:8000/api/student/" + this.user_id)
+    //             .then((res) => {
+    //                 this.students = res.data.data;
+    //         })
+    //     },
+    // },
     mounted() {
         this.getStudent();
     },

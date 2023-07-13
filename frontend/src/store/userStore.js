@@ -13,9 +13,9 @@ export const userInformations = defineStore('userInfo', {
         getStoreData() {
             return this.userStore;
         },
-        showlistStudent(){
-            return this.storeGeneration
-        }
+        // getStoreStudent(){
+        //     return this.storeGeneration
+        // }
 
     },
     actions: {
@@ -40,26 +40,21 @@ export const userInformations = defineStore('userInfo', {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
-        showlistStudent(index){
-            axiosClient
+        async showlistStudent(index){
+            await axiosClient
             .get("generations/"+index)
              .then((response) => {
                 this.storeGeneration = response.data.data;
-                // console.log(this.studentsList);
+                // console.log(this.storeGeneration);
               })
               .catch((error) => {
                 console.error(error);
               });
           },
-
-        getGenerationData(generation_id) {
-            axiosClient.get('generation' + generation_id).then((res) => {
-                this.storeGeneration = res.data.data
-            }).catch(err => console.log(err))
-        }
-
-
-
+          sendStoreGeneration(){
+            return this.storeGeneration
+          }
+        
 
     }
 })
