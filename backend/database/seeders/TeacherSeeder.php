@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Teacher;
+
 class TeacherSeeder extends Seeder
 {
     /**
@@ -13,13 +14,28 @@ class TeacherSeeder extends Seeder
     public function run(): void
     {
         $teachers = [
-            ['user_id' => 1, 'course_id' => 1],
-            ['user_id' => 2, 'course_id' => 2],
-            ['user_id' => 3, 'course_id' => 2],
-            ['user_id' => 4, 'course_id' => 2],
-            ['user_id' => 5, 'course_id' => 2],
+            [
+                'user_id' => 1,
+                'course_id' => 1
+            ],
+            [
+                'user_id' => 2,
+                'course_id' => 2
+            ],
+            [
+                'user_id' => 3,
+                'course_id' => 2
+            ],
+            [
+                'user_id' => 4,
+                'course_id' => 2
+            ],
+            [
+                'user_id' => 5,
+                'course_id' => 2
+            ],
         ];
-        foreach ($teachers as $teacher){
+        foreach ($teachers as $teacher) {
             Teacher::create($teacher);
         }
     }

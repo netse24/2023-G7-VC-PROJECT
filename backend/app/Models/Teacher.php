@@ -14,15 +14,19 @@ class Teacher extends Model
         'course_id',
     ];
 
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    public function schedule(): BelongsTo{
+    public function schedule(): BelongsTo
+    {
         return $this->belongsTo(Schedule::class);
     }
-    public function course():BelongsTo{
+    public function course(): BelongsTo
+    {
         return $this->belongsTo(Course::class);
     }
+    
     public static function store($request, $id = null)
     {
         $teacher = $request->only([

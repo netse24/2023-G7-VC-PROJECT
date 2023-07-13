@@ -49,7 +49,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('courses', CourseController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
+    Route::resource('schedule', ScheduleController::class);
+    Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
+    Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
-
-
-// search student and teacher by first_name
