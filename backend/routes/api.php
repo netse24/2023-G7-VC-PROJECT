@@ -30,7 +30,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/login', [AuthController::class, 'login']);
-Route::resource('generations', GenerationController::class);
 
 // get user by if with their if store in cookie 
 
@@ -51,4 +50,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('schedule', ScheduleController::class);
     Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
+    Route::resource('generations', GenerationController::class);
 });
