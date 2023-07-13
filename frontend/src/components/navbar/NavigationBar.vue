@@ -52,9 +52,6 @@ export default {
       userData,
     }
   },
-  props:{
-    breadCrumb: Array,
-  },
   props: ['breadCrum'],
   data() {
     return {

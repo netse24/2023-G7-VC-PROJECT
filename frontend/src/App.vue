@@ -19,16 +19,16 @@ export default {
     login(login) {
       alert(login);
     },
-    createUser(userInfo) {
-      console.log(userInfo);
-      axios.post("http://127.0.0.1:8000/api/user", userInfo)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    },
+    // createUser(userInfo) {
+    //   console.log(userInfo);
+    //   axios.post("http://127.0.0.1:8000/api/user", userInfo)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error(error.message);
+    //     });
+    // },
   },
 
 }
