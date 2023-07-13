@@ -12,7 +12,11 @@ class GenerationController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         
+=======
+        //
+>>>>>>> c17eda6b0d2b6230b1cf47e28318915eac5872b3
     }
 
     /**
