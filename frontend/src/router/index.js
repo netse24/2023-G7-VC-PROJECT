@@ -43,7 +43,6 @@ const routes = [
       token: token
     }
   },
-  
   {
     path: '/admin/schedule',
     name: 'admin-schedule',
