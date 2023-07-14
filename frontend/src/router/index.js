@@ -74,9 +74,20 @@ const routes = [
     meta: {
       requireAuth: true,
       token: token,
+      // role: isAdmin
+    },
+    props: true
+  },
+  {
+    path: '/admin/schedule',
+    name: 'schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
       role: isAdmin
     },
-    props:true
+    props: true
   },
 
 
