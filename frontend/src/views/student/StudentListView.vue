@@ -1,5 +1,29 @@
 <template>
   <section>
+    <div
+      class="m-3"
+      style="
+        --bs-breadcrumb-divider: url(
+          &#34;data:image/svg + xml,
+          %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
+        );
+      "
+      aria-label="breadcrumb"
+    >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" v-if="breadCrum.length > 0">
+          <a href="/admin">Home</a>
+        </li>
+        <li
+          class="breadcrumb-item"
+          aria-current="page"
+          v-for="(item, index) in breadCrum"
+          :key="index"
+        >
+          <a :href="item.href"> {{ item.title }}</a>
+        </li>
+      </ol>
+    </div>
     <div class="d-flex gap-5 mb-5 w-75 p-14">
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28"
@@ -76,14 +100,18 @@
             <th>Gender</th>
           </tr>
         </thead>
-        <tbody 
-        v-for="(student, index) in classes"
-        :key="index">
+        <tbody v-for="(student, index) in classes" :key="index">
           <tr>
-            <td><input id="default-checkbox" type="checkbox" value="{{student.id}}" /></td>
-            <td>{{student.first_name}}</td>
-            <td>{{student.last_name}}</td>
-            <td>{{student.gender}}</td>
+            <td>
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                value="{{student.id}}"
+              />
+            </td>
+            <td>{{ student.first_name }}</td>
+            <td>{{ student.last_name }}</td>
+            <td>{{ student.gender }}</td>
           </tr>
         </tbody>
       </table>
@@ -95,29 +123,38 @@ import axios from "axios";
 export default {
   data() {
     return {
-        classes: [],
+      breadCrum: [],
+      classes: [],
       students: [],
     };
   },
   methods: {
-    getClass(){
-          axios.get("http://127.0.0.1:8000/api/user").then((res)=>{
-              this.classes = res.data.data
-              console.log(this.classes);
-          })
-      },
+    getClass() {
+      axios.get("http://127.0.0.1:8000/api/user").then((res) => {
+        this.classes = res.data.data;
+        console.log(this.classes);
+      });
+    },
     getStudent() {
       axios.get("http://127.0.0.1:8000/api/student").then((res) => {
         this.students = res.data.data;
         console.log(this.students);
       });
     },
-    showStudentList(){
-
-    }
+    onclickStudentDeatail() {
+      this.breadCrum = [];
+      this.breadCrum.push({ title: "Students", href: "/admin/students/detail" });
+      this.breadCrum.forEach((path) => {
+        if (path) {
+          this.$router.push("/admin/students/detail");
+        } else {
+          this.$router.push("/404");
+        }
+      });
+    },
   },
   mounted() {
-      this.getClass()
+    this.getClass();
     this.getStudent();
   },
 };

@@ -49,6 +49,7 @@ import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { axiosClient } from '../../axios-http'
 export default {
+  props: ['breadCrum'],
   setup() {
     const userCookie = storeManageCookie();
     const userData = userInformations();
@@ -57,10 +58,6 @@ export default {
       userData,
     }
   },
-  props:{
-    breadCrumb: Array,
-  },
-  // props: ['breadCrum'],
   data() {
     return {
       isVertical: false,
