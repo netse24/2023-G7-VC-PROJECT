@@ -102,8 +102,9 @@
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
-// import NavBar from '../../components/navbar/NavigationBar.vue';
+
 export default {
+  props:['id'],
   data() {
     return {
       dialogSeeMore: false,
@@ -113,20 +114,18 @@ export default {
       classroom: [],
     };
   },
-  // components:{
-  //   NavBar
-  // },
+
   methods: {
     getStudent() {
-      let user_id = this.selectedUsers;
       axiosClient
-        .get("students/" + user_id)
+        .get("generations/" + this.id)
         .then((Response) => {
           this.students = Response.data.data;
           console.log(this.students);
         })
         .catch((err) => console.log(err));
     },
+    
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient

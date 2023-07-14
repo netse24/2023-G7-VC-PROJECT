@@ -68,9 +68,20 @@ const routes = [
 
   // list generation by admin
   {
+    props: true,
     path: '/admin/generations/studentList/:id',
-    name: 'studentsList',
+    name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      // role: isAdmin
+    },
+  },
+  {
+    path: '/admin/batch/student_detail/:user_id',
+    name: 'studentsList',
+    component: () => import('../views/student/StudentDetailView.vue'),
     meta: {
       requireAuth: true,
       token: token,

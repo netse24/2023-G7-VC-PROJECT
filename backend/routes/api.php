@@ -45,10 +45,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('classes', ClasseController::class);
     Route::resource('courses', CourseController::class);
+    Route::resource('students', StudentController::class);
+    Route::resource('generations', GenerationController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
     Route::resource('schedule', ScheduleController::class);
     Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
-    Route::resource('generations', GenerationController::class);
 });

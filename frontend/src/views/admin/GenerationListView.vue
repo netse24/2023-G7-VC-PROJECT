@@ -35,8 +35,8 @@ export default {
           console.error(error.response.data.message);
         });
     },
-    showlistStudent(generationId) {
-      this.$router.push(`/admin/generations/studentList/${generationId}`)
+    showlistStudent(id) {
+      this.$router.push(`/admin/generations/studentList/${id}`)
     }
   },
   mounted() {
