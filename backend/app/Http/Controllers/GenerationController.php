@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentGenerationListResource;
+use App\Http\Resources\StudentResource;
 use App\Models\Generation;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GenerationController extends Controller
@@ -12,11 +15,9 @@ class GenerationController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        
-=======
+        $generation = Generation::orderBy('name', 'desc')->get();
+        return response()->json(['success' => true, 'data' => $generation], 200);
         //
->>>>>>> c17eda6b0d2b6230b1cf47e28318915eac5872b3
     }
 
     /**
@@ -30,9 +31,15 @@ class GenerationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Generation $generation)
+    public function show(string $id)
     {
-        //
+        $generation = Generation::find($id);
+        $students = Student::where('generation_id',$id)->get();
+        if (!$generation) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        $generation = StudentResource::collection($students);
+        return response()->json(['success' => true, 'data' => $generation], 200);
     }
 
     /**
@@ -50,4 +57,13 @@ class GenerationController extends Controller
     {
         //
     }
+    // public function getStudentList($id){
+    //     $studentList = Generation::leftJoin('students', 'students.generation_id','=','generations.id')
+    //                            ->leftJoin('locations', 'events.location_id','=','locations.id')
+    //                            ->select('generations.name','students.matching_country','matchings.time','locations.location','events.amount_of_ticket','matchings.matching_description')
+    //                            ->where('generation_id',$id)
+    //                            ->get();
+    //     return response()->json(['success'=> true, 'data'=>$studentList],200);
+        
+    // }
 }

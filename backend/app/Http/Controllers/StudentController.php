@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,7 +55,8 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         $student = Student::find($id);
-        $student->delete();
+        $findInUser = User::where('id' ,'=', $student->user_id)->first();
+        $findInUser->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
     public function getgeneration()

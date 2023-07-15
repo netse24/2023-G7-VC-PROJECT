@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('gender');
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->encrypt();
             $table->date('date_of_birth');
             $table->string('address');
             $table->unsignedBigInteger('role_id');

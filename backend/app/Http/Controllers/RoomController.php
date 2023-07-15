@@ -31,7 +31,8 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $room = Room::store($request);
+        return response()->json(['success'=>true,'data'=>$room], 201);
     }
 
     /**

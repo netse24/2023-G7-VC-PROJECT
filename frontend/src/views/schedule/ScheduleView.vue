@@ -2,7 +2,7 @@
 
 <template>
   <section>
-    <ScheduleForm />
+    <ScheduleForm @createSchedule="addSchedule" />
     <div class="home" style="margin: 10px">
       <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
       <!-- <select name="schedule" id="teachers">
@@ -27,6 +27,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import multiMonthPlugin from "@fullcalendar/multimonth";
 export default {
   name: "HomeView",
+  props: ["createSchedule"],
   components: {
     ScheduleForm,
     FullCalendar, // make the <FullCalendar> tag available
@@ -68,7 +69,6 @@ export default {
           info.el.querySelector(
             ".fc-event-title"
           ).innerHTML += `<br>${teacher}<br>${room}<br>`;
-          // {description: "Lecture", department: "BioChemistry"}
         },
         // eventDataTransform: function( eventData ) {
         //   console.log(eventData);
@@ -83,52 +83,6 @@ export default {
               teacherName: "Rady",
               roomName: "B32",
             },
-          },
-          {
-            title: "Professional Life",
-            start: "2023-07-10T10:00:00",
-            end: "2023-07-10T11:30:00",
-            name: "",
-            extendedProps: {
-              teacherName: "Him",
-              roomName: "B31",
-            },
-          },
-          {
-            title: "Vue Js",
-            start: "2023-07-11T07:30:00",
-            end: "2023-07-11T09:00:00",
-            name: "",
-            extendedProps: {
-              teacherName: "Him",
-              roomName: "B31",
-            },
-          },
-          {
-            title: "Vue Js",
-            start: "2023-08-11T10:00:00",
-            end: "2023-08-11T11:30:00",
-            name: "",
-            extendedProps: {
-              teacherName: "Him",
-              roomName: "B31",
-            },
-          },
-          {
-            title: "Vue js",
-            start: "2023-06-09T07:30:00",
-            end: "2023-06-09T09:00:00",
-          },
-          {
-            title: "event 1",
-            date: "2023-06-10",
-          },
-          { title: "event 2", start: "2023-06-14T07:30:00" },
-          {
-            title: "Birthday Party",
-            start: "2023-06-11T00:00:00",
-            end: "2023-06-11T24:00:00",
-            backgroundColor: "green",
           },
         ],
 
@@ -148,6 +102,22 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    addSchedule(schedule) {
+      // console.log(schedule);
+      this.events.push({
+        title: `${schedule.subjectName}`,
+        start: `${schedule.startDate}T${schedule.startTime}`,
+        end: `${schedule.endDate}T${schedule.endTime}`,
+        name: "",
+        extendedProps: {
+          teacherName: `${schedule.teacherName}`,
+          roomName: `${schedule.roomName}`,
+        },
+      });
+      console.log(`Here is event: ${this.events}`);
+    },
   },
 };
 </script>

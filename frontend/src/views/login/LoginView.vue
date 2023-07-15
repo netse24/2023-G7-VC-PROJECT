@@ -12,7 +12,7 @@
               </v-avatar>
               <h1 class="text-[20px] bold text-bold">LOGIN</h1>
             </div>
-            <v-form @submit.prevent="login" ref="form">
+            <v-form @submit.prevent="login" ref="form" class="w-100">
               <v-card-text>
                 <v-text-field v-model="email" :rules="emailRules" type="email" label="Email" placeholder="Email"
                   prepend-inner-icon="mdi-account" required />
@@ -93,8 +93,6 @@ export default {
         };
         try {
           const res = await axiosClient.post('login', user);
-          alert(res)
-          // console.log(res);
           this.timeLoading();
           var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
           let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();

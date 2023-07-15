@@ -16,6 +16,7 @@ import './style.css'
 import BaseButton from "./components/widget/button/BaseButton.vue";
 import BaseDialog from "./components/widget/dialog/BaseDialog.vue";
 import navigationBar from "./components/navbar/NavigationBar.vue";
+import FormCreateUser from "./views/admin/FormCreateUser.vue";
 
 
 loadFonts()
@@ -25,7 +26,9 @@ const pinia = createPinia();
 app.component("BaseButton", BaseButton);
 app.component("BaseDialog", BaseDialog);
 app.component("nav-bar", navigationBar);
+app.component("form-create-user", FormCreateUser);
 app.use(VueCryptoJS)
+
 app.use(pinia)
 app.use(vuetify)
 app.use(VueSweetalert2)
