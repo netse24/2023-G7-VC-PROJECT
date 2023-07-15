@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ShowTeacherResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
 use App\Models\User;
@@ -20,9 +19,7 @@ class TeacherController extends Controller
         $teacher = TeacherResource::collection($teacher);
         return response()->json(['success'=>true, 'data'=>$teacher], 200);
     }
-    $teacher = $query->get();
-    return response()->json(['success' => true, 'data' => $teacher], 200);
-  }
+   
   /**
    * Store a newly created resource in storage.
    */
@@ -65,16 +62,5 @@ class TeacherController extends Controller
     $teacher = new TeacherResource($teacher);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $teacher =Teacher::find($id);
-        $findInUser = User::where('id' ,'=', $teacher->user_id)->first();
-        $findInUser -> delete();
-        return response()->json(['success'=>true, 'message' => 'Teacher delete successfully'], 200);
-    }
-  }
 }
+
