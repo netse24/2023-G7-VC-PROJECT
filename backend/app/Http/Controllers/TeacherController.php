@@ -89,25 +89,4 @@ class TeacherController extends Controller
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
-  public function getTeacherInfor($id)
-  {
-    $teacher = Teacher::where('id', $id)->first();
-    if (!empty($teacher)) {
-      $user = new ShowTeacherResource($teacher);
-      if (!empty($user)) {
-        return response()->json([
-          'success' => true,
-          'message' => 'Get Teacher successfully',
-          'teacher_info' => $user
-        ]);
-      }
-    } else {
-      return response()->json([
-        'message' => 'Teacher not found',
-      ]);
-    }
-  }
 }

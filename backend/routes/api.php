@@ -49,17 +49,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
     Route::resource('schedule', ScheduleController::class);
-    Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
 
+Route::resource('teachers', TeacherController::class);
 // Route::resource('teachers', TeacherController::class);
-// Route::resource('teachers', TeacherController::class);
-Route::get('teachers/{id}', [TeacherController::class,'show']);
+// Route::get('/teachers/{id}', [TeacherController::class,'show']);
 Route::resource('students', StudentController::class);
 Route::resource('users', UserController::class);
 Route::resource('course', CourseController::class);
 Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
 Route::resource('schedule', ScheduleController::class);
 
-Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
+// Route::get('/teachers/{id}', [TeacherController::class, 'getTeacherInfo']);
