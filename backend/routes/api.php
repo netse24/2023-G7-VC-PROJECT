@@ -4,8 +4,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -27,7 +29,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::post('/login', [AuthController::class, 'login']);
 
 // get user by if with their if store in cookie 
@@ -38,8 +39,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
+    Route::resource('users', UserController::class);
+    Route::resource('rooms', RoomController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('classes', ClasseController::class);
+    Route::resource('courses', CourseController::class);
+    Route::resource('students', StudentController::class);
+    Route::resource('generations', GenerationController::class);
+    Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
+    Route::get('search/{name}', [UserController::class, 'searchUserByName']);
+    Route::resource('schedule', ScheduleController::class);
+    Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
+    Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
 
+// Route::resource('teachers', TeacherController::class);
 // Route::resource('teachers', TeacherController::class);
 Route::get('teachers/{id}', [TeacherController::class,'show']);
 Route::resource('students', StudentController::class);

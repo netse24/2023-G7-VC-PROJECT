@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { storeManageCookie } from '@/store/cookie.js';
 export const axiosClient = axios.create({
-    // http://127.0.0.1:8000/api
+    // http://127.0.0.1:8000/api/
     baseURL: process.env.VUE_APP_API_URL,
 });
 

@@ -24,5 +24,5 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'role_id' => new RoleResource($this->role),
         ];
-    }
+    }   
 }

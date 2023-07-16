@@ -1,15 +1,17 @@
 <template>
   <v-app-bar>
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-    <v-breadcrumbs :items="breadCrum" class="mt-3">
-      <template v-slot:divider>
-        <v-icon icon="mdi-chevron-right"></v-icon>
-      </template>
-    </v-breadcrumbs>
+    <v-app-bar-title >School Management System</v-app-bar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>
+    <div class="search-controll" v-if="isAdmin">
+      <v-btn v-if="showSearchBar" class="search-bar">
+        <input v-model="searchQuery" placeholder="Search..." class="input-search" />
+        <v-icon @click="toggleSearchBar">mdi-magnify</v-icon>
+      </v-btn>
+      <v-btn @click="toggleSearchBar" icon v-else>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+    </div>
 
     <v-btn icon>
       <v-icon>mdi-moon-waning-crescent</v-icon>
@@ -36,6 +38,8 @@
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { axiosClient } from '../../axios-http'
+import CryptoJS from 'crypto-js';
+
 export default {
   setup() {
     const userCookie = storeManageCookie();
@@ -51,20 +55,24 @@ export default {
       isVertical: false,
       breadcrum: [],
       items: [
-        { title: "Your Profile", icon: "mdi-account-circle" },
-        { title: "Reset Password", icon: "mdi-update" },
-        { title: "Log Out", icon: "mdi-logout" },
+        { title: "Your Profile", icon: "mdi-account-circle", type: "profile" },
+        { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
+        { title: "Log Out", icon: "mdi-logout", type: "logout" },
       ],
-    };
+      showSearchBar: false,
+      searchQuery: null,
+      isAdmin: null,
+
+    }
   },
   methods: {
     onClickVertical() {
       this.isVertical = !this.isVertical;
     },
-    logout() {
+    async logout() {
       if (confirm('Do you want to logout?')) {
         this.$router.push('/')
-        axiosClient.post('logout').then(() => {
+        await axiosClient.post('logout').then(() => {
           this.userCookie.deleteCookie('user_token')
           this.userCookie.deleteCookie('user_role')
           this.userCookie.deleteCookie('user_id')
@@ -82,6 +90,7 @@ export default {
         input: 'email',
         inputPlaceholder: 'Enter your Email',
         confirmButtonText: 'Continue',
+        reverseButtons: true,
         inputAttributes: {
           autocapitalize: 'Cancel'
         },
@@ -116,6 +125,7 @@ export default {
               '<input id="current_pass" class="swal2-input" type="password" style="width:80%" placeholder="current password">' +
               '<input id="new_pass" class="swal2-input" type="password"  style="width:80%" placeholder="new password">',
             focusConfirm: false,
+            reverseButtons: true,
             preConfirm: () => {
               let current = document.getElementById('current_pass').value
               let new_pass = document.getElementById('current_pass').value
@@ -125,7 +135,7 @@ export default {
               }
               return axiosClient.put('changepass', input_body).then((response) => {
                 if (!response.status == 200) {
-                  throw new Error(response)
+                  throw new Error(response.response.data.message)
                 } else {
                   return this.$swal.fire({
                     position: 'center',
@@ -144,13 +154,11 @@ export default {
         }
       })
     },
-
     detailPF() {
       this.$swal.fire({
-        title: 'Do you want to logout?',
+        title: 'DO you want to see you profile?',
       })
     },
-
     handleItemClick(action) {
       if (action.type == "profile") {
         this.detailPF();
@@ -159,9 +167,18 @@ export default {
       } else if (action.type == "logout") {
         this.logout();
       }
-    }
+    },
+    // toggle search button
+    toggleSearchBar() {
+      this.showSearchBar = !this.showSearchBar;
+    },
   },
-
+  mounted() {
+    const role = CryptoJS.AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
+    if (role == 'admin') {
+      this.isAdmin = role
+    }
+  }
 }
 
 </script>
@@ -178,6 +195,16 @@ export default {
 
 v-list-item:focus {
   background-color: cyan;
+}
 
+.search-bar {
+  background: #d1d1d1;
+}
+
+.input-search {
+  padding: 8px;
+  width: 15rem;
+  outline: none;
+  opacity: 0.8;
 }
 </style>

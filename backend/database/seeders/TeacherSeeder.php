@@ -24,7 +24,15 @@ class TeacherSeeder extends Seeder
             ],
             [
                 'user_id' => 3,
-                'course_id' => 3
+                'course_id' => 2
+            ],
+            [
+                'user_id' => 4,
+                'course_id' => 2
+            ],
+            [
+                'user_id' => 5,
+                'course_id' => 2
             ],
         ];
         foreach ($teachers as $teacher) {

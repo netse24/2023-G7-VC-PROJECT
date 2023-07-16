@@ -22,6 +22,17 @@ const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
 console.log(role);
 console.log(id);
 
+// define role 
+var isAdmin = null;
+var isTeacher = null;
+var isStudent = null;
+if (role == 'admin') {
+  isAdmin = role
+} else if (role == 'teacher') {
+  isTeacher = role
+} else if (role == 'student') {
+  isStudent = role
+}
 
 const routes = [
   {
@@ -42,13 +53,68 @@ const routes = [
     component: () => import('../views/admin/SchoolAdmin.vue'),
     meta: {
       requireAuth: true,
-      token: token
+      token: token,
+      role: isAdmin
     }
   },
   {
-    path: '/teacher',
-    name: 'teacher',
+    path: '/admin/students',
+    name: 'generations',
+    component: () => import('../views/admin/GenerationListView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isAdmin
+    },
+    props: true
+  },
+
+  // list generation by admin
+  {
+    props: true,
+    path: '/admin/generations/studentList/:id',
+    name: 'studentList',
+    component: () => import('../views/admin/StudentListView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      // role: isAdmin
+    },
+  },
+  {
+    path: '/admin/batch/student_detail/:user_id',
+    name: 'studentsList',
+    component: () => import('../views/student/StudentDetailView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      // role: isAdmin
+    },
+    props: true
+  },
+  {
+    path: '/admin/schedule',
+    name: 'schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isAdmin
+    },
+    props: true
+  },
+
+
+  // teacher onwer path 
+  {
+    path: '/teachers',
+    name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
+    meta: {
+      requireAuth: true,
+      token: token,
+      role: isTeacher
+    }
   },
   // {
   //   path: '/teacher/detail',
@@ -60,16 +126,27 @@ const routes = [
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherDetail.vue'),
   },
+
   {
-    path: '/student',
-    name: 'student',
+    path: '/students',
+    name: 'students',
     component: () => import('../views/student/StudentView.vue'),
     meta: {
       requireAuth: true,
-      // role: role,
-      token: token
+      token: token,
+      role: isStudent
     }
   },
+  // {
+  //   path: '/generations',
+  //   name: 'generations',
+  //   component: () => import('../views/admin/GenerationListView.vue'),
+  // },
+  // {
+  //   path: '/generations/students',
+  //   name: 'students',
+  //   component: () => import('../views/admin/StudentListView.vue'),
+  // },
 
   {
     path: '/404',
@@ -78,7 +155,6 @@ const routes = [
     meta: {
       requireAuth: false,
     },
-
   }
 ]
 

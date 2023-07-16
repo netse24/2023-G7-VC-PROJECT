@@ -54,12 +54,12 @@ export default {
     },
     methods: {
     getTeacher() {
-        let userId = AES.decrypt(this.userCookie.getCookie('user_id'), "Screat id").toString(enc.Utf8)
+        let userId = AES.decrypt(this.userCookie.getCookie('user_id'), "Secreat id").toString(enc.Utf8)
+        axiosClient.get("teachers/" + userId).then((res) => {
+            // this.teachers = res.data
+            console.log(res.data)
             console.log(userId);
-        // axiosClient.get("teachers/" + userId).then((res) => {
-        //         // this.teachers = res.data
-        //         console.log(res.data.data)
-        //     })
+            }).catch(err=>console.log(err))
     }
 },
     mounted() {
