@@ -109,7 +109,7 @@
         <!-- btn search for the student -->
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
-            <input placeholder="search generation..." class="input-search outline outline-0 px-3"/>
+            <input v-model="searchByQuery" placeholder="search generation..." class="input-search outline outline-0 px-3"/>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </div>
@@ -125,7 +125,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(student, index) in students" :key="index">
+          <tr v-for="(student, index) of filterStudentList" :key="index">
             <td class="border border-slate-300 pl-4">
               <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="student.id"
                 class="accent-cyan-500 w-4 h-4 rounded" />
@@ -152,6 +152,7 @@ export default {
   props:['id'],
   data() {
     return {
+      searchByQuery:"",
       dialogSeeMore: false,
       dialogDelete: false,
       dialogUpdate: false,
@@ -171,7 +172,7 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    
+
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
@@ -188,6 +189,30 @@ export default {
     updateStudent(){
       // alert(200)
     }
+  },
+
+  // computed for search firstName and lastName of the student
+  // got from AI but not all
+  computed: {
+    filterStudentList() {
+      if (this.searchByQuery === "") {
+        return this.students;
+      } else {
+        const filtered = this.students.filter((student) =>
+          student.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
+          student.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
+        );
+        if (filtered.length === 0) {
+          return [
+            // {
+            //   user: { first_name: "null", last_name: "null", gender: "null" }
+            // }
+          ];
+        } else {
+          return filtered;
+        }
+      }
+    },
   },
   mounted() {
     this.getStudent();
