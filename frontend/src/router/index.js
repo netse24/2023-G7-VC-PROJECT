@@ -72,7 +72,7 @@ const routes = [
   // list generation by admin
   {
     props: true,
-    path: '/admin/generations/studentList/:id',
+    path: `/admin/generations/studentList/:id`,
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
     meta: {
@@ -122,9 +122,10 @@ const routes = [
   //   component: () => import('../views/teacher/TeacherDetail.vue'),
   // },
   {
-    path: '/teachers/background',
+    path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherDetail.vue'),
+    props:true
   },
 
   {

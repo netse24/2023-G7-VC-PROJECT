@@ -16,8 +16,8 @@ class TeacherResource extends JsonResource
     {
         return [
             'id' =>$this->id,
-            'users' =>new UserResource($this->user),
-            'courses' =>new CourseResource($this->course),
+            'user' =>new UserResource($this->user),
+            'course' =>new CourseResource($this->course),
         ];
     }
 }
