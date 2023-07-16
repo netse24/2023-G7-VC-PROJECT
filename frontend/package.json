@@ -14,6 +14,7 @@
     "@fullcalendar/list": "^6.1.8",
     "@fullcalendar/multimonth": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
+    "@fullcalendar/vue": "^6.1.8",
     "@fullcalendar/vue3": "^6.1.8",
     "@mdi/font": "7.2.96",
     "@vuelidate/core": "^2.0.3",
