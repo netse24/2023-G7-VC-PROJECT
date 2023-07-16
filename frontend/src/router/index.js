@@ -50,6 +50,16 @@ const routes = [
     name: 'teacher',
     component: () => import('../views/teacher/TeacherView.vue'),
   },
+  // {
+  //   path: '/teacher/detail',
+  //   name: 'teacher-detail',
+  //   component: () => import('../views/teacher/TeacherDetail.vue'),
+  // },
+  {
+    path: '/teachers/background',
+    name: 'teacher-background',
+    component: () => import('../views/teacher/TeacherDetail.vue'),
+  },
   {
     path: '/student',
     name: 'student',

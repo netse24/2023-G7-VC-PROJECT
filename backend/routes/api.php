@@ -40,8 +40,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
 });
 
-Route::resource('teacher', TeacherController::class);
-Route::resource('student', StudentController::class);
+// Route::resource('teachers', TeacherController::class);
+Route::get('teachers/{id}', [TeacherController::class,'show']);
+Route::resource('students', StudentController::class);
 Route::resource('users', UserController::class);
 Route::resource('course', CourseController::class);
 Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ShowTeacherResource;
 use App\Http\Resources\TeacherResource;
+use App\Http\Resources\UserResource;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,13 +30,15 @@ class TeacherController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+  public function show($id)
   {
-    $teacher = Teacher::find($id);
+    $user = User::find($id);
+    $teacher = Teacher::where('user_id', '=', $user->id)->first();
+    $teacher = new TeacherResource($teacher);
     if (!$teacher) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
-    $teacher = new TeacherResource($teacher);
+    // $teacher = new TeacherResource($teacher);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 
