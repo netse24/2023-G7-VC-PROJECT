@@ -35,7 +35,7 @@
                         class="ml-20">{{ students.user.gender }}</span></p>
                 <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Generation: <span
                         class="ml-15">{{ students.generation }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Class: <span class="ml-20">{{ students.class }}</span>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Class: <span class="ml-24">{{ students.class }}</span>
                 </p>
                 <!-- <p class="px-5 py-1 mb-5 font-normal dark:text-dark">Role: <span class="ml-24">{{ students.user.role }}</span> -->
                 <!-- </p> -->
