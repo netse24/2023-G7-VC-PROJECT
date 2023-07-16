@@ -56,7 +56,7 @@ export default {
           const className = info.event.extendedProps.className;
           info.el.querySelector(
             ".fc-event-title"
-          ).innerHTML += `<br>${teacher}<br>${className} ${roomName}<br>`;
+          ).innerHTML += `<br>${teacher}<br>${className}<br>${roomName}`;
         },
         // eventDataTransform: function( eventData ) {
         //   console.log(eventData);
@@ -75,7 +75,7 @@ export default {
           timeGridWeek: { buttonText: "week" },
           //   dayGridMonth: { buttonText: "Month" },
           //   dayGridWeek: { buttonText: "Week" },
-          // listMonth: { buttonText: "all event" }, 
+          // listMonth: { buttonText: "all event" },
         },
       },
     };
@@ -99,7 +99,7 @@ export default {
     },
   },
   created() {
-    this.addEvents()
+    this.addEvents();
   },
 };
 </script>

@@ -23,7 +23,7 @@ export default {
       axiosClient
         .get("/schedule")
         .then((response) => {
-          // Declar calendar event
+          // Declare calendar event
           const calendarEvents = [];
           if (response.data && response.data.data) {
             response.data.data.forEach((calenndar) => {

@@ -192,7 +192,7 @@ export default {
       console.log("this.subjectsItem.id", this.subjectsItem.id);
       if (this.subjectsItem && this.subjectsItem.id) {
         axiosClient
-          .get(`/teacher/?course_id=${this.subjectsItem.id}`)
+          .get(`/teachers/?course_id=${this.subjectsItem.id}`)
           .then((response) => {
             this.teachers = response.data.data;
           })
@@ -203,7 +203,7 @@ export default {
     },
     listCourses() {
       axiosClient
-        .get("/course")
+        .get("/courses")
         .then((response) => {
           this.courses = response.data.data;
         })
@@ -213,7 +213,7 @@ export default {
     },
     listTeachers() {
       axiosClient
-        .get("/teacher")
+        .get("/teachers")
         .then((response) => {
           this.teachers = response.data.data;
         })
@@ -224,7 +224,7 @@ export default {
     changeClass() {
       if (this.classesItem && this.classesItem.id) {
         axiosClient
-          .get(`/class/?room_id=${this.classesItem.id}`)
+          .get(`/classes/?room_id=${this.classesItem.id}`)
           .then((response) => {
             this.rooms = response.data.data;
         
@@ -236,7 +236,7 @@ export default {
     },
     listClasses() {
       axiosClient
-        .get("/class")
+        .get("/classes")
         .then((response) => {
           this.classes = response.data.data;
           
@@ -247,7 +247,7 @@ export default {
     },
     listRooms() {
       axiosClient
-        .get("/room")
+        .get("/rooms")
         .then((response) => {
           this.rooms = response.data.data;
           if (this.rooms) {
