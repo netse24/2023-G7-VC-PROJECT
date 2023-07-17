@@ -287,8 +287,7 @@
 </template>
 
 <script>
-// import axios from "axios";
-
+import {axiosClient} from '../axios-http'
 export default {
   emits: ["student-emit", "teacher-emit"],
   data() {
@@ -479,8 +478,8 @@ export default {
         this.dialog = false;
     },
     getCourses() {
-      axios
-        .get("http://127.0.0.1:8000/api/course")
+      axiosClient
+        .get("courses")
         .then((response) => {
           this.listCourse = response.data.data;
           console.log(this.listCourse);
@@ -490,8 +489,8 @@ export default {
         });
     },
     getClasses() {
-      axios
-        .get("http://127.0.0.1:8000/api/class")
+      axiosClient
+        .get("classes")
         .then((response) => {
           this.listClass = response.data.data;
           console.log(this.listClass);
