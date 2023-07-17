@@ -35,33 +35,35 @@ class UserController extends Controller
     $role = $user->role_id;
     if ($role == 2) {
       $teacherData = $request->input('teacher');
-      $courses = Course::all();
-      foreach ($courses as $course) {
-        $courseData = $request->input('course');
-        if (!Course::where('course', $courseData['course'])->exists()) {
-          $newCourse = Course::create($courseData);
-          $courseId = $newCourse->id;
-          $teacherData['user_id'] = $userId;
-          $teacherData['course_id'] = $courseId;
-          $teacher = Teacher::create($teacherData);
-          return response()->json([
-            'success' => true,
-            'user' => $user,
-            'teacher' => $teacher,
-            'course' => $newCourse
-          ], 201);
-        } else {
-          $courseId = $course->id;
-          $teacherData['user_id'] = $userId;
-          $teacherData['course_id'] = $courseId;
-          $teacher = Teacher::create($teacherData);
-          return response()->json([
-            'success' => true,
-            'user' => $user,
-            'teacher' => $teacher,
-            'course' => $course
-          ], 201);
+      $courseData = $request->input('course');
+      if (!Course::where('course', $courseData['course'])->exists()) {
+        $newCourse = Course::create($courseData);
+        $courseId = $newCourse->id;
+        $teacherData['user_id'] = $userId;
+        $teacherData['course_id'] = $courseId;
+        $teacher = Teacher::create($teacherData);
+        return response()->json([
+          'success' => true,
+          'user' => $user,
+          'teacher' => $teacher,
+          'course' => $newCourse
+        ], 201);
+      } else {
+        $courses = Course::all();
+        foreach ($courses as $course) {
+          if ($course['course'] == $courseData['course']) {
+            $courseId = $course['id'];
+          }
         }
+        $teacherData['user_id'] = $userId;
+        $teacherData['course_id'] = $courseId;
+        $teacher = Teacher::create($teacherData);
+        return response()->json([
+          'success' => true,
+          'user' => $user,
+          'teacher' => $teacher,
+          'course' => $course
+        ], 201);
       }
     } else if ($role == 3) {
       $studentData = $request->input('student');
