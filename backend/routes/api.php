@@ -39,8 +39,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
     Route::resource('students', StudentController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
