@@ -107,6 +107,16 @@ const routes = [
 
   // teacher onwer path 
   {
+    path: '/admin/schedule',
+    name: 'admin-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+  },
+  {
+    path: '/teacher/schedule',
+    name: 'teacher-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+  },
+  {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
@@ -125,7 +135,7 @@ const routes = [
     path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherDetail.vue'),
-    props:true
+    props: true
   },
 
   {
@@ -138,16 +148,11 @@ const routes = [
       role: isStudent
     }
   },
-  // {
-  //   path: '/generations',
-  //   name: 'generations',
-  //   component: () => import('../views/admin/GenerationListView.vue'),
-  // },
-  // {
-  //   path: '/generations/students',
-  //   name: 'students',
-  //   component: () => import('../views/admin/StudentListView.vue'),
-  // },
+  {
+    path: '/student/schedule',
+    name: 'student-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+  },
 
   {
     path: '/404',

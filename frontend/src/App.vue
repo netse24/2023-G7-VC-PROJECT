@@ -13,7 +13,7 @@ export default {
   setup() {
     const userData = userInformations();
     return {
-      userData,
+      userData, 
     }
   },
   methods: {
