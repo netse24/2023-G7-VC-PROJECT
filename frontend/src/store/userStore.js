@@ -1,4 +1,4 @@
-//senior sourse: GEN: 2023-G3-Part2-VC2-> userStore.js
+//senior sourse: GEN: 2022-G3-Part2-VC2-> userStore.js
 import { defineStore } from "pinia";
 import CryptoJS from 'crypto-js'
 import { axiosClient } from "../axios-http";
