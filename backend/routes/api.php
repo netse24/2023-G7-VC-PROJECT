@@ -39,21 +39,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
-    Route::resource('users', UserController::class);
-    Route::resource('teachers', TeacherController::class);
-    Route::resource('rooms', RoomController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('classes', ClasseController::class);
-    Route::resource('courses', CourseController::class);
     Route::resource('students', StudentController::class);
-    Route::resource('generations', GenerationController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
-    Route::resource('schedule', ScheduleController::class);
-    Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
 
-
-
+Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
+Route::resource('rooms', RoomController::class);
+Route::resource('classes', ClasseController::class);
+Route::resource('courses', CourseController::class);
+Route::resource('generations', GenerationController::class);
+Route::resource('teachers', TeacherController::class);
+Route::resource('students', StudentController::class);
+Route::resource('users', UserController::class);
+Route::resource('schedule', ScheduleController::class);
 
