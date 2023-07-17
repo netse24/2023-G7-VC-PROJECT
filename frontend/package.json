@@ -29,7 +29,7 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.13",
     "vee-validate": "^4.10.6",
-    "vue": "^3.3.4",
+    "vue": "^3.2.0",
     "vue-cookie": "^1.1.4",
     "vue-cryptojs": "^2.4.3",
     "vue-router": "^4.2.4",

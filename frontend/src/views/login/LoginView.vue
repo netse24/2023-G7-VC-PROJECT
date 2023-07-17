@@ -121,11 +121,11 @@ export default {
               }, 1500);
             } else if (res.data.role.name == 'teacher') {
               setTimeout(() => {
-                this.$router.push('teacher');
+                this.$router.push('teachers');
               }, 1500);
             } else if (res.data.role.name == 'student') {
               setTimeout(() => {
-                this.$router.push('student');
+                this.$router.push('students');
               }, 1500);
             }
           }
