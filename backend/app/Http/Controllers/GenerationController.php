@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\StudentGenerationListResource;
 use App\Http\Resources\StudentResource;
+use App\Models\Classes;
 use App\Models\Generation;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\Cloner\Stub;
 
 class GenerationController extends Controller
 {
@@ -41,7 +43,6 @@ class GenerationController extends Controller
         $generation = StudentResource::collection($students);
         return response()->json(['success' => true, 'data' => $generation], 200);
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -57,13 +58,4 @@ class GenerationController extends Controller
     {
         //
     }
-    // public function getStudentList($id){
-    //     $studentList = Generation::leftJoin('students', 'students.generation_id','=','generations.id')
-    //                            ->leftJoin('locations', 'events.location_id','=','locations.id')
-    //                            ->select('generations.name','students.matching_country','matchings.time','locations.location','events.amount_of_ticket','matchings.matching_description')
-    //                            ->where('generation_id',$id)
-    //                            ->get();
-    //     return response()->json(['success'=> true, 'data'=>$studentList],200);
-        
-    // }
 }

@@ -110,22 +110,40 @@
         </button>
       </div>
       <hr />
-      <div class="d-flex mt-5 ">
-        <button
-          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
-        >
-          All Student
-        </button>
-         <button
-          v-for="(student, id) in students" :key="id"
-          class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
-        >
-          CLASS-{{student.class}}
-        </button>
-
+      <div 
+      class="d-flex mt-5 justify-between">
+        <div>
+          <button
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
+            @click="showPreviousClasses"
+          >
+            Previous
+          </button>
+        </div>
+        <div class="w-full">
+          <button
+            v-for="className in displayedClasses"
+            :key="className"
+            @click="selectedClass = className"
+            :class="buttonClass(className)"
+            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5"
+          >
+            CLASS-{{ className }}
+          </button>
+          
+        </div>
+        <div>
+          <button
+            :disabled="canShowMore"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12"
+            @click="showMore"
+          >Next
+          </button>
+        </div>
       </div>
-      <div class="d-flex  mt-8 mr-12">
-        <table class="border-collapse border w-14/12">
+      <div 
+        class="d-flex mt-8 mr-12" >
+        <table class="border-collapse border w-14/12" v-if="selectedClass">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -136,7 +154,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(student, index) in students" :key="index">
+            <tr
+              v-for="student in studentsByClass[selectedClass]"
+              :key="student"
+            >
               <td class="border border-slate-300 pl-4">
                 <input
                   type="checkbox"
@@ -177,6 +198,10 @@ export default {
       students: [],
       selectedUsers: [],
       classroom: [],
+      selectedClass: null,
+      classesToShow: 5,
+      startIndex: 0,
+      showPrevious: false,
     };
   },
 
@@ -186,11 +211,15 @@ export default {
         .get("generations/" + this.id)
         .then((Response) => {
           this.students = Response.data.data;
-          console.log(this.students);
+          for (let i = 0; i < this.students.length; i++) {
+            if (!this.classroom.includes(this.students[i].class)) {
+              this.classroom.push(this.students[i].class);
+            }
+          }
+          console.log(this.classroom);
         })
         .catch((err) => console.log(err));
     },
-
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
@@ -203,9 +232,74 @@ export default {
           .catch((err) => console.error(err));
       });
     },
+    buttonClass(className) {
+      return {
+        selected: className === this.selectedClass,
+      };
+    },
+    showMore() {
+      this.startIndex += this.classesToShow;
+      if (this.startIndex > 5) {
+        this.showPrevious = true;
+      }
+      if (this.startIndex >= this.classList) {
+        this.showNext = false;
+      }
+    },
+    showPreviousClasses() {
+      this.startIndex -= this.classesToShow;
+      if (this.startIndex < 0) {
+        this.startIndex = 0;
+      }
+      if (this.startIndex === 0) {
+        this.showPrevious = false;
+      }
+    },
   },
   mounted() {
     this.getStudent();
   },
+  //Search in chatGPT//
+  //Key words: How to manage student in each classes the class//
+  computed: {
+    classList() {
+      return Array.from(new Set(this.students.map((student) => student.class)));
+    },
+    studentsByClass() {
+      return this.students.reduce(function (acc, student) {
+        if (!acc[student.class]) {
+          acc[student.class] = [];
+        }
+        acc[student.class].push(student);
+        return acc;
+      }, {});
+    },
+    displayedClasses() {
+      return this.classList.slice(
+        this.startIndex,
+        this.startIndex + this.classesToShow
+      );
+    },
+    hasHiddenClasses() {
+      return this.classList.length > this.classesToShow;
+    },
+    canShowMore() {
+      return this.displayedClasses.length < 5;
+    }
+  },
+  created() {
+    this.selectedClass =
+      localStorage.getItem("selectedClass");
+  },
+  watch: {
+    selectedClass(value) {
+      localStorage.setItem("selectedClass", value);
+    },
+  },
 };
 </script>
+<style scoped>
+button.selected {
+  background-color: rgb(217, 142, 2);
+}
+</style>
