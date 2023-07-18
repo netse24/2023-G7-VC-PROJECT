@@ -58,6 +58,7 @@ const routes = [
     }
   },
   {
+<<<<<<< HEAD
     path: '/admin/students',
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
@@ -80,32 +81,31 @@ const routes = [
       token: token,
       role: isAdmin
     },
+=======
+    path: '/admin/teachers',
+    name: 'admin-teachers',
+    component: () => import('../views/admin/TeacherListView.vue'),
+>>>>>>> cbb15902267091b8b19da737060000877a83b447
   },
   {
-    path: '/admin/batch/student_detail/:user_id',
-    name: 'studentsList',
+    path: '/admin/teachers/detail',
+    name: 'admin-teachers-detail',
+    component: () => import('../views/teacher/TeacherDetailView.vue'),
+  },
+  {
+    path: '/admin/students/detail',
+    name: 'admin-students-detail',
     component: () => import('../views/student/StudentDetailView.vue'),
+<<<<<<< HEAD
     meta: {
       requireAuth: true,
       token: token,
       role: isAdmin
     },
     props: true
+=======
+>>>>>>> cbb15902267091b8b19da737060000877a83b447
   },
-  {
-    path: '/admin/schedule',
-    name: 'schedule',
-    component: () => import('../views/schedule/ScheduleView.vue'),
-    meta: {
-      requireAuth: true,
-      token: token,
-      role: isAdmin
-    },
-    props: true
-  },
-
-
-  // teacher onwer path 
   {
     path: '/admin/schedule',
     name: 'admin-schedule',
@@ -143,6 +143,7 @@ const routes = [
     }
   },
   {
+<<<<<<< HEAD
     path: '/student/schedule',
     name: 'student-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
@@ -152,6 +153,8 @@ const routes = [
   },
 
   {
+=======
+>>>>>>> cbb15902267091b8b19da737060000877a83b447
     path: '/404',
     name: '404',
     component: () => import("../views/404/PageNotFound.vue"),

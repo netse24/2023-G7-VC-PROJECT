@@ -1,12 +1,35 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <NavBar />
+    <div
+      class="m-3"
+      style="
+        --bs-breadcrumb-divider: url(
+          &#34;data:image/svg + xml,
+          %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
+        );
+      "
+      aria-label="breadcrumb"
+      >
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" v-if="breadCrum.length > 0">
+          <a href="/admin">Home</a>
+        </li>
+        <li
+          class="breadcrumb-item"
+          aria-current="page"
+          v-for="(item, index) in breadCrum"
+          :key="index">
+          <a :href="item.href"> {{ item.title }}</a>
+        </li>
+      </ol>
+    </div>
     <div class="w-11/12 m-auto">
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
           <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            <router-link to="/admin/students">Back</router-link>
+            <router-link to="#">Back</router-link>
           </button>
           <!--Delete button -->
           <button
@@ -59,15 +82,9 @@
           <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"> 
             Update
           </button>
-          <!-- add transcript button -->
-          <button class="bg-teal-800 hover:bg-teal-900 text-white font-bold px-2 rounded">
-            <router-link to="">
-              Add Transcript
-            </router-link>
-          </button>
           <!--See detail button -->
           <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
-            <router-link :to="`/admin/batch/student_detail/${selectedUsers}`">
+            <router-link :to="`/admin/batch/teacher_detail/${selectedUsers}`">
               See Detail
             </router-link>
           </button>
@@ -89,34 +106,27 @@
         <div>
           <button
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
-            @click="showPreviousClasses"
           >
             Previous
           </button>
         </div>
         <div class="w-full">
           <button
-            v-for="className in displayedClasses"
-            :key="className"
-            @click="selectedClass = className"
-            :class="buttonClass(className)"
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5"
-          >
-            CLASS-{{ className }}
+            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5">
+            PHP 
           </button>
         </div>
         <div>
           <button
             :disabled="canShowMore"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12"
-            @click="showMore">
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12">
             Next
           </button>
         </div>
       </div>
       <!-- table  -->
       <div class="d-flex mt-8 mr-12">
-        <table class="border-collapse border w-14/12" v-if="selectedClass">
+        <table class="border-collapse border w-14/12">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -127,166 +137,90 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="student in studentsByClass[selectedClass]"
-              :key="student"
-              v-show="matchesSearch(student)">
+            <tr>
               <td class="border border-slate-300 pl-4">
                 <input
                   type="checkbox"
                   id="checkbox"
-                  v-model="selectedUsers"
-                  :value="student.id"
                   class="accent-cyan-500 w-4 h-4 rounded"
                 />
               </td>
               <td class="py-2 px-4 border border-slate-300">
-                {{ student.user.first_name }}
+                pppppp
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{ student.user.last_name }}
+                pppppp
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{ student.user.gender }}
+                ppppp
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{ student.user.email }}
+                ppppp
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    {{users}}
   </section>
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
-
+import NavBar from "../../components/navbar/NavigationBar.vue";
 export default {
-  props: ["id"],
+  components: {
+    NavBar,
+  },
   data() {
     return {
+      breadCrum: [],
       dialogDelete: false,
       dialogUpdate: false,
-      showPrevious: false,
-      students: [],
+      teachers: [],
       selectedUsers: [],
-      classroom: [],
-      selectedClass: null,
-      classesToShow: 5,
-      startIndex: 0,
       searchByQuery:"",
     };
   },
-
   methods: {
-    getStudent() {
+    getTeacher() {
+      let user_id = this.selectedUsers;
       axiosClient
-        .get("generations/" + this.id)
+        .get("users/" + user_id)
         .then((Response) => {
-          this.students = Response.data.data;
-          for (let i = 0; i < this.students.length; i++) {
-            if (!this.classroom.includes(this.students[i].class)) {
-              this.classroom.push(this.students[i].class);
-            }
-          }
-          console.log(this.classroom);
+          this.teachers = Response.data.data;
         })
         .catch((err) => console.log(err));
     },
 
-    deleteStudent() {
+    //delete teacher
+    deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`students/${userId}`)
+          .delete(`teacher/${userId}`)
           .then((res) => {
             console.log(res.data);
-            this.getStudent();
+            this.getTeacher();
             location.reload();
           })
           .catch((err) => console.error(err));
       });
     },
 
-    buttonClass(className) {
-      return {
-        selected: className === this.selectedClass,
-      };
-    },
-
-    showMore() {
-      this.startIndex += this.classesToShow;
-      if (this.startIndex > 5) {
-        this.showPrevious = true;
-      }
-      if (this.startIndex >= this.classList) {
-        this.showNext = false;
-      }
-    },
-
-    showPreviousClasses() {
-      this.startIndex -= this.classesToShow;
-      if (this.startIndex < 0) {
-        this.startIndex = 0;
-      }
-      if (this.startIndex === 0) {
-        this.showPrevious = false;
-      }
-    },
-    // function search name //Got from chatGPT
-    matchesSearch(student){
-      const nameFilter = this.searchByQuery.toLowerCase();
-      return !nameFilter || student.user.first_name.toLowerCase().includes(nameFilter);
-    }
-  },
-
-  mounted() {
-    this.getStudent();
-  },
-
-  computed: {
-    //Search in chatGPT//
-    //Key words: How to manage student in each classes the class//
-    classList() {
-      return Array.from(new Set(this.students.map((student) => student.class)));
-    },
-    studentsByClass() {
-      return this.students.reduce(function (acc, student) {
-        if (!acc[student.class]) {
-          acc[student.class] = [];
+    onClickTeacherDetail() {
+      this.breadCrum = [];
+      this.breadCrum.push({ title: "Detail", href: "/admin/teachers/detail" });
+      this.breadCrum.forEach((path) => {
+        if (path) {
+          this.$router.push("/admin/teachers/detail");
+        } else {
+          this.$router.push("/404");
         }
-        acc[student.class].push(student);
-        return acc;
-      }, {});
+      });
     },
-    displayedClasses() {
-      return this.classList.slice(
-        this.startIndex,
-        this.startIndex + this.classesToShow
-      );
-    },
-    hasHiddenClasses() {
-      return this.classList.length > this.classesToShow;
-    },
-    canShowMore() {
-      return this.displayedClasses.length < 5;
-    }
   },
-
-  created() {
-    this.selectedClass =
-      localStorage.getItem("selectedClass");
-  },
-  watch: {
-    selectedClass(value) {
-      localStorage.setItem("selectedClass", value);
-    },
+  mounted() {
+    this.getTeacher();
   },
 };
 </script>
-
-<style scoped>
-button.selected {
-  background-color: rgb(217, 142, 2);
-}
-</style>

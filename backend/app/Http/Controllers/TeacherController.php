@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ShowTeacherResource;
 use App\Http\Resources\TeacherResource;
 use App\Http\Resources\UserResource;
 use App\Models\Teacher;
@@ -12,29 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   */
-  public function index(Request $request)
-  {
-    $query = DB::table('teachers')
-      ->join('users', 'users.id', '=', 'teachers.user_id')
-      ->join('courses', 'courses.id', '=', 'teachers.course_id')
-      ->join('roles', 'roles.id', '=', 'users.role_id')
-      ->select('teachers.*', 'users.first_name', 'users.last_name', 'users.gender', 'courses.course');
-    // Get date by query
-    $queryParams = $request->all();
-    if (count($queryParams) > 0) {
-      foreach ($queryParams as $key => $value) {
-        $query->where($key, '=', $value);
-        $query->where('roles.name', '=', 'teacher');
-      };
-    } else {
-      $query->where('roles.name', '=', 'teacher');
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $teacher = Teacher::all();
+        $teacher = TeacherResource::collection($teacher);
+        return response()->json(['success'=>true, 'data'=>$teacher], 200);
     }
-    $teacher = $query->get();
-    return response()->json(['success' => true, 'data' => $teacher], 200);
-  }
+   
   /**
    * Store a newly created resource in storage.
    */
@@ -88,5 +74,5 @@ class TeacherController extends Controller
     $teacher = Teacher::store($request, $id);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
-
 }
+
