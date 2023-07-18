@@ -2,6 +2,7 @@
 import { defineStore } from "pinia";
 import CryptoJS from 'crypto-js'
 import { axiosClient } from "../axios-http";
+import { storeManageCookie } from "./cookie";
 export const userInformations = defineStore('userInfo', {
     state() {
         return {
@@ -19,24 +20,10 @@ export const userInformations = defineStore('userInfo', {
 
     },
     actions: {
-        getCookie(name) {
-            var cname = name + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var splitDataToJsonFormat = decodedCookie.split(";");
-            for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-                var cookie = splitDataToJsonFormat[i];
-                while (cookie.charAt(0) == " ") {
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(cname) == 0) {
-                    return cookie.substring(cname.length, cookie.length);
-                }
-            }
-            return "";
-        },
-        getUserData() {
-            let userId = CryptoJS.AES.decrypt(this.getCookie('user_id'), "Screat id").toString(CryptoJS.enc.Utf8)
-            axiosClient.get("users/" + userId).then((res) => {
+        async getUserData() {
+            const { getCookie } = storeManageCookie();
+            const user_id = CryptoJS.AES.decrypt(getCookie('user_id'), "Secret id").toString(CryptoJS.enc.Utf8)
+            await axiosClient.get("users/" + user_id).then((res) => {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
@@ -45,14 +32,10 @@ export const userInformations = defineStore('userInfo', {
                 .get("generations/" + index)
                 .then((response) => {
                     this.storeGeneration = response.data.data;
-                    // console.log(this.storeGeneration);
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         },
-        // sendStoreGeneration() {
-        //     return this.storeGeneration
-        // },
     }
 })

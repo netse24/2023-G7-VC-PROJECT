@@ -3,8 +3,6 @@
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
     <v-app-bar-title>School Management System</v-app-bar-title>
     <v-spacer></v-spacer>
-<<<<<<< HEAD
-=======
     <div class="search-btn">
       <v-btn v-if="showSearchButton">
         <input v-model="searchByQuery" placeholder="Search here..." class="search outline outline-offset-2 outline-0 p-2" />
@@ -14,7 +12,6 @@
         <v-icon >mdi-magnify</v-icon>
       </v-btn>
     </div>
->>>>>>> cbb15902267091b8b19da737060000877a83b447
     <v-btn icon>
       <v-icon>mdi-moon-waning-crescent</v-icon>
     </v-btn>
@@ -196,11 +193,7 @@ export default {
         this.logout();
       }
     },
-<<<<<<< HEAD
   },
-=======
-  }
->>>>>>> cbb15902267091b8b19da737060000877a83b447
 }
 </script>
 <style scoped>
