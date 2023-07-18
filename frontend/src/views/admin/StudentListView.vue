@@ -199,32 +199,6 @@ export default {
     }
   },
 
-  // computed for search firstName and lastName of the student
-  // got from AI but not all
-  computed: {
-    filterStudentList() {
-      if (this.searchByQuery === "") {
-        return this.students;
-      } else {
-        const filtered = this.students.filter((student) =>
-          student.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
-          student.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
-        );
-        if (filtered.length === 0) {
-          return [
-            // {
-            //   user: { first_name: "null", last_name: "null", gender: "null" }
-            // }
-          ];
-        } else {
-          return filtered;
-        }
-      }
-    },
-  },
-  mounted() {
-    this.getStudent();
-  },
   //Search in chatGPT//
   //Key words: How to manage student in each classes the class//
   computed: {
@@ -251,7 +225,31 @@ export default {
     },
     canShowMore() {
       return this.displayedClasses.length < 5;
+    },
+
+    filterStudentList() {
+      if (this.searchByQuery === "") {
+        return this.students;
+      } else {
+        const filtered = this.students.filter((student) =>
+          student.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
+          student.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
+        );
+        if (filtered.length === 0) {
+          return [
+            // {
+            //   user: { first_name: "null", last_name: "null", gender: "null" }
+            // }
+          ];
+        } else {
+          return filtered;
+        }
+      }
     }
+  },
+    
+  mounted() {
+    this.getStudent();
   },
   created() {
     this.selectedClass =

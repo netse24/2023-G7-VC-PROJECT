@@ -8,11 +8,8 @@ use App\Models\Classes;
 use App\Models\Generation;
 use App\Models\Student;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\DB;
-=======
 use Symfony\Component\VarDumper\Cloner\Stub;
->>>>>>> 8b329a056a9c04f54e9270e392451bdf89d2011a
 
 class GenerationController extends Controller
 {
