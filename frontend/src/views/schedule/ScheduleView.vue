@@ -48,7 +48,6 @@ export default {
         .get("classes")
         .then((response) => {
           this.selectOption = response.data.data;
-          console.log(this.filterValue);
         })
         .catch((error) => {
           console.error(error);
@@ -60,7 +59,6 @@ export default {
         .then((response) => {
           // Declare calendar event
           const calendarEvents = [];
-          console.log(response.data.data.className);
           if (response.data && response.data.data) {
             response.data.data.forEach((calenndar) => {
               // Add each event to array calendarEvents
