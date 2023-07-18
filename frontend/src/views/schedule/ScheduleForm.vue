@@ -223,7 +223,6 @@ export default {
           console.log('res', response.data);
           this.$emit('createSchedule');
           this.closeDialog();
-
         })
         .catch((error) => {
           console.log(error);
