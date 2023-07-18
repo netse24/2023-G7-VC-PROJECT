@@ -78,7 +78,7 @@ const routes = [
     meta: {
       requireAuth: true,
       token: token,
-      // role: isAdmin
+      role: isAdmin
     },
   },
   {
@@ -88,7 +88,7 @@ const routes = [
     meta: {
       requireAuth: true,
       token: token,
-      // role: isAdmin
+      role: isAdmin
     },
     props: true
   },
@@ -126,18 +126,12 @@ const routes = [
       role: isTeacher
     }
   },
-  // {
-  //   path: '/teacher/detail',
-  //   name: 'teacher-detail',
-  //   component: () => import('../views/teacher/TeacherDetail.vue'),
-  // },
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherDetail.vue'),
     props: true
   },
-
   {
     path: '/students',
     name: 'students',
@@ -152,6 +146,9 @@ const routes = [
     path: '/student/schedule',
     name: 'student-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
+    meta: {
+      requireAuth: true
+    }
   },
 
   {
