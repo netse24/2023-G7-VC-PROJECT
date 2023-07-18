@@ -1,69 +1,26 @@
 <template>
   <section>
     <nav-bar></nav-bar>
-    <div class="w-10/12 m-auto">
-      <div class="flex justify-between mb-1 mt-4">
-        <div class="flex gap-2 my-2">
-          <!-- btn back to generation -->
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28"
-          >
+    <div class="w-11/12 m-auto">
+      <div class="flex justify-between my-2 mt-5">
+        <div class="flex gap-2">
+          <!-- Back button -->
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             <router-link to="/admin/students">Back</router-link>
           </button>
-          <!-- dialog for update of the sutdnet -->
+          <!--Delete button -->
           <button
-            class="btn bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-28"
-          >
-            <v-dialog
-              v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
-              class="w-50"
-              v-model="dialogUpdate"
-            >
-              <template v-slot:activator="{ props }">
-                <v-text v-bind="props">Update</v-text>
-              </template>
-              <v-card>
-                <v-card-title class="border-gray-200 bg-green-500">
-                  Update Student
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <p v-if="selectedUsers.length > 1">
-                      You can update only 1 student one time
-                    </p>
-                    <p v-else>Please select checkbox</p>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions class="flex justify-end">
-                  <v-btn
-                    class="bg-green"
-                    color="flex justify-center font-normal text-1xl font-bold"
-                    variant="text"
-                    @click="dialogUpdate = false"
-                    >OK
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <div v-else>
-              <router-link to="#">Update</router-link>
-            </div>
-          </button>
-          <!-- dialog for delete student -->
-          <button
-            class="btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-red-800 rounded w-28"
-          >
+            class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             <v-dialog
               v-if="selectedUsers.length >= 1 || selectedUsers.length == 0"
               class="w-50"
-              v-model="dialogDelete"
-            >
+              v-model="dialogDelete">
               <template v-slot:activator="{ props }">
                 <v-text v-bind="props">Delete</v-text>
               </template>
               <v-card>
                 <v-card-title class="border-gray-200 bg-red-500"
-                  >Delete Student info</v-card-title
+                  >Delete date of student</v-card-title
                 >
                 <v-card-text>
                   <v-container class="d-flex justify-start">
@@ -76,229 +33,58 @@
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
                     <v-btn
-                      class="bg-cyan"
+                      class="bg-blue"
                       color="font-normal font-bold"
                       variant="text"
-                      @click="dialogDelete = false"
-                    >
-                      Cancel
+                      @click="dialogDelete = false">Cancel
                     </v-btn>
                     <v-btn
                       v-if="selectedUsers.length > 0"
                       @click="deleteStudent((dialogDelete = false))"
                       class="bg-red text-white w-20"
-                      color="font-normal text-1xl  font-bold"
-                    >
-                      Delete
+                      color="font-normal text-1xl  font-bold">Delete
                     </v-btn>
                   </div>
                   <v-btn
                     v-else
                     @click="dialogDelete = false"
-                    class="bg-cyan text-white w-20"
-                    color="font-normal text-1xl  font-bold"
-                  >
-                    Ok
+                    class="bg-blue text-white w-20"
+                    color="font-normal text-1xl  font-bold">Ok
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </button>
-          <!-- dialog for see more of student -->
-          <button
-            class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded w-28"
-          >
-            <v-dialog
-              v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
-              class="w-50"
-              v-model="dialogSeeMore"
-            >
-              <template v-slot:activator="{ props }">
-                <v-text v-bind="props">See more</v-text>
-              </template>
-              <v-card>
-                <v-card-title class="border-gray-200 bg-cyan-500"
-                  >Detail Student Background</v-card-title
-                >
-                <v-card-text>
-                  <v-container class="d-flex justify-start">
-                    <p v-if="selectedUsers.length > 1">
-                      You can detail only 1 user one time
-                    </p>
-                    <p v-else>Please select checkbox</p>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions class="d-flex justify-end gap-5">
-                  <v-btn
-                    class="bg-cyan"
-                    color="font-normal text-1xl font-bold"
-                    variant="text"
-                    @click="dialogSeeMore = false"
-                    >OK
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <div v-else>
-              <router-link :to="`/admin/batch/student_detail/${selectedUsers}`"
-                >See more</router-link
-              >
-            </div>
+          <!-- update button-->
+          <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"> 
+            Update
+          </button>
+          <!-- add transcript button -->
+          <button class="bg-teal-800 hover:bg-teal-900 text-white font-bold px-2 rounded">
+            <router-link to="">
+              Add Transcript
+            </router-link>
+          </button>
+          <!--See detail button -->
+          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
+              <router-link :to="`/admin/batch/student_detail/${selectedUsers}`">
+                See Detail
+              </router-link>
           </button>
         </div>
-        <!-- btn search for the student -->
+        <!-- search button-->
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
             <input
               v-model="searchByQuery"
-              placeholder="search generation..."
-              class="input-search outline outline-0 px-3"
-            />
+              placeholder="search student..."
+              class="input-search outline outline-0 px-3"/>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </div>
       </div>
-      <!-- table store data of the studnet -->
-      <table class="border-collapse border w-10/12 m-auto">
-        <thead class="bg-cyan-500">
-          <tr>
-            <th class="px-4 py-4 w-2">ID</th>
-            <th class="px-4 py-4 w-64">First Name</th>
-            <th class="px-4 py-4 w-64">Last Name</th>
-            <th class="px-4 py-4 w-64">Gender</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(student, index) of filterStudentList" :key="index">
-            <td class="border border-slate-300 pl-4">
-              <input
-                type="checkbox"
-                id="checkbox"
-                v-model="selectedUsers"
-                :value="student.id"
-                class="accent-cyan-500 w-4 h-4 rounded"
-              />
-            </td>
-            <td class="py-2 px-4 border border-slate-300">
-              {{ student.user.first_name }}
-            </td>
-            <td class="py-2 px-4 ml-2 border border-slate-300">
-              {{ student.user.last_name }}
-            </td>
-            <td class="py-2 px-4 ml-2 border border-slate-300">
-              {{ student.user.gender }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="flex gap-2 my-2 mt-5">
-        <button
-          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28"
-        >
-          <router-link to="/admin/students">Back</router-link>
-        </button>
-        <button
-          class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28"
-        >
-          Update
-        </button>
-        <!-- dialog for delete student -->
-        <button
-          class="btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-red-800 rounded w-28"
-        >
-          <v-dialog
-            v-if="selectedUsers.length >= 1 || selectedUsers.length == 0"
-            class="w-50"
-            v-model="dialogDelete"
-          >
-            <template v-slot:activator="{ props }">
-              <v-text v-bind="props">Delete</v-text>
-            </template>
-            <v-card>
-              <v-card-title class="border-gray-200 bg-red-500"
-                >Delete date of student</v-card-title
-              >
-              <v-card-text>
-                <v-container class="d-flex justify-start">
-                  <p v-if="selectedUsers.length >= 1">
-                    Do you want to delete {{ selectedUsers.length }} row
-                  </p>
-                  <p v-else>Please select checkbox</p>
-                </v-container>
-              </v-card-text>
-              <v-card-actions class="d-flex justify-end gap-5">
-                <div v-if="selectedUsers.length >= 1">
-                  <v-btn
-                    class="bg-blue"
-                    color="font-normal font-bold"
-                    variant="text"
-                    @click="dialogDelete = false"
-                  >
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    v-if="selectedUsers.length > 0"
-                    @click="deleteStudent((dialogDelete = false))"
-                    class="bg-red text-white w-20"
-                    color="font-normal text-1xl  font-bold"
-                  >
-                    Delete
-                  </v-btn>
-                </div>
-                <v-btn
-                  v-else
-                  @click="dialogDelete = false"
-                  class="bg-blue text-white w-20"
-                  color="font-normal text-1xl  font-bold"
-                >
-                  Ok
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </button>
-        <button
-          class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded w-28"
-        >
-          <v-dialog
-            v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
-            class="w-50"
-            v-model="dialogSeeMore"
-          >
-            <template v-slot:activator="{ props }">
-              <v-text v-bind="props">See more</v-text>
-            </template>
-            <v-card>
-              <v-card-title class="border-gray-200 bg-cyan-500"
-                >Detail User</v-card-title
-              >
-              <v-card-text>
-                <v-container class="d-flex justify-start">
-                  <p v-if="selectedUsers.length > 1">
-                    You can detail only 1 user one time
-                  </p>
-                  <p v-else>Please select checkbox</p>
-                </v-container>
-              </v-card-text>
-              <v-card-actions class="d-flex justify-end gap-5">
-                <v-btn
-                  class="bg-blue"
-                  color="font-normal text-1xl font-bold"
-                  variant="text"
-                  @click="dialogSeeMore = false"
-                  >OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <div v-else>
-            <router-link :to="`/admin/batch/student_detail/${selectedUsers}`"
-              >See more</router-link
-            >
-          </div>
-        </button>
-      </div>
       <hr />
+      <!-- Previous, next and class -->
       <div class="d-flex mt-5 justify-between">
         <div>
           <button
@@ -323,12 +109,12 @@
           <button
             :disabled="canShowMore"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12"
-            @click="showMore"
-          >
+            @click="showMore">
             Next
           </button>
         </div>
       </div>
+      <!-- table  -->
       <div class="d-flex mt-8 mr-12">
         <table class="border-collapse border w-14/12" v-if="selectedClass">
           <thead class="bg-cyan-500">
@@ -344,7 +130,7 @@
             <tr
               v-for="student in studentsByClass[selectedClass]"
               :key="student"
-            >
+              v-show="matchesSearch(student)">
               <td class="border border-slate-300 pl-4">
                 <input
                   type="checkbox"
@@ -380,17 +166,16 @@ export default {
   props: ["id"],
   data() {
     return {
-      searchByQuery:"",
-      dialogSeeMore: false,
       dialogDelete: false,
       dialogUpdate: false,
+      showPrevious: false,
       students: [],
       selectedUsers: [],
       classroom: [],
       selectedClass: null,
       classesToShow: 5,
       startIndex: 0,
-      showPrevious: false,
+      searchByQuery:"",
     };
   },
 
@@ -423,42 +208,12 @@ export default {
       });
     },
 
-    updateStudent(){
-      // alert(200)
-    }
-  },
-
-  mounted() {
-    this.getStudent();
-  },
-
-  // computed for search firstName and lastName of the student
-  // got from AI but not all
-  computed: {
-    filterStudentList() {
-      if (this.searchByQuery === "") {
-        return this.students;
-      } else {
-        const filtered = this.students.filter((student) =>
-          student.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
-          student.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
-        );
-        if (filtered.length === 0) {
-          return [
-            // {
-            //   user: { first_name: "null", last_name: "null", gender: "null" }
-            // }
-          ];
-        } else {
-          return filtered;
-        }
-      }
-    },
     buttonClass(className) {
       return {
         selected: className === this.selectedClass,
       };
     },
+
     showMore() {
       this.startIndex += this.classesToShow;
       if (this.startIndex > 5) {
@@ -468,6 +223,7 @@ export default {
         this.showNext = false;
       }
     },
+
     showPreviousClasses() {
       this.startIndex -= this.classesToShow;
       if (this.startIndex < 0) {
@@ -477,9 +233,20 @@ export default {
         this.showPrevious = false;
       }
     },
-  
-  //Search in chatGPT//
-  //Key words: How to manage student in each classes the class//
+    // function search name //Got from chatGPT
+    matchesSearch(student){
+      const nameFilter = this.searchByQuery.toLowerCase();
+      return !nameFilter || student.user.first_name.toLowerCase().includes(nameFilter);
+    }
+  },
+
+  mounted() {
+    this.getStudent();
+  },
+
+  computed: {
+    //Search in chatGPT//
+    //Key words: How to manage student in each classes the class//
     classList() {
       return Array.from(new Set(this.students.map((student) => student.class)));
     },
@@ -515,11 +282,8 @@ export default {
       localStorage.setItem("selectedClass", value);
     },
   },
-
 };
 </script>
-
-
 
 <style scoped>
 button.selected {
