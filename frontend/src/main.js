@@ -6,10 +6,8 @@ import { loadFonts } from './plugins/webfontloader'
 import VueCryptoJS from 'vue-cryptojs';
 import router from './router'
 import vuetify from './plugins/vuetify'
-import VueSweetalert2 from 'vue-sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import 'sweetalert2/dist/sweetalert2.min.css';
 import './style.css'
 
 
@@ -31,6 +29,5 @@ app.use(VueCryptoJS)
 
 app.use(pinia)
 app.use(vuetify)
-app.use(VueSweetalert2)
 app.use(router)
 app.mount('#app')

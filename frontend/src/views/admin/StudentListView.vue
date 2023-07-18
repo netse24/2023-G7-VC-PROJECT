@@ -149,7 +149,7 @@
 import { axiosClient } from "../../axios-http";
 
 export default {
-  props:['id'],
+  props: ["id"],
   data() {
     return {
       searchByQuery:"",
@@ -159,7 +159,11 @@ export default {
       students: [],
       selectedUsers: [],
       classroom: [],
-    }
+      selectedClass: null,
+      classesToShow: 5,
+      startIndex: 0,
+      showPrevious: false,
+    };
   },
 
   methods: {
@@ -168,11 +172,15 @@ export default {
         .get("generations/" + this.id)
         .then((Response) => {
           this.students = Response.data.data;
-          console.log(this.students);
+          for (let i = 0; i < this.students.length; i++) {
+            if (!this.classroom.includes(this.students[i].class)) {
+              this.classroom.push(this.students[i].class);
+            }
+          }
+          console.log(this.classroom);
         })
         .catch((err) => console.log(err));
     },
-
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
@@ -217,5 +225,47 @@ export default {
   mounted() {
     this.getStudent();
   },
+  //Search in chatGPT//
+  //Key words: How to manage student in each classes the class//
+  computed: {
+    classList() {
+      return Array.from(new Set(this.students.map((student) => student.class)));
+    },
+    studentsByClass() {
+      return this.students.reduce(function (acc, student) {
+        if (!acc[student.class]) {
+          acc[student.class] = [];
+        }
+        acc[student.class].push(student);
+        return acc;
+      }, {});
+    },
+    displayedClasses() {
+      return this.classList.slice(
+        this.startIndex,
+        this.startIndex + this.classesToShow
+      );
+    },
+    hasHiddenClasses() {
+      return this.classList.length > this.classesToShow;
+    },
+    canShowMore() {
+      return this.displayedClasses.length < 5;
+    }
+  },
+  created() {
+    this.selectedClass =
+      localStorage.getItem("selectedClass");
+  },
+  watch: {
+    selectedClass(value) {
+      localStorage.setItem("selectedClass", value);
+    },
+  },
 };
 </script>
+<style scoped>
+button.selected {
+  background-color: rgb(217, 142, 2);
+}
+</style>

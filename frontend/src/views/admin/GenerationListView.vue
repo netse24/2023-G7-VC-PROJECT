@@ -28,7 +28,6 @@ export default {
   data() {
     return {
       generationList: [],
-      studentsList: [],
     };
   },
   methods: {
@@ -37,7 +36,6 @@ export default {
         .get("generations")
         .then((response) => {
           this.generationList = response.data.data;
-          console.log(this.generationList);
         })
         .catch((error) => {
           console.error(error.response.data.message);
