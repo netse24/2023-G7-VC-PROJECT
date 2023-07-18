@@ -32,9 +32,10 @@
 import Navbar from "./../../components/navbar/NavigationBar.vue";
 import { axiosClient } from "@/axios-http";
 import { userInformations } from "@/store/userStore";
+import Swal from "sweetalert2";
 
 export default {
-  setup(){
+  setup() {
     const userInfo = userInformations();
     return {
       userInfo
@@ -69,14 +70,14 @@ export default {
       await axiosClient.post("users", userInfo)
         .then((response) => {
           console.log(response.data);
-          if (response.data.status == 201) {
+          if (response.status == 201) {
             // console.log("User created")
-            this.$swal.fire({
+            Swal.fire({
               position: 'center',
               icon: 'success',
-              title: 'Your work has been saved',
+              title: 'User created succressfully',
               showConfirmButton: false,
-              timer: 1500
+              timer: 2000
             })
           }
         })
@@ -84,9 +85,9 @@ export default {
           console.error(error.message);
         });
     },
-    
 
-    
+
+
 
   },
 };

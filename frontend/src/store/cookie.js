@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 // senior code 2022-G3-VC2-Part2 
 export const storeManageCookie = defineStore('manageCookie', {
 
-    // defind token
+    // define token
     state() {
         return {
             token: null
@@ -13,6 +13,7 @@ export const storeManageCookie = defineStore('manageCookie', {
         getToken() {
             return this.token === null ? this.getCookie('user_token') : this.token;
         },
+
     },
     actions: {
         //

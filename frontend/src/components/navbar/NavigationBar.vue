@@ -1,7 +1,7 @@
 <template>
   <v-app-bar>
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-    <v-app-bar-title >School Management System</v-app-bar-title>
+    <v-app-bar-title>School Management System</v-app-bar-title>
     <v-spacer></v-spacer>
     <div class="search-btn">
       <v-btn v-if="showSearchButton">
@@ -37,7 +37,9 @@
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { axiosClient } from '../../axios-http'
-// import CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
+import Swal from 'sweetalert2'
+
 
 export default {
   props: ['breadCrum'],
@@ -84,7 +86,7 @@ export default {
       }
     },
     resetPW() {
-      this.$swal.fire({
+      Swal.fire({
         title: 'Reset your password?',
         input: 'email',
         inputPlaceholder: 'Enter your Email',
@@ -104,15 +106,15 @@ export default {
               return response.data.status
             })
             .catch(error => {
-              this.$swal.showValidationMessage(
+              Swal.showValidationMessage(
                 `Request failed: ${error}`
               )
             })
         },
-        allowOutsideClick: () => !this.$swal.isLoading()
+        allowOutsideClick: () => !Swal.isLoading()
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$swal.fire({
+          Swal.fire({
             confirmButtonText: 'Confirm',
             inputAttributes: {
               autocapitalize: 'Cancel'
@@ -136,7 +138,7 @@ export default {
                 if (!response.status == 200) {
                   throw new Error(response.response.data.message)
                 } else {
-                  return this.$swal.fire({
+                  return Swal.fire({
                     position: 'center',
                     icon: 'success',
                     title: response.data.message,
@@ -144,7 +146,7 @@ export default {
                   })
                 }
               }).catch(error => {
-                this.$swal.showValidationMessage(
+                Swal.showValidationMessage(
                   error.response.data.message,
                 )
               })
@@ -154,7 +156,7 @@ export default {
       })
     },
     detailPF() {
-      this.$swal.fire({
+      Swal.fire({
         title: 'DO you want to see you profile?',
       })
     },

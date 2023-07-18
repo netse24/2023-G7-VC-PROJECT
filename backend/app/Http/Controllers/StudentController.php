@@ -59,14 +59,5 @@ class StudentController extends Controller
         $findInUser->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
-    public function getgeneration()
-    {
-        $student = Student::all();
-        $student = StudentResource::collection($student);
-        // $generation = $student->groupBy('generation');
-        //    foreach( $student as $data){
-        //     return $data->generation;
-        //    }
-        return $student;
-    }
+   
 }

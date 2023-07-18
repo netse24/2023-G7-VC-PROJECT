@@ -1,23 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CryptoJS from 'crypto-js';
-function getCookie(name) {
-  var cname = name + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var splitDataToJsonFormat = decodedCookie.split(";");
-  for (var i = 0; i < splitDataToJsonFormat.length; i++) {
-    var cookie = splitDataToJsonFormat[i];
-    while (cookie.charAt(0) == " ") {
+import { AES, enc } from 'crypto-js';
+
+function getCookie(user_token_in_store) {
+  let cookieName = user_token_in_store + '=';
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let splitToJsonFormat = decodedCookie.split(';');
+  for (let i = 0; i < splitToJsonFormat.length; i++) {
+    let cookie = splitToJsonFormat[i];
+    while (cookie.charAt(0) == ' ') {
       cookie = cookie.substring(1);
     }
-    if (cookie.indexOf(cname) == 0) {
-      return cookie.substring(cname.length, cookie.length);
+    if (cookie.indexOf(cookieName) == 0) {
+      return cookie.substring(cookieName.length, cookie.length);
     }
   }
   return "";
 }
 const token = getCookie('user_token')
-const role = CryptoJS.AES.decrypt(getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
-// const id = CryptoJS.AES.decrypt(getCookie("user_id"), "Secret id").toString(CryptoJS.enc.Utf8);
+const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
+const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
+console.log(role);
+console.log(id);
 
 // define role 
 var isAdmin = null;
@@ -75,6 +78,16 @@ const routes = [
     component: () => import('../views/teacher/TeacherDetailView.vue'),
   },
   {
+    path: '/admin/schedule',
+    name: 'admin-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+  },
+  {
+    path: '/teacher/schedule',
+    name: 'teacher-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
+  },
+  {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
@@ -84,8 +97,18 @@ const routes = [
       role: isTeacher
     }
   },
+  // {
+  //   path: '/teacher/detail',
+  //   name: 'teacher-detail',
+  //   component: () => import('../views/teacher/TeacherDetail.vue'),
+  // },
+  {
+    path: '/teachers/background/:id',
+    name: 'teacher-background',
+    component: () => import('../views/teacher/TeacherDetail.vue'),
+    props: true
+  },
 
-  // Student onwer path  
   {
     path: '/students',
     name: 'students',

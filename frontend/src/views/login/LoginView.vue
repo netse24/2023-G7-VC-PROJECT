@@ -43,6 +43,7 @@ import imageForm from '../../assets/bg-login.png';
 import { axiosClient } from '../../axios-http';
 import { storeManageCookie } from '@/store/cookie'
 import { userInformations } from '@/store/userStore'
+import Swal from 'sweetalert2'
 export default {
   name: 'App',
   setup() {
@@ -108,7 +109,7 @@ export default {
 
             // load token from cookie after login
             this.userData.getUserData();
-            this.$swal.fire({
+            Swal.fire({
               position: 'center',
               icon: 'success',
               title: 'Login Success',
@@ -121,11 +122,11 @@ export default {
               }, 1500);
             } else if (res.data.role.name == 'teacher') {
               setTimeout(() => {
-                this.$router.push('teacher');
+                this.$router.push('teachers');
               }, 1500);
             } else if (res.data.role.name == 'student') {
               setTimeout(() => {
-                this.$router.push('student');
+                this.$router.push('students');
               }, 1500);
             }
           }
@@ -133,7 +134,7 @@ export default {
           this.errorMessage = error.response.data.message;
           setTimeout(() => {
             this.loading = false;
-            this.$swal.fire(this.errorMessage)
+            Swal.fire(this.errorMessage)
           }, 1000);
         }
       }

@@ -1,4 +1,4 @@
-//senior sourse: GEN: 2023-G3-Part2-VC2-> userStore.js
+//senior sourse: GEN: 2022-G3-Part2-VC2-> userStore.js
 import { defineStore } from "pinia";
 import CryptoJS from 'crypto-js'
 import { axiosClient } from "../axios-http";
@@ -6,7 +6,7 @@ export const userInformations = defineStore('userInfo', {
     state() {
         return {
             userStore: null,
-            storeGeneration:[]
+            storeGeneration: []
         }
     },
     getters: {
@@ -40,21 +40,19 @@ export const userInformations = defineStore('userInfo', {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
-        async showlistStudent(index){
+        async showlistStudent(index) {
             await axiosClient
-            .get("generations/"+index)
-             .then((response) => {
-                this.storeGeneration = response.data.data;
-                // console.log(this.storeGeneration);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          },
-          sendStoreGeneration(){
-            return this.storeGeneration
-          }
-        
-
+                .get("generations/" + index)
+                .then((response) => {
+                    this.storeGeneration = response.data.data;
+                    // console.log(this.storeGeneration);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        // sendStoreGeneration() {
+        //     return this.storeGeneration
+        // },
     }
 })

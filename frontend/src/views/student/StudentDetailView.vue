@@ -1,7 +1,6 @@
 <template>
     <section>
         <nav-bar/>
-        
         <div class="main flex gap-4 justify-center my-5" v-if="students != ''">
             <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -20,25 +19,31 @@
             </div>
             <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
                 <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
-                    {{ students.user.first_name + " " + students.user.last_name }}</p>
-                <p class="px-5 py-1 mt-5 mb-1 font-normal dark:text-dark">First Name: <span
-                        class="ml-14">{{ students.user.first_name }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Last Name: <span
-                        class="ml-14">{{ students.user.last_name }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Email: <span
-                        class="ml-24">{{ students.user.email }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Date of birth: <span
-                        class="ml-10">{{ students.user.date_of_birth }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Address: <span
-                        class="ml-20">{{ students.user.address }}</span> </p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Gender: <span
-                        class="ml-20">{{ students.user.gender }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Generation: <span
-                        class="ml-15">{{ students.generation }}</span></p>
-                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">Class: <span class="ml-20">{{ students.class }}</span>
+                    {{students.user.first_name + " " + students.user.last_name}}</p>
+                <p class="px-5 py-1 mt-3 mb-1 font-normal dark:text-dark">
+                    First Name: <span class="ml-14">{{ students.user.first_name }}</span>
                 </p>
-                <!-- <p class="px-5 py-1 mb-5 font-normal dark:text-dark">Role: <span class="ml-24">{{ students.user.role }}</span> -->
-                <!-- </p> -->
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Last Name: <span class="ml-14">{{ students.user.last_name }}</span>
+                </p>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Email: <span class="ml-24">{{ students.user.email }}</span>
+                </p>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Date of birth: <span class="ml-10">{{ students.user.date_of_birth }}</span>
+                </p>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Address: <span class="ml-20">{{ students.user.address }}</span> 
+                </p>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Gender: <span class="ml-20">{{ students.user.gender }}</span>
+                </p>
+                <p class="px-5 py-1 mb-1 font-normal dark:text-dark">
+                    Generation: <span class="ml-15">{{ students.generation }}</span>
+                </p>
+                <p class="px-5 py-1 mb-3 font-normal dark:text-dark">
+                    Class: <span class="ml-24">{{ students.class }}</span>
+                </p>
             </div>
         </div>
     </section>
@@ -57,7 +62,7 @@ export default {
         };
     },
     methods: {
-        //get all user role student
+        //get all the user that have student role
         getStudent() {
             axiosClient
                 .get("students/" + this.user_id)
