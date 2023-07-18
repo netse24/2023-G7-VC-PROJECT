@@ -64,18 +64,21 @@ export default {
           if (response.data && response.data.data) {
             response.data.data.forEach((calenndar) => {
               // Add each event to array calendarEvents
-              calendarEvents.push({
-                title: calenndar.course,
-                start: `${calenndar.start_date}T${calenndar.start_time}`,
-                end: `${calenndar.end_date}T${calenndar.end_time}`,
-                extendedProps: {
-                  className: `${calenndar.className}`,
-                  teacherName: `${calenndar.last_name} ${calenndar.first_name}`,
-                  roomName: `${calenndar.roomName}`,
-                },
-              });
+              if(this.filterValue == calenndar.className) {
+                calendarEvents.push({
+                  title: calenndar.course,
+                  start: `${calenndar.start_date}T${calenndar.start_time}`,
+                  end: `${calenndar.end_date}T${calenndar.end_time}`,
+                  extendedProps: {
+                    className: `${calenndar.className}`,
+                    teacherName: `${calenndar.last_name} ${calenndar.first_name}`,
+                    roomName: `${calenndar.roomName}`,
+                  },
+                });
+
+              }
             });
-            // Add event to fullCalendar and view
+            // Add event to fullCalendar and view            
             this.$refs.toCallCalendar.addEvents(calendarEvents);
           }
         })
@@ -101,8 +104,7 @@ export default {
 .fc-event-title {
   color: #000;
 }
-.fc-col-header-cell-cushion,
-.fc-sticky {
+.fc-col-header-cell-cushion, .fc-sticky {
   color: #000;
   text-decoration: none;
 }
