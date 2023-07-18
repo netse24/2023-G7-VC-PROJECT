@@ -60,18 +60,13 @@ const routes = [
   {
     path: '/admin/teachers',
     name: 'admin-teachers',
-    component: () => import('../views/teacher/TeacherList.vue'),
+    component: () => import('../views/admin/TeacherListView.vue'),
   },
   {
     props:true,
     path: '/admin/teachers/detail/:user_id',
     name: 'admin-teachers-detail',
     component: () => import('../views/teacher/TeacherDetailView.vue'),
-  },
-  {
-    path: '/admin/students',
-    name: 'admin-students',
-    component: () => import('../views/student/StudentListView.vue'),
   },
   {
     path: '/admin/students/detail',
