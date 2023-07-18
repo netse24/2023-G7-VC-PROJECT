@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\StudentGenerationListResource;
 use App\Http\Resources\StudentResource;
-use App\Models\Classes;
 use App\Models\Generation;
 use App\Models\Student;
 use Illuminate\Http\Request;
