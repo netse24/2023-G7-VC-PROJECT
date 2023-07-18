@@ -10,7 +10,7 @@
         );
       "
       aria-label="breadcrumb"
-    >
+      >
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrum.length > 0">
           <a href="/admin">Home</a>
@@ -24,180 +24,149 @@
         </li>
       </ol>
     </div>
-    <div class="w-10/12 m-auto mb-3 my-5">
-      <div class="flex gap-2 my-2">
-        <button
-          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28">
-          Back
-        </button>
-        <!-- dialog for update teacher -->
-        <button
-          class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28">
-          <v-dialog
-            v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
-            class="w-50"
-            v-model="dialogUpdate">
-            <template v-slot:activator="{ props }">
-              <v-text v-bind="props">Update</v-text>
-            </template>
-            <v-card>
-              <v-card-title class="border-gray-200 bg-green-500">
-                Update Teacher
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <p v-if="selectedUsers.length > 1">
-                    Sorry you can't update more than one checkbox
-                  </p>
-                  <p v-else>Please select checkbox</p>
-                </v-container>
-              </v-card-text>
-              <v-card-actions class="flex justify-end">
-                <v-btn
-                  class="bg-green"
-                  color="flex justify-center font-normal text-1xl font-bold"
-                  variant="text"
-                  @click="dialogUpdate = false"
-                  >OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <div v-else>
-            <router-link to="#">Update</router-link>
-          </div>
-        </button>
-        <!-- dialog for delete teacher -->
-        <button
-          class="btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 border-red-800 rounded w-28">
-          <v-dialog
-            v-if="selectedUsers.length >= 1 || selectedUsers.length == 0"
-            class="w-50"
-            v-model="dialogDelete">
-            <template v-slot:activator="{ props }">
-              <v-text v-bind="props">Delete</v-text>
-            </template>
-            <v-card>
-              <v-card-title class="border-gray-200 bg-red-500"
-                >Delete Teacher
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <p v-if="selectedUsers.length >= 1">
-                    Are you sure want to permanently delete teacher
-                  </p>
-                  <p v-else>Please select checkbox</p>
-                </v-container>
-              </v-card-text>
-              <v-card-actions class="flex justify-end">
-                <div v-if="selectedUsers.length >= 1">
+    <div class="w-11/12 m-auto">
+      <div class="flex justify-between my-2 mt-5">
+        <div class="flex gap-2">
+          <!-- Back button -->
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <router-link to="#">Back</router-link>
+          </button>
+          <!--Delete button -->
+          <button
+            class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <v-dialog
+              v-if="selectedUsers.length >= 1 || selectedUsers.length == 0"
+              class="w-50"
+              v-model="dialogDelete">
+              <template v-slot:activator="{ props }">
+                <v-text v-bind="props">Delete</v-text>
+              </template>
+              <v-card>
+                <v-card-title class="border-gray-200 bg-red-500"
+                  >Delete date of student</v-card-title
+                >
+                <v-card-text>
+                  <v-container class="d-flex justify-start">
+                    <p v-if="selectedUsers.length >= 1">
+                      Do you want to delete {{ selectedUsers.length }} row
+                    </p>
+                    <p v-else>Please select checkbox</p>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions class="d-flex justify-end gap-5">
+                  <div v-if="selectedUsers.length >= 1">
+                    <v-btn
+                      class="bg-blue"
+                      color="font-normal font-bold"
+                      variant="text"
+                      @click="dialogDelete = false">Cancel
+                    </v-btn>
+                    <v-btn
+                      v-if="selectedUsers.length > 0"
+                      @click="deleteStudent((dialogDelete = false))"
+                      class="bg-red text-white w-20"
+                      color="font-normal text-1xl  font-bold">Delete
+                    </v-btn>
+                  </div>
                   <v-btn
-                    class="bg-cyan"
-                    color="flex justify-center font-normal text-1xl font-bold"
-                    variant="text"
+                    v-else
                     @click="dialogDelete = false"
-                    >Cancel
+                    class="bg-blue text-white w-20"
+                    color="font-normal text-1xl  font-bold">Ok
                   </v-btn>
-                  <v-btn
-                    class="bg-red"
-                    color="flex justify-center font-normal text-1xl font-bold"
-                    variant="text"
-                    @click="deleteTeacher((dialogDelete = false))"
-                    >Delete
-                  </v-btn>
-                </div>
-                <v-btn
-                  v-else
-                  class="bg-red"
-                  color="flex justify-center font-normal text-1xl font-bold"
-                  variant="text"
-                  @click="dialogDelete = false"
-                  >OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <div v-else>
-            <router-link to="/admin/batch/teacher_detail/">Delete</router-link>
-          </div>
-        </button>
-        <!-- dialog for detail eacher teacher  -->
-        <button
-          class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded w-28">
-          <v-dialog
-            v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
-            class="w-50"
-            v-model="dialogDetail">
-            <template v-slot:activator="{ props }">
-              <v-text v-bind="props">See more</v-text>
-            </template>
-            <v-card>
-              <v-card-title class="border-gray-200 bg-cyan-500">
-                Detail Teacher
-              </v-card-title>
-              <v-card-text>
-                <v-container>
-                  <p v-if="selectedUsers.length > 1">
-                    Sorry you can detail teacher one by one
-                  </p>
-                  <p v-else>Please select checkbox</p>
-                </v-container>
-              </v-card-text>
-              <v-card-actions class="flex justify-end">
-                <v-btn
-                  class="bg-cyan"
-                  color="flex justify-center font-normal text-1xl font-bold"
-                  variant="text"
-                  @click="dialogDetail = false"
-                  >OK
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <div v-else @click="onClickTeacherDetail">
-            See more
-          </div>
-        </button>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </button>
+          <!-- update button-->
+          <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"> 
+            Update
+          </button>
+          <!--See detail button -->
+          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
+            <router-link :to="`/admin/batch/teacher_detail/${selectedUsers}`">
+              See Detail
+            </router-link>
+          </button>
+        </div>
+        <!-- search button-->
+        <div class="search-controll mt-2">
+          <v-btn class="search-bar">
+            <input
+              v-model="searchByQuery"
+              placeholder="search student..."
+              class="input-search outline outline-0 px-3"/>
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </div>
       </div>
-      <hr class="w-full h-0.5 bg-gray-300 dark:bg-cyan-900 mb-3 my-4" />
-      <!-- table store list of teacher -->
-      <table class="border-collapse border w-10/12 m-auto">
-        <thead class="bg-cyan-500">
-          <tr>
-            <th class="px-4 py-4 w-2">ID</th>
-            <th class="px-4 py-4 w-64">First Name</th>
-            <th class="px-4 py-4 w-64">Last Name</th>
-            <th class="px-4 py-4 w-64">Course</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(teacher, index) in teachers" :key="index">
-            <td class="border border-slate-300 pl-4">
-              <input
-                type="checkbox"
-                id="checkbox"
-                v-model="selectedUsers"
-                :value="teacher.id"
-                class="accent-cyan-500 w-4 h-4 rounded"
-              />
-            </td>
-            <td class="py-2 px-4 border border-slate-300">
-              {{ teacher.user.first_name }}
-            </td>
-            <td class="py-2 px-4 border border-slate-300">
-              {{ teacher.user.last_name }}
-            </td>
-            <td class="py-2 px-4 border border-slate-300">
-              {{ teacher.course_id.course }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <hr />
+      <!-- Previous, next and class -->
+      <div class="d-flex mt-5 justify-between">
+        <div>
+          <button
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
+          >
+            Previous
+          </button>
+        </div>
+        <div class="w-full">
+          <button
+            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5">
+            PHP 
+          </button>
+        </div>
+        <div>
+          <button
+            :disabled="canShowMore"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12">
+            Next
+          </button>
+        </div>
+      </div>
+      <!-- table  -->
+      <div class="d-flex mt-8 mr-12">
+        <table class="border-collapse border w-14/12">
+          <thead class="bg-cyan-500">
+            <tr>
+              <th class="px-4 py-4 w-2">ID</th>
+              <th class="px-4 py-4 w-64">First Name</th>
+              <th class="px-4 py-4 w-64">Last Name</th>
+              <th class="px-4 py-4 w-64">Gender</th>
+              <th class="px-4 py-4 w-64">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-slate-300 pl-4">
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  class="accent-cyan-500 w-4 h-4 rounded"
+                />
+              </td>
+              <td class="py-2 px-4 border border-slate-300">
+                pppppp
+              </td>
+              <td class="py-2 px-4 ml-2 border border-slate-300">
+                pppppp
+              </td>
+              <td class="py-2 px-4 ml-2 border border-slate-300">
+                ppppp
+              </td>
+              <td class="py-2 px-4 ml-2 border border-slate-300">
+                ppppp
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+    {{users}}
   </section>
 </template>
 <script>
-import axios from "axios";
+import { axiosClient } from "../../axios-http";
 import NavBar from "../../components/navbar/NavigationBar.vue";
 export default {
   components: {
@@ -206,27 +175,29 @@ export default {
   data() {
     return {
       breadCrum: [],
-      dialogDetail: false,
       dialogDelete: false,
       dialogUpdate: false,
       teachers: [],
       selectedUsers: [],
+      searchByQuery:"",
     };
   },
   methods: {
     getTeacher() {
       let user_id = this.selectedUsers;
-      axios
-        .get("http://127.0.0.1:8000/api/teacher/" + user_id)
+      axiosClient
+        .get("users/" + user_id)
         .then((Response) => {
           this.teachers = Response.data.data;
         })
-        .catch((err) => console.log(err.respone.data.message));
+        .catch((err) => console.log(err));
     },
+
+    //delete teacher
     deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
-        axios
-          .delete(`http://127.0.0.1:8000/api/teacher/${userId}`)
+        axiosClient
+          .delete(`teacher/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getTeacher();
@@ -235,6 +206,7 @@ export default {
           .catch((err) => console.error(err));
       });
     },
+
     onClickTeacherDetail() {
       this.breadCrum = [];
       this.breadCrum.push({ title: "Detail", href: "/admin/teachers/detail" });

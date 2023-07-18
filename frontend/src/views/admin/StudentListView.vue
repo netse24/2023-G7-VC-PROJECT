@@ -67,9 +67,9 @@
           </button>
           <!--See detail button -->
           <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
-              <router-link :to="`/admin/batch/student_detail/${selectedUsers}`">
-                See Detail
-              </router-link>
+            <router-link :to="`/admin/batch/student_detail/${selectedUsers}`">
+              See Detail
+            </router-link>
           </button>
         </div>
         <!-- search button-->

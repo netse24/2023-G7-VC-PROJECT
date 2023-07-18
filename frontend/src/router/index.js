@@ -63,6 +63,12 @@ const routes = [
     component: () => import('../views/teacher/TeacherList.vue'),
   },
   {
+    props:true,
+    path: '/admin/teachers/detail/:user_id',
+    name: 'admin-teachers-detail',
+    component: () => import('../views/teacher/TeacherDetailView.vue'),
+  },
+  {
     path: '/admin/students',
     name: 'admin-students',
     component: () => import('../views/student/StudentListView.vue'),
@@ -71,11 +77,6 @@ const routes = [
     path: '/admin/students/detail',
     name: 'admin-students-detail',
     component: () => import('../views/student/StudentDetailView.vue'),
-  },
-  {
-    path: '/admin/teachers/detail',
-    name: 'admin-teachers-detail',
-    component: () => import('../views/teacher/TeacherDetailView.vue'),
   },
   {
     path: '/admin/schedule',
@@ -118,17 +119,6 @@ const routes = [
       token: token,
       role: isStudent
     }
-  },
-  {
-    path: '/admin/batch/teacher_list',
-    name: 'teacher_list',
-    component: () => import('../views/teacher/TeacherList.vue'),
-  },
-  {
-    props:true,
-    path: '/admin/batch/teacher_detail/:user_id',
-    name: 'student_detail',
-    component: () => import('../views/teacher/TeacherDetailView.vue'),
   },
   {
     path: '/404',

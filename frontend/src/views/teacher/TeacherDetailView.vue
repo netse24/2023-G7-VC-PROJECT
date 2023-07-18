@@ -1,5 +1,6 @@
 <template>
   <section>
+    <navigation-bar/>
     <div class="main flex gap-4 justify-center my-5" v-if="teachers != ''">
       <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <svg
@@ -58,8 +59,10 @@
   </section>
 </template>
 <script>
-import axios from "axios";
+import { axiosClient } from "../../axios-http";
+import NavigationBar from '../../components/navbar/NavigationBar.vue';
 export default {
+  components: { NavigationBar },
   props: ["user_id"],
   data() {
     return {
@@ -69,8 +72,8 @@ export default {
   },
   methods: {
     getTeacherDetail() {
-      axios
-        .get("http://127.0.0.1:8000/api/teacher/" + this.user_id)
+      axiosClient
+        .get("teacher/" + this.user_id)
         .then((res) => {
           this.teachers = res.data.data;
         });

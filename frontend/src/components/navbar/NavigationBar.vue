@@ -37,7 +37,7 @@
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { axiosClient } from '../../axios-http'
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
 import Swal from 'sweetalert2'
 
 
