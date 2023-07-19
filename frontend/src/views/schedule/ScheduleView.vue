@@ -20,7 +20,6 @@
         </select>
       </div>
     </form>
-    <!-- <FilterSchedule/> -->
     <ScheduleForm @createSchedule="listSchedules()" />
     <CustomCalendar ref="toCallCalendar" />
   </section>
@@ -30,7 +29,15 @@ import ScheduleForm from "./ScheduleForm.vue";
 // import FilterSchedule from "./FilterSchedule.vue";
 import CustomCalendar from "../../components/schedule/CustomCalendar.vue";
 import { axiosClient } from "../../axios-http";
+import { storeManageCookie } from "../../store/cookie";
+import { AES, enc } from 'crypto-js';
+
 export default {
+  setup() {
+    const getRole = storeManageCookie();
+    // let role = getRole.getCookie(user_role);
+    return {getRole};
+  },
   name: "HomeView",
   components: {
     ScheduleForm,
@@ -39,15 +46,31 @@ export default {
   data() {
     return {
       selectOption: [],
+      teachers: [],
       filterValue: "WEP A",
+      user: "",
     };
   },
   methods: {
     filterOption() {
+      let role = AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(enc.Utf8)
+      const path = (role === 'student') ? 'classes' : 'teachers';
+      console.log('role: ', path);
       axiosClient
-        .get("classes")
+        .get(path)
         .then((response) => {
-          this.selectOption = response.data.data;
+          if(path == 'classes') {
+            this.selectOption = response.data.data;
+            console.log(this.selectOption);
+          } else if (path == 'teachers') {
+            this.selectOption = [];
+            this.teachers = response.data.data;
+            this.teachers.forEach(teacher => {
+              console.log('teachers: ',teacher);
+              this.teachers = [];
+              this.selectOption.push({name:`${teacher.first_name} ${teacher.last_name}`});
+            });
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -69,7 +92,7 @@ export default {
                   end: `${calenndar.end_date}T${calenndar.end_time}`,
                   extendedProps: {
                     className: `${calenndar.className}`,
-                    teacherName: `${calenndar.last_name} ${calenndar.first_name}`,
+                    teacherName: `${calenndar.first_name} ${calenndar.last_name}`,
                     roomName: `${calenndar.roomName}`,
                   },
                 });

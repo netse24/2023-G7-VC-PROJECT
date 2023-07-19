@@ -21,6 +21,7 @@ const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf
 const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
 console.log(role);
 console.log(id);
+process.env.user_role = role;
 
 // define role 
 var isAdmin = null;
