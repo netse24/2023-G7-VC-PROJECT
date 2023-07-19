@@ -36,6 +36,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
     Route::get('/users/getByIdCookie/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/auth', [AuthController::class, "getUserByAuth"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
