@@ -130,7 +130,7 @@
                 {{teacher.user.gender}}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{teacher.course_id.course}}
+                {{teacher.course.course_name}}
               </td>
             </tr>
           </tbody>
