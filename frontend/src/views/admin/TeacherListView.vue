@@ -1,23 +1,17 @@
 <template>
   <section>
-    <NavBar />
-    <div class="m-3"
-      style="
+    <nav-bar />
+    <div class="m-3" style="
         --bs-breadcrumb-divider: url(
           &#34;data:image/svg + xml,
           %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
         );
-      "
-      aria-label="breadcrumb">
+      " aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrum.length > 0">
           <a href="/admin">Home</a>
         </li>
-        <li
-          class="breadcrumb-item"
-          aria-current="page"
-          v-for="(item, index) in breadCrum"
-          :key="index">
+        <li class="breadcrumb-item" aria-current="page" v-for="(item, index) in breadCrum" :key="index">
           <a :href="item.href"> {{ item.title }}</a>
         </li>
       </ol>
@@ -26,26 +20,22 @@
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button 
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            :disabled="selectedUsers.length>0"
-            :style="selectedUsers.length>0 ? 'background-color:gray':'background-color:blue-600'">
-            <p v-if="selectedUsers.length>0" >Home</p>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length > 0"
+            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:blue-600'">
+            <p v-if="selectedUsers.length > 0">Home</p>
             <p v-if="selectedUsers.length == 0">
               <router-link to="/admin">Home</router-link>
             </p>
           </button>
           <!--Delete button -->
-          <button
-            class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          <button class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length >= 0"
-            :style="selectedUsers.length == 0 ? 'background-color:gray':'background-color:red-700'">
+            :style="selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:red-700'">
             <p v-if="selectedUsers.length == 0">Delete</p>
-            <v-dialog class="w-5/12"
-              v-model="dialogDelete"
-              v-if="selectedUsers.length >= 1">
+            <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
               <template v-slot:activator="{ props }">
-                <v-text v-bind="props"  v-if="selectedUsers.length >= 1" >Delete</v-text>
+                <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
                 <v-card-title class="border-gray-200 bg-red-500">Delete date of Teacher</v-card-title>
@@ -58,23 +48,14 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn
-                      class="bg-blue"
-                      color="font-normal font-bold"
-                      variant="text"
+                    <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
                       @click="dialogDelete = false">Cancel
                     </v-btn>
-                    <v-btn
-                      v-if="selectedUsers.length > 0"
-                      @click="deleteTeacher((dialogDelete = false))"
-                      class="bg-red text-white w-20"
-                      color="font-normal text-1xl font-bold">Delete
+                    <v-btn v-if="selectedUsers.length > 0" @click="deleteTeacher((dialogDelete = false))"
+                      class="bg-red text-white w-20" color="font-normal text-1xl font-bold">Delete
                     </v-btn>
                   </div>
-                  <v-btn
-                    v-else
-                    @click="dialogDelete = false"
-                    class="bg-blue text-white w-20"
+                  <v-btn v-else @click="dialogDelete = false" class="bg-blue text-white w-20"
                     color="font-normal text-1xl  font-bold">Ok
                   </v-btn>
                 </v-card-actions>
@@ -82,40 +63,35 @@
             </v-dialog>
           </button>
           <!-- update button-->
-          <button 
-            class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
-            :disabled="selectedUsers.length>1 || selectedUsers.length==0"
-            :style="selectedUsers.length>1 || selectedUsers.length==0?'background-color:gray':'background-color:green-700'"> 
+          <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
+            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:green-700'">
             Update
           </button>
           <!--See detail button -->
-          <button 
-            class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded"
-            :disabled="selectedUsers.length>1 || selectedUsers.length==0" 
-            :style="selectedUsers.length>1 || selectedUsers.length==0?'background-color:gray':'background-color:orange-700'">
-            <p v-if="selectedUsers.length>1 || selectedUsers.length==0">See Detail</p>
+          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded"
+            :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
+            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
+            <p v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/teachers/detail/${selectedUsers}`" >
-              See Detail
-            </router-link>
+              <router-link :to="`/admin/teachers/detail/${selectedUsers}`">
+                See Detail
+              </router-link>
             </p>
           </button>
         </div>
         <!-- search button-->
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
-            <input
-              @click="searchTeacher"
-              v-model="searchByQuery"
-              placeholder="search teacher..."
-              class="input-search outline outline-0 px-3"/>
+            <input @click="searchTeacher" v-model="searchByQuery" placeholder="search teacher..."
+              class="input-search outline outline-0 px-3" />
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </div>
       </div>
-      <hr/>
+      <hr />
       <!-- table get teacher -->
-      <div class="d-flex mt-8 mr-12">
+      <div class="d-flex mt-8">
         <table class="border-collapse border w-100 m-auto">
           <thead class="bg-cyan-500 text-center">
             <tr>
@@ -127,22 +103,22 @@
             </tr>
           </thead>
           <tbody class=" text-center">
-            <tr  v-for="(teacher, index) of filterUserList" :key="index">
+            <tr v-for="(teacher, index) of filterUserList" :key="index">
               <td class="border border-slate-300">
-                <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.id" 
-                  class="accent-cyan-500 w-4 h-4 rounded"/>
+                <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.id"
+                  class="accent-cyan-500 w-4 h-4 rounded" />
               </td>
               <td class="py-2 px-4 border border-slate-300">
-                {{teacher.user.first_name}}
+                {{ teacher.user.first_name }}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{teacher.user.last_name}}
+                {{ teacher.user.last_name }}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{teacher.user.gender}}
+                {{ teacher.user.gender }}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                {{teacher.course.course_name}}
+                {{ teacher.course.course_name }}
               </td>
             </tr>
           </tbody>
@@ -153,10 +129,8 @@
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
-import NavBar from "../../components/navbar/NavigationBar.vue";
 export default {
-  props:["teacher_id"],
-  components: { NavBar },
+  props: ["teacher_id"],
   data() {
     return {
       dialogDelete: false,
@@ -164,21 +138,21 @@ export default {
       breadCrum: [],
       teachers: [],
       selectedUsers: [],
-      searchByQuery:"",
+      searchByQuery: "",
     };
   },
   methods: {
     getTeacher() {
       let teacher_id = this.selectedUsers;
       axiosClient
-        .get("teachers/" + teacher_id )
+        .get("teachers/" + teacher_id)
         .then((res) => {
           this.teachers = res.data.data;
           console.log(res.data.data)
         })
         .catch((err) => console.log(err));
     },
-
+    
     //delete teacher
     deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
@@ -216,7 +190,7 @@ export default {
           teacher.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
         );
         if (filtered.length === 0) {
-          return confirm ("Nothing teacher that have match name with latter you try to search");
+          return confirm("Nothing teacher that have match name with latter you try to search");
         } else {
           return filtered;
         }

@@ -64,8 +64,8 @@ export default {
   methods: {
     getTeacher() {
       axiosClient
-      .get('teachers/background/'+this.id)
-      .then((res) => {
+        .get('teachers/background/' + this.id)
+        .then((res) => {
           this.teachers = res.data.data
         })
         .catch((err) => console.log(err));

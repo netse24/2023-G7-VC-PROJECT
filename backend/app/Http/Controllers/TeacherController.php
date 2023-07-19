@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $teacher = Teacher::all();
-        $teacher = TeacherResource::collection($teacher);
-        return response()->json(['success'=>true, 'data'=>$teacher], 200);
-    }
-   
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $teacher = Teacher::all();
+    $teacher = TeacherResource::collection($teacher);
+    return response()->json(['success' => true, 'data' => $teacher], 200);
+  }
+
   /**
    * Store a newly created resource in storage.
    */
@@ -56,9 +56,8 @@ class TeacherController extends Controller
    */
   public function show($id)
   {
-    $user = User::findOrFail($id);
-    $teacher = Teacher::where('user_id', '=', $user->id)->first();
-    if (!$user) {
+    $teacher = Teacher::findOrFail($id);
+    if (!$teacher) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
     $teacher = new TeacherResource($teacher);
@@ -74,4 +73,3 @@ class TeacherController extends Controller
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 }
-

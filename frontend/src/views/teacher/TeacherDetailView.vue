@@ -1,12 +1,12 @@
 <template>
   <section>
-    <navigation-bar />
-      <div class="mt-3 ml-5">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-          <router-link to="/admin/teachers">Back</router-link>
-        </button>
-      </div>
-    <div class="main flex gap-4 justify-center my-3" v-if="teachers">
+    <nav-bar />
+    <div class="mt-3 ml-5">
+      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+        <router-link to="/admin/teachers">Back</router-link>
+      </button>
+    </div>
+    <div class="main flex gap-4 justify-center my-3" v-if="teachers != null">
       <div class="p-10 rounded-lg shadow-xl bg-cyan-500">
         <v-img class="w-28 m-auto mt-1 mb-2" src="../../assets/AdminSeeTeacherDeatil.png">
           <template #sources>
@@ -14,9 +14,9 @@
           </template>
         </v-img>
         <p class="flex justify-center mb-1 text-3xl font-bold dark:text-dark">
-          {{ teachers.user.first_name+ " " + teachers.user.last_name }}
+          {{ teachers.user.first_name + " " + teachers.user.last_name }}
         </p>
-        <p class="flex justify-center mb-1 text-2xl">{{ teachers.course_id.course }}</p>
+        <p class="flex justify-center mb-1 text-2xl">{{ teachers.course.course_name }}</p>
         <p class="flex justify-center mb-1 text-2xl">
           {{ teachers.user.address }}
         </p>
@@ -51,7 +51,7 @@
         </p>
         <p class="flex px-5 py-1 mt-2 mb-4 font-normal dark:text-dark">
           <span>Course</span>
-          <span class="ml-20">{{ teachers.course_id.course }}</span>
+          <span class="ml-20">{{ teachers.course.course_name }}</span>
         </p>
       </div>
     </div>
@@ -59,9 +59,7 @@
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
-import NavigationBar from '../../components/navbar/NavigationBar.vue';
 export default {
-  components: { NavigationBar },
   props: ["teacher_id"],
   data() {
     return {
@@ -75,6 +73,7 @@ export default {
         .get("teachers/" + this.teacher_id)
         .then((res) => {
           this.teachers = res.data.data;
+          console.log(res.data.data)
         })
         .catch((error) => {
           console.log(error);
