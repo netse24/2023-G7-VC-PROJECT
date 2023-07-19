@@ -43,7 +43,7 @@
               </template>
               <v-card>
                 <v-card-title class="border-gray-200 bg-red-500"
-                  >Delete date of student</v-card-title
+                  >Delete date of Teacher</v-card-title
                 >
                 <v-card-text>
                   <v-container class="d-flex justify-start">
@@ -63,7 +63,7 @@
                     </v-btn>
                     <v-btn
                       v-if="selectedUsers.length > 0"
-                      @click="deleteStudent((dialogDelete = false))"
+                      @click="deleteTeacher((dialogDelete = false))"
                       class="bg-red text-white w-20"
                       color="font-normal text-1xl  font-bold">Delete
                     </v-btn>
@@ -93,6 +93,7 @@
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
             <input
+              @click="searchTeacher"
               v-model="searchByQuery"
               placeholder="search teacher..."
               class="input-search outline outline-0 px-3"/>
@@ -101,82 +102,54 @@
         </div>
       </div>
       <hr />
-      <!-- Previous, next and class -->
-      <div class="d-flex mt-5 justify-between">
-        <div>
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
-          >
-            Previous
-          </button>
-        </div>
-        <div class="w-full">
-          <button
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5">
-            PHP 
-          </button>
-        </div>
-        <div>
-          <button
-            :disabled="canShowMore"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12">
-            Next
-          </button>
-        </div>
-      </div>
       <!-- table  -->
       <div class="d-flex mt-8 mr-12">
         <table class="border-collapse border w-100 m-auto">
-          <thead class="bg-cyan-500">
-            <tr class=" text-center">
-              <th class="px-4 py-4 w-2">#</th>
+          <thead class="bg-cyan-500 text-center">
+            <tr>
+              <th class="px-4 py-4 w-2">ID</th>
               <th class="px-4 py-4 w-64">First Name</th>
               <th class="px-4 py-4 w-64">Last Name</th>
               <th class="px-4 py-4 w-64">Gender</th>
-              <th class="px-4 py-4 w-64">Email</th>
+              <th class="px-4 py-4 w-64">Course</th>
             </tr>
           </thead>
           <tbody class=" text-center">
-            <tr >
+            <tr  v-for="(teacher, index) of filterUserList" :key="index">
               <td class="border border-slate-300">
-                <input
-                  type="checkbox"
-                  id="checkbox"
-                  class="accent-cyan-500 w-4 h-4 rounded"
-                />
+                <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.id" 
+                  class="accent-cyan-500 w-4 h-4 rounded"/>
               </td>
               <td class="py-2 px-4 border border-slate-300">
-                pppppp
+                {{teacher.user.first_name}}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                pppppp
+                {{teacher.user.last_name}}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                ppppp
+                {{teacher.user.gender}}
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
-                ppppp
+                {{teacher.course_id.course}}
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    {{users}}
   </section>
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
 import NavBar from "../../components/navbar/NavigationBar.vue";
 export default {
-  components: {
-    NavBar,
-  },
+  props:["teacher_id"],
+  components: { NavBar },
   data() {
     return {
-      breadCrum: [],
       dialogDelete: false,
       dialogUpdate: false,
+      breadCrum: [],
       teachers: [],
       selectedUsers: [],
       searchByQuery:"",
@@ -184,11 +157,12 @@ export default {
   },
   methods: {
     getTeacher() {
-      let user_id = this.selectedUsers;
+      let teacher_id = this.selectedUsers;
       axiosClient
-        .get("users/" + user_id)
-        .then((Response) => {
-          this.teachers = Response.data.data;
+        .get("teachers/" + teacher_id )
+        .then((res) => {
+          this.teachers = res.data.data;
+          console.log(res.data.data)
         })
         .catch((err) => console.log(err));
     },
@@ -217,6 +191,24 @@ export default {
           this.$router.push("/404");
         }
       });
+    },
+  },
+  computed: {
+    //search teacher first_name, last_name
+    filterUserList() {
+      if (this.searchByQuery === "") {
+        return this.teachers;
+      } else {
+        const filtered = this.teachers.filter((teacher) =>
+          teacher.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
+          teacher.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
+        );
+        if (filtered.length === 0) {
+          return confirm ("Nothing teacher that have match name with latter you try to search");
+        } else {
+          return filtered;
+        }
+      }
     },
   },
   mounted() {

@@ -74,7 +74,7 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
   },
   {
-    path: '/admin/teachers/detail/:id',
+    path: '/admin/teachers/detail/:teacher_id',
     name: 'admin-teachers-detail',
     component: () => import('../views/teacher/TeacherDetailView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
