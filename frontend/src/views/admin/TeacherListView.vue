@@ -171,7 +171,7 @@ export default {
     deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`teacher/${userId}`)
+          .delete(`teachers/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getTeacher();
