@@ -48,7 +48,7 @@
                   >
                     <option value="" disabled selected>Choose A Subject</option>
                     <option
-                      v-for="(subject, index) in courses"
+                      v-for="(subject, index) in schedultItems"
                       :key="index"
                       :value="subject"
                     >
@@ -68,7 +68,7 @@
                   >
                     <option value="" disabled selected>Choose A Teacher</option>
                     <option
-                      v-for="(teacher, index) in teachers"
+                      v-for="(teacher, index) in schedultItems"
                       :key="index"
                       :value="teacher"
                     >
@@ -92,11 +92,11 @@
                   >
                     <option value="" disabled selected>Choose A Class</option>
                     <option
-                      v-for="(classItem, index) in classes"
+                      v-for="(classItem, index) in schedultItems"
                       :key="index"
                       :value="classItem"
                     >
-                      {{ classItem ? classItem.name : "" }}
+                      {{ classItem ? classItem.name : "No class" }}
                     </option>
                   </select>
                 </div>
@@ -225,19 +225,13 @@ export default {
       endTime: "",
       teachers: [],
       rooms: [],
-      courses: [],
+      course: [],
       classes: [],
       role: AES.decrypt(
         this.getRole.getCookie("user_role"),
         "Secret role"
       ).toString(enc.Utf8),
       dialog: false,
-      nameRules: [
-        (value) => {
-          if (value) return true;
-          return "Required";
-        },
-      ],
     };
   },
   watch: {},
@@ -256,21 +250,18 @@ export default {
           });
       }
     },
-    listCourses() {
+    listItems(path) {
       axiosClient
-        .get("/courses")
+        .get(path)
         .then((response) => {
-          this.courses = response.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    listTeachers() {
-      axiosClient
-        .get("/teachers")
-        .then((response) => {
-          this.teachers = response.data.data;
+          let data = response.data.data;
+          if(path === 'courses') {
+            this.course = data;
+          } else if (path === 'teachers') {
+            this.teachers = data;
+          } else if (path === 'classes') {
+            this.classes = data;
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -287,16 +278,6 @@ export default {
             console.log(error);
           });
       }
-    },
-    listClasses() {
-      axiosClient
-        .get("/classes")
-        .then((response) => {
-          this.classes = response.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
     listRooms() {
       axiosClient
@@ -342,10 +323,13 @@ export default {
     },
   },
   mounted() {
-    this.listCourses();
-    this.listTeachers();
-    this.listClasses();
+    // this.listCourses();
+    // this.listTeachers();
+    // this.listClasses();
     this.listRooms();
+    this.listItems('courses');
+    this.listItems('teachers');
+    this.listItems('classes');
   },
 };
 </script>
@@ -360,7 +344,7 @@ export default {
 
 .add-schedule,
 .add {
-  background: blue;
+  background: #3788D8;
 }
 
 .close {

@@ -7,7 +7,7 @@
           id="disabledSelect"
           class="form-select"
           v-model="filterValue"
-          @input="filterOption"
+          @change="filterOption"
           @click="listSchedules"
         >
           <option
@@ -117,9 +117,6 @@ export default {
 } */
 .fc-event-time {
   display: none;
-}
-.fc-event-title {
-  color: #000;
 }
 .fc-col-header-cell-cushion, .fc-sticky {
   color: #000;
