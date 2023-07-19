@@ -7,8 +7,7 @@
 <script>
 import ScheduleForm from "./ScheduleForm.vue";
 import CustomCalendar from "../../components/schedule/CustomCalendar.vue";
-import axiosClient from "axios";
-axiosClient.defaults.baseURL = "http://127.0.0.1:8000/api";
+import {axiosClient} from "../../axios-http";
 export default {
   name: "HomeView",
   components: {

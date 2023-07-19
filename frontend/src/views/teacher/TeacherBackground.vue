@@ -4,7 +4,7 @@
     <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28 mt-2 ml-5">
       <router-link to='/teachers'>Back</router-link>
     </button>
-    <div class="main flex gap-4 justify-center my-5" v-if="teachers != null">
+    <div class="main flex gap-4 justify-center my-5" v-if="teachers">
       <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-24 w-24 m-auto">
           <path
@@ -64,11 +64,13 @@ export default {
   methods: {
     getTeacher() {
       axiosClient
-        .get(`teachers/background/${this.id}`)
-        .then((res) => {
-          this.teachers = res.data.data
+      .get('teachers/background/'+this.id)
+      .then((res) => {
+          alert(this.id)
+          // this.teachers = res.data.data
+          console.log(res.data.data)
         })
-        .catch((err) => console.log(err.message));
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
