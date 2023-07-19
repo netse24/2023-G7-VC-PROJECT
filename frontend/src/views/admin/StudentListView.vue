@@ -206,6 +206,7 @@ export default {
       }
     },
     // function search name //Got from chatGPT
+    //keyWord: how to search name in eacher class in vue JS
     matchesSearch(student) {
       const nameFilter = this.searchByQuery.toLowerCase();
       return !nameFilter || student.user.first_name.toLowerCase().includes(nameFilter);
