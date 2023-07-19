@@ -35,7 +35,6 @@ import { AES, enc } from 'crypto-js';
 export default {
   setup() {
     const getRole = storeManageCookie();
-    // let role = getRole.getCookie(user_role);
     return {getRole};
   },
   name: "HomeView",
@@ -53,20 +52,17 @@ export default {
   },
   methods: {
     filterOption() {
-      let role = AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(enc.Utf8)
+      let role = AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(enc.Utf8);
       const path = (role === 'student') ? 'classes' : 'teachers';
-      console.log('role: ', path);
       axiosClient
         .get(path)
         .then((response) => {
           if(path == 'classes') {
             this.selectOption = response.data.data;
-            console.log(this.selectOption);
           } else if (path == 'teachers') {
             this.selectOption = [];
             this.teachers = response.data.data;
             this.teachers.forEach(teacher => {
-              console.log('teachers: ',teacher);
               this.teachers = [];
               this.selectOption.push({name:`${teacher.first_name} ${teacher.last_name}`});
             });
@@ -85,7 +81,7 @@ export default {
           if (response.data && response.data.data) {
             response.data.data.forEach((calenndar) => {
               // Add each event to array calendarEvents
-              if(this.filterValue == calenndar.className) {
+              if(this.filterValue == calenndar.className || this.filterValue == `${calenndar.first_name} ${calenndar.last_name}`) {
                 calendarEvents.push({
                   title: calenndar.course,
                   start: `${calenndar.start_date}T${calenndar.start_time}`,
