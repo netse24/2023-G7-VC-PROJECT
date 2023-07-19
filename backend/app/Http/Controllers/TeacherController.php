@@ -56,8 +56,9 @@ class TeacherController extends Controller
    */
   public function show($id)
   {
-    $teacher = Teacher::find($id);
-    if (!$teacher) {
+    $user = User::findOrFail($id);
+    $teacher = Teacher::where('user_id', '=', $user->id)->first();
+    if (!$user) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
     $teacher = new TeacherResource($teacher);

@@ -3,7 +3,7 @@ import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { storeToRefs } from 'pinia';
 
-
+// https://router.vuejs.org/guide/advanced/navigation-guards.html
 const isUserLoginRequired = async (to, from, next) => {
   const { getCookie } = storeManageCookie();
   const { getUserData } = userInformations();
@@ -17,6 +17,7 @@ const isUserLoginRequired = async (to, from, next) => {
   }
 }
 
+// call back function find user role 
 const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations());
