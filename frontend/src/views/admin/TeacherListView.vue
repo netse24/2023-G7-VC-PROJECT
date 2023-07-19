@@ -1,16 +1,14 @@
 <template>
   <section>
     <NavBar />
-    <div
-      class="m-3"
+    <div class="m-3"
       style="
         --bs-breadcrumb-divider: url(
           &#34;data:image/svg + xml,
           %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
         );
       "
-      aria-label="breadcrumb"
-      >
+      aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrum.length > 0">
           <a href="/admin">Home</a>
@@ -28,29 +26,34 @@
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            <router-link to="/admin">Home</router-link>
+          <button 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length>0"
+            :style="selectedUsers.length>0 ? 'background-color:gray':'background-color:blue-600'">
+            <p v-if="selectedUsers.length>0" >Home</p>
+            <p v-if="selectedUsers.length == 0">
+              <router-link to="/admin">Home</router-link>
+            </p>
           </button>
           <!--Delete button -->
           <button
-            class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-            <v-dialog
-              v-if="selectedUsers.length >= 1 || selectedUsers.length == 0"
-              class="w-50"
-              v-model="dialogDelete">
+            class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length >= 0"
+            :style="selectedUsers.length == 0 ? 'background-color:gray':'background-color:red-700'">
+            <p v-if="selectedUsers.length == 0">Delete</p>
+            <v-dialog class="w-5/12"
+              v-model="dialogDelete"
+              v-if="selectedUsers.length >= 1">
               <template v-slot:activator="{ props }">
-                <v-text v-bind="props">Delete</v-text>
+                <v-text v-bind="props"  v-if="selectedUsers.length >= 1" >Delete</v-text>
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-red-500"
-                  >Delete date of Teacher</v-card-title
-                >
+                <v-card-title class="border-gray-200 bg-red-500">Delete date of Teacher</v-card-title>
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
                       Do you want to delete {{ selectedUsers.length }} row
                     </p>
-                    <p v-else>Please select checkbox</p>
                   </v-container>
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
@@ -65,7 +68,7 @@
                       v-if="selectedUsers.length > 0"
                       @click="deleteTeacher((dialogDelete = false))"
                       class="bg-red text-white w-20"
-                      color="font-normal text-1xl  font-bold">Delete
+                      color="font-normal text-1xl font-bold">Delete
                     </v-btn>
                   </div>
                   <v-btn
@@ -79,14 +82,23 @@
             </v-dialog>
           </button>
           <!-- update button-->
-          <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"> 
+          <button 
+            class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length>1 || selectedUsers.length==0"
+            :style="selectedUsers.length>1 || selectedUsers.length==0?'background-color:gray':'background-color:green-700'"> 
             Update
           </button>
           <!--See detail button -->
-          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
-            <router-link :to="`/admin/teachers/detail/${selectedUsers}`">
+          <button 
+            class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded"
+            :disabled="selectedUsers.length>1 || selectedUsers.length==0" 
+            :style="selectedUsers.length>1 || selectedUsers.length==0?'background-color:gray':'background-color:orange-700'">
+            <p v-if="selectedUsers.length>1 || selectedUsers.length==0">See Detail</p>
+            <p v-if="selectedUsers.length == 1">
+              <router-link :to="`/admin/teachers/detail/${selectedUsers}`" >
               See Detail
             </router-link>
+            </p>
           </button>
         </div>
         <!-- search button-->
@@ -101,8 +113,8 @@
           </v-btn>
         </div>
       </div>
-      <hr />
-      <!-- table  -->
+      <hr/>
+      <!-- table get teacher -->
       <div class="d-flex mt-8 mr-12">
         <table class="border-collapse border w-100 m-auto">
           <thead class="bg-cyan-500 text-center">
@@ -171,7 +183,7 @@ export default {
     deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`teacher/${userId}`)
+          .delete(`teachers/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getTeacher();
