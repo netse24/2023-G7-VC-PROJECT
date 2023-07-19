@@ -95,8 +95,10 @@ export default {
         try {
           const res = await axiosClient.post('login', user);
           this.timeLoading();
+
+          // Senior Code
           var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
-          let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
+          var userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
           if (res.status == 202) {
             setTimeout(() => {
               this.loginSuccess = true;
@@ -108,14 +110,14 @@ export default {
             this.userCookies.setCookie('user_role', userRole, 30);
 
             // load token from cookie after login
-            this.userData.getUserData();
             Swal.fire({
               position: 'center',
               icon: 'success',
               title: 'Login Success',
               showConfirmButton: false,
-              timer: 2000
+              timer: 1500
             })
+            this.userData.getUserData();
             if (res.data.role.name == 'admin') {
               setTimeout(() => {
                 this.$router.push('admin');
