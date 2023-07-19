@@ -14,17 +14,13 @@ export const userInformations = defineStore('userInfo', {
         getStoreData() {
             return this.userStore;
         },
-        // getStoreStudent(){
-        //     return this.storeGeneration
-        // }
-
     },
     actions: {
         async getUserData() {
             const { getCookie } = storeManageCookie();
             const user_id = CryptoJS.AES.decrypt(getCookie('user_id'), "Secret id").toString(CryptoJS.enc.Utf8)
-            await axiosClient.get("users/" + user_id).then((res) => {
-                this.userStore = res.data
+            await axiosClient.get("users/getByIdCookie/" + user_id).then((res) => {
+                this.userStore = res.data.data
             }).catch(err => console.log(err))
         },
         async showlistStudent(index) {

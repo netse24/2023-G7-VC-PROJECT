@@ -1,6 +1,9 @@
 <template>
   <section>
-    <NavBar />
+    <nav-bar />
+    <button class="add-schedule btn btn-primary ml-2 ">
+      <router-link to="/admin">Home</router-link>
+    </button>
     <button type="button" class="add-schedule btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
       data-bs-whatever="@mdo">
       Add Schedule

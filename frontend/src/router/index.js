@@ -3,61 +3,29 @@ import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { storeToRefs } from 'pinia';
 
-// import { AES, enc } from 'crypto-js';
-
-// function getCookie(user_token_in_store) {
-//   let cookieName = user_token_in_store + '=';
-//   let decodedCookie = decodeURIComponent(document.cookie);
-//   let splitToJsonFormat = decodedCookie.split(';');
-//   for (let i = 0; i < splitToJsonFormat.length; i++) {
-//     let cookie = splitToJsonFormat[i];
-//     while (cookie.charAt(0) == ' ') {
-//       cookie = cookie.substring(1);
-//     }
-//     if (cookie.indexOf(cookieName) == 0) {
-//       return cookie.substring(cookieName.length, cookie.length);
-//     }
-//   }
-//   return "";
-// }
-// const token = getCookie('user_token')
-// const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
-// const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
-// console.log(role);
-// console.log(id);
-
-// define role 
-
-const isLoginRequired = async (to, from, next) => {
+const isUserLoginRequired = async (to, from, next) => {
   const { getCookie } = storeManageCookie();
   const { getUserData } = userInformations();
-  const { getStoreUser } = storeToRefs(getUserData()); // use to get user data that store in state in userSore in pinia
+  const { userStore } = storeToRefs(userInformations()); // use to get user data that store in state in userSore in pinia
   await getUserData();
-  if (getStoreUser.value && getCookie('user_token')) {
+  console.log(userStore.value)
+  if (userStore && getCookie('user_token')) {
     next()
   } else {
-    next('/')
+    next('/login')
   }
 }
 
-const isUserRole = async (to, from, next) => {
-  
+const isUserRoleRequired = (role) => async (to, from, next) => {
+  const { getUserData } = userInformations();
+  const { userStore } = storeToRefs(userInformations());
+  await getUserData();
+  if (userStore.value.role.role == role) {
+    next()
+  } else {
+    next('/404')
+  }
 }
-
-
-
-
-
-// var isAdmin = null;
-// var isTeacher = null;
-// var isStudent = null;
-// if (role == 'admin') {
-//   isAdmin = role
-// } else if (role == 'teacher') {
-//   isTeacher = role
-// } else if (role == 'student') {
-//   isStudent = role
-// }
 
 const routes = [
   {
@@ -68,59 +36,55 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/login/LoginView.vue'),
-    meta: {
-      requireAuth: false,
-    },
   },
   {
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/SchoolAdmin.vue'),
-    meta: {
-      requireAuth: true,
-    }
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')]
   },
+  // list generation by admin
   {
     path: '/admin/students',
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
-    meta: {
-      requireAuth: true,
-    },
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true
   },
-
-  // list generation by admin
   {
-    props: true,
-    path: `/admin/generations/studentList/:id`,
+    path: '/admin/generations/studentList/:id',
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
-    meta: {
-      requireAuth: true,
-    },
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true,
+  },
+  {
+    path: '/admin/students/detail/:student_id',
+    name: 'admin-students-detail',
+    component: () => import('../views/student/StudentDetailView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true
+  },
+  {
     path: '/admin/teachers',
     name: 'admin-teachers',
     component: () => import('../views/admin/TeacherListView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
   },
   {
-    path: '/admin/teachers/detail',
+    path: '/admin/teachers/detail/:id',
     name: 'admin-teachers-detail',
     component: () => import('../views/teacher/TeacherDetailView.vue'),
-  },
-  {
-    path: '/admin/students/detail',
-    name: 'admin-students-detail',
-    component: () => import('../views/student/StudentDetailView.vue'),
-    meta: {
-      requireAuth: true,
-    },
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true
   },
+
   {
     path: '/admin/schedule',
     name: 'admin-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')]
+
   },
   {
     path: '/teacher/schedule',

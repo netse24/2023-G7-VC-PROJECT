@@ -29,7 +29,7 @@
         <div class="flex gap-2">
           <!-- Back button -->
           <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            <router-link to="#">Back</router-link>
+            <router-link to="/admin">Home</router-link>
           </button>
           <!--Delete button -->
           <button
@@ -84,7 +84,7 @@
           </button>
           <!--See detail button -->
           <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded">
-            <router-link :to="`/admin/batch/teacher_detail/${selectedUsers}`">
+            <router-link :to="`/admin/teachers/detail/${selectedUsers}`">
               See Detail
             </router-link>
           </button>
@@ -94,7 +94,7 @@
           <v-btn class="search-bar">
             <input
               v-model="searchByQuery"
-              placeholder="search student..."
+              placeholder="search teacher..."
               class="input-search outline outline-0 px-3"/>
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
@@ -126,19 +126,19 @@
       </div>
       <!-- table  -->
       <div class="d-flex mt-8 mr-12">
-        <table class="border-collapse border w-14/12">
+        <table class="border-collapse border w-100 m-auto">
           <thead class="bg-cyan-500">
-            <tr>
-              <th class="px-4 py-4 w-2">ID</th>
+            <tr class=" text-center">
+              <th class="px-4 py-4 w-2">#</th>
               <th class="px-4 py-4 w-64">First Name</th>
               <th class="px-4 py-4 w-64">Last Name</th>
               <th class="px-4 py-4 w-64">Gender</th>
               <th class="px-4 py-4 w-64">Email</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="border border-slate-300 pl-4">
+          <tbody class=" text-center">
+            <tr >
+              <td class="border border-slate-300">
                 <input
                   type="checkbox"
                   id="checkbox"
