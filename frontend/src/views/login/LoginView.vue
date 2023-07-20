@@ -1,7 +1,6 @@
 <template>
   <section>
     <v-app :style="{ backgroundImage: `url(${image})` }" class="bg-no-repeat h-screen">
-      <!-- <v-alert type="success" title="Success " v-if="loginSuccess" class="w-50 m-auto"></v-alert> -->
       <v-main class="d-flex justify-center align-center">
         <v-col cols="10" lg="4" class="mx-auto">
           <h1 class="pa-5 text-3xl text-center bold font-bold">Welcome to <br> School Management System</h1>
@@ -30,9 +29,6 @@
           </v-card>
         </v-col>
       </v-main>
-      <!-- <v-snackbar top color="light-green" v-model="snackbar">
-        Login success
-      </v-snackbar> -->
     </v-app>
   </section>
 </template>
@@ -96,6 +92,7 @@ export default {
         try {
           const res = await axiosClient.post('login', user);
           this.timeLoading();
+          console.log(res);
           // Senior Code  // senior code 2022-G3-VC2-Part2 
           // AES stand for advaned enscryption standard
           var userRole = this.$CryptoJS.AES.encrypt(res.data.user.role.role, "Secret role").toString();
