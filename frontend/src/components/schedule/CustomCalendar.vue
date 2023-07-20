@@ -113,6 +113,10 @@ export default {
   color: #000;
   text-decoration: none;
 }
+.fc-event-title {
+  color: #000;
+  line-height: 18px;
+}
 #teachers {
   width: 50%;
   margin: 10px auto;

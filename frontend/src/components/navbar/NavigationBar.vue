@@ -3,7 +3,6 @@
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
     <v-app-bar-title>School Management System</v-app-bar-title>
     <v-spacer></v-spacer>
-
     <v-btn icon>
       <v-icon>mdi-moon-waning-crescent</v-icon>
     </v-btn>
