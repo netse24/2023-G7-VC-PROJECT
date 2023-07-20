@@ -20,22 +20,22 @@
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 0"
-            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:blue-600'">
-            <p v-if="selectedUsers.length > 0">Home</p>
+            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:cyan-500'" >
+            <p v-if="selectedUsers.length > 0" class="text-white">Home</p>
             <p v-if="selectedUsers.length == 0">
               <router-link to="/admin">Home</router-link>
             </p>
           </button>
           <!--Delete button -->
-          <button class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            :disabled="selectedUsers.length >= 0"
+          <button class="bg-red-700 hover:bg-red-700 text-dark font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length == 0"
             :style="selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:red-700'">
-            <p v-if="selectedUsers.length == 0">Delete</p>
+            <p class="text-white" v-if="selectedUsers.length == 0">Delete</p>
             <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
               <template v-slot:activator="{ props }">
-                <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
+                <v-text class="text-dart" v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
                 <v-card-title class="border-gray-200 bg-red-500">Delete date of Teacher</v-card-title>
@@ -63,16 +63,21 @@
             </v-dialog>
           </button>
           <!-- update button-->
-          <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
+          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
             :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:green-700'">
-            Update
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Update</p>
+            <p v-if="selectedUsers.length == 1">
+              <router-link to="#">
+                Update
+              </router-link>
+            </p>
           </button>
           <!--See detail button -->
-          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded"
+          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
-            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
-            <p v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
+            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:cyan-500'">
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
             <p v-if="selectedUsers.length == 1">
               <router-link :to="`/admin/teachers/detail/${selectedUsers}`">
                 See Detail
@@ -91,7 +96,7 @@
       </div>
       <hr />
       <!-- table get teacher -->
-      <div class="d-flex mt-8">
+      <div class="d-flex mt-8 relative overflow-x-auto shadow-md sm:rounded-t-lg">
         <table class="border-collapse border w-100 m-auto">
           <thead class="bg-cyan-500 text-center">
             <tr>
