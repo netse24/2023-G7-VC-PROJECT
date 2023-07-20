@@ -28,14 +28,10 @@
 import ScheduleForm from "./ScheduleForm.vue";
 // import FilterSchedule from "./FilterSchedule.vue";
 import CustomCalendar from "../../components/schedule/CustomCalendar.vue";
-<<<<<<< HEAD
-import {axiosClient} from "../../axios-http";
-=======
 import { axiosClient } from "../../axios-http";
 import { storeManageCookie } from "../../store/cookie";
 import { AES, enc } from 'crypto-js';
 
->>>>>>> schedule
 export default {
   setup() {
     const getRole = storeManageCookie();

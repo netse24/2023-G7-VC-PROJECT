@@ -1,13 +1,5 @@
 <template>
   <section>
-<<<<<<< HEAD
-    <nav-bar />
-    <button class="add-schedule btn btn-primary ml-2 ">
-      <router-link to="/admin">Home</router-link>
-    </button>
-    <button type="button" class="add-schedule btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
-      data-bs-whatever="@mdo">
-=======
     <NavBar />
     <button
       type="button"
@@ -17,7 +9,6 @@
       data-bs-whatever="@mdo"
       v-if="role == 'admin'"
     >
->>>>>>> schedule
       Add Schedule
     </button>
     <div

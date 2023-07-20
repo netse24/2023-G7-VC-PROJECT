@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { storeToRefs } from 'pinia';
@@ -16,12 +16,6 @@ const isUserLoginRequired = async (to, from, next) => {
     next('/login')
   }
 }
-const token = getCookie('user_token')
-const role = AES.decrypt(getCookie("user_role"), "Secret role").toString(enc.Utf8)
-const id = AES.decrypt(getCookie("user_id"), "Secret id").toString(enc.Utf8);
-console.log(role);
-console.log(id);
-process.env.user_role = role;
 
 // call back function find user role 
 const isUserRoleRequired = (role) => async (to, from, next) => {
