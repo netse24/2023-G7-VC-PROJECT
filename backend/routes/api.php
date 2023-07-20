@@ -43,11 +43,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('students', StudentController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
+    
+    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
+    Route::get('/students/background/{id}', [StudentController::class,'show']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
-
-Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
 Route::resource('rooms', RoomController::class);
 Route::resource('classes', ClasseController::class);
 Route::resource('courses', CourseController::class);

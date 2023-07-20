@@ -109,7 +109,6 @@ const routes = [
     component: () => import('../views/teacher/TeacherBackground.vue'),
     props: true,
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
-
   },
   {
     path: '/students',
@@ -117,6 +116,13 @@ const routes = [
     component: () => import('../views/student/StudentView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
 
+  },
+  {
+    path: '/students/background/:id',
+    name: 'student-background',
+    component: () => import('../views/student/StudentBackground.vue'),
+    props: true,
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
   {
     path: '/students/schedule',
