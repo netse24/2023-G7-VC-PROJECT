@@ -48,7 +48,7 @@
                   >
                     <option value="" disabled selected>Choose A Subject</option>
                     <option
-                      v-for="(subject, index) in schedultItems"
+                      v-for="(subject, index) in courses"
                       :key="index"
                       :value="subject"
                     >
@@ -68,7 +68,7 @@
                   >
                     <option value="" disabled selected>Choose A Teacher</option>
                     <option
-                      v-for="(teacher, index) in schedultItems"
+                      v-for="(teacher, index) in teachers"
                       :key="index"
                       :value="teacher"
                     >
@@ -92,7 +92,7 @@
                   >
                     <option value="" disabled selected>Choose A Class</option>
                     <option
-                      v-for="(classItem, index) in schedultItems"
+                      v-for="(classItem, index) in classes"
                       :key="index"
                       :value="classItem"
                     >
@@ -225,7 +225,7 @@ export default {
       endTime: "",
       teachers: [],
       rooms: [],
-      course: [],
+      courses: [],
       classes: [],
       role: AES.decrypt(
         this.getRole.getCookie("user_role"),
@@ -256,7 +256,7 @@ export default {
         .then((response) => {
           let data = response.data.data;
           if(path === 'courses') {
-            this.course = data;
+            this.courses = data;
           } else if (path === 'teachers') {
             this.teachers = data;
           } else if (path === 'classes') {
