@@ -65,7 +65,8 @@ export default {
       password: null,
       passwordRules: [
         value => !!value || 'Password is required',
-        value => (value && value.length >= 6) || 'Password must be 6  characters or more!',
+        value => value?.length >= 8 ? true : "Password must be filled out at least 8 characters",
+        value => (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) ? true : "Password must contain at least one letter and one number"
       ],
       errorMessage: null,
     }
