@@ -1,14 +1,12 @@
 <?php
-
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -47,6 +45,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
     Route::get('/students/background/{id}', [StudentController::class,'show']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
+    Route::resource('users', UserController::class);
+
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
 Route::resource('rooms', RoomController::class);
@@ -55,6 +55,6 @@ Route::resource('courses', CourseController::class);
 Route::resource('generations', GenerationController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
-Route::resource('users', UserController::class);
 Route::resource('schedule', ScheduleController::class);
+
 
