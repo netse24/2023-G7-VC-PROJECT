@@ -41,6 +41,7 @@ export default {
         });
     },
     showlistStudent(id) {
+      console.log(id);
       this.$router.push(`/admin/generations/studentList/${id}`)
     }
   },

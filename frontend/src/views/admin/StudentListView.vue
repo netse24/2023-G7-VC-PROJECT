@@ -5,25 +5,44 @@
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold py-2 px-4 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 0"
-            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:blue-600'">
+            :style="selectedUsers.length > 0
+                ? 'background-color:gray'
+                : 'background-color:blue-600'
+            "
+          >
             <p class="text-white" v-if="selectedUsers.length > 0">Back</p>
-            <p class="text-black" v-if="selectedUsers.length == 0">
+            <p v-if="selectedUsers.length == 0">
               <router-link to="/admin/students">Back</router-link>
             </p>
           </button>
           <!--Delete button -->
-          <button class="bg-red-600 hover cursor-pointer hover:bg-red-700  font-bold py-2 px-4 rounded"
+          <button
+            class="bg-red-600 hover cursor-pointer hover:bg-red-700  font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length >= 0"
-            :style="selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:red-700'">
+            :style="
+              selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:red-700'
+            "
+          >
             <p class="text-white" v-if="selectedUsers.length == 0">Delete</p>
-            <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
+            <v-dialog
+              class="w-5/12"
+              v-model="dialogDelete"
+              v-if="selectedUsers.length >= 1"
+            >
               <template v-slot:activator="{ props }">
-                <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
+                <v-text v-bind="props" v-if="selectedUsers.length >= 1"
+                  >Delete</v-text
+                >
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-blue-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-blue-500"
+                  >Delete date of Teacher</v-card-title
+                >
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -33,15 +52,27 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
-                      @click="dialogDelete = false">Cancel
+                    <v-btn
+                      class="bg-blue"
+                      color="font-normal font-bold"
+                      variant="text"
+                      @click="dialogDelete = false"
+                      >Cancel
                     </v-btn>
-                    <v-btn v-if="selectedUsers.length > 0" @click="deleteStudent((dialogDelete = false))"
-                      class="bg-red text-white w-20" color="font-normal text-1xl font-bold">Delete
+                    <v-btn
+                      v-if="selectedUsers.length > 0"
+                      @click="deleteStudent((dialogDelete = false))"
+                      class="bg-red text-white w-20"
+                      color="font-normal text-1xl font-bold"
+                      >Delete
                     </v-btn>
                   </div>
-                  <v-btn v-else @click="dialogDelete = false" class="bg-blue text-white w-20"
-                    color="font-normal text-1xl  font-bold">Ok
+                  <v-btn
+                    v-else
+                    @click="dialogDelete = false"
+                    class="bg-blue text-white w-20"
+                    color="font-normal text-1xl  font-bold"
+                    >Ok
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -148,7 +179,8 @@
                       type="button"
                       class="bg-grey-lighten-1"
                       @click="dialogUpdate = false"
-                      >CANCEL</v-btn>
+                      >CANCEL</v-btn
+                    >
                     <v-btn
                       type="submit"
                       class="bg-cyan"
@@ -161,26 +193,35 @@
             </v-dialog>
           </button>
           <!-- add transcript button -->
-          <!-- <button
-            class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold px-2 rounded"
-            >
-            <router-link to=""> Add Transcript </router-link>
-          </button> -->
-          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
-            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
-            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Add Transcript</p>
+            :style="
+              selectedUsers.length > 1 || selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:orange-700'
+            "
+          >
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">
+              Add Transcript
+            </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/students/detail/${selectedUsers}`">
                 Add Transcript
-              </router-link>
             </p>
           </button>
           <!--See detail button -->
-          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
-            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
-            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
+            :style="
+              selectedUsers.length > 1 || selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:orange-700'
+            "
+          >
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">
+              See Detail
+            </p>
             <p v-if="selectedUsers.length == 1">
               <router-link :to="`/admin/students/detail/${selectedUsers}`">
                 See Detail
@@ -205,7 +246,7 @@
       <div class="d-flex mt-5 justify-between">
         <div>
           <button
-            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
+            class="bg-cyan-500 hover:bg-cyan-600  font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
             @click="showPreviousClasses"
           >
             Previous
@@ -225,7 +266,7 @@
         <div>
           <button
             :disabled="canShowMore"
-            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto "
+            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12"
             @click="showMore"
           >
             Next
@@ -233,8 +274,8 @@
         </div>
       </div>
       <!-- table  -->
-      <div class="d-flex mt-8 relative overflow-x-auto shadow-md sm:rounded-t-lg">
-        <table class="border-collapse border w-100 m-auto" v-if="selectedClass" >
+      <div class="d-flex mt-8">
+        <table class="border-collapse border w-100 m-auto" v-if="selectedClass">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -304,8 +345,8 @@ export default {
     getStudent() {
       axiosClient
         .get("generations/" + this.id)
-        .then((Response) => {
-          this.students = Response.data.data;
+        .then((response) => {
+          this.students = response.data.data;
           for (let i = 0; i < this.students.length; i++) {
             if (!this.classroom.includes(this.students[i].class)) {
               this.classroom.push(this.students[i].class);
@@ -319,9 +360,11 @@ export default {
     async editStudent() {
       try {
         if (this.selectedUsers.length == 1) {
-          const res = await axiosClient.get("/getStudentByUserId/" + this.selectedUsers);
+          const res = await axiosClient.get(
+            "/getStudentByUserId/" + this.selectedUsers
+          );
           this.model = res.data.data;
-          console.log(this.model)
+          console.log(this.model);
         } else {
           alert("You cannot more than one record!");
         }
@@ -386,8 +429,11 @@ export default {
     // function search name //Got from chatGPT
     matchesSearch(student) {
       const nameFilter = this.searchByQuery.toLowerCase();
-      return !nameFilter || student.user.first_name || student.user.last_name.toLowerCase().includes(nameFilter);
-    }
+      return (
+        !nameFilter ||
+        student.user.first_name.toLowerCase().includes(nameFilter)
+      );
+    },
   },
 
   mounted() {
