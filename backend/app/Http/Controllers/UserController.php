@@ -45,7 +45,7 @@ class UserController extends Controller
         $teacherData['user_id'] = $userId;
         $teacherData['course_id'] = $courseId;
         $teacher = Teacher::create($teacherData);
-        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password'],$senderEmail));
+        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
         return response()->json([
           'success' => true,
           'user' => $user,
