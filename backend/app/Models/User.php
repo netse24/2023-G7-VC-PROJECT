@@ -33,7 +33,7 @@ class User extends Authenticatable
         return $this->hasMany(Student::class);
     }
     public function teacher():HasMany{
-        return $this->hasMany(Teacher::class);
+        return $this->HasMany(Teacher::class);
     }
     public function role():BelongsTo{
         return $this->belongsTo(Role::class);

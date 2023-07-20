@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
@@ -43,6 +44,14 @@ class StudentController extends Controller
             return response()->json(['success' => true, 'data' => $student], 200);
         
         };
+        //findOrFail($id)bec
+        // $user = User::findOrFail($id);
+        // $student = Student::where('user_id', '=', $user->id)->first();
+        // if (!$user) {
+        //     return response()->json(['massage' =>'Not Found'], 404);
+        // }
+        // $student = new StudentResource($student);
+        // return response()->json(['success' => true, 'data' => $student], 200);
     }
 }
 

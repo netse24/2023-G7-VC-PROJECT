@@ -5,23 +5,25 @@
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            <router-link to="/admin/students">Back</router-link>
+          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold py-2 px-4 rounded"
+            :disabled="selectedUsers.length > 0"
+            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:blue-600'">
+            <p class="text-white" v-if="selectedUsers.length > 0">Back</p>
+            <p class="text-black" v-if="selectedUsers.length == 0">
+              <router-link to="/admin/students">Back</router-link>
+            </p>
           </button>
-          <!-- {{model.user.first_name}} -->
           <!--Delete button -->
-          <button class="bg-red-700 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          <button class="bg-red-600 hover cursor-pointer hover:bg-red-700  font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length >= 0"
             :style="selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:red-700'">
-            <p v-if="selectedUsers.length == 0">Delete</p>
+            <p class="text-white" v-if="selectedUsers.length == 0">Delete</p>
             <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
               <template v-slot:activator="{ props }">
                 <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-red-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-blue-500">Delete date of Teacher</v-card-title>
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -47,15 +49,15 @@
           </button>
           <!-- update button-->
           <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded w-28"
+            class="bg-cyan-500 hover:bg-cyan-600  font-bold py-2 px-4 border border-blue-700 rounded w-28"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
             :style="
               selectedUsers.length > 1 || selectedUsers.length == 0
                 ? 'background-color: gray'
-                : 'background-color: blue'
+                : 'background-color: bg-blue-700'
             "
           >
-            <p v-if="selectedUsers.length == 0 || selectedUsers.length > 1">
+            <p class="text-white" v-if="selectedUsers.length == 0 || selectedUsers.length > 1">
               Update
             </p>
             <v-dialog
@@ -95,7 +97,29 @@
                       </v-text-field>
                     </v-col>
                   </v-row>
-                  
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                        density="compact"
+                        v-model="model.email"
+                        label="Enter Email"
+                        :rules="emailRules"
+                        prepend-inner-icon="mdi-email"
+                      >
+                      </v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-select
+                        prepend-inner-icon="mdi-account-box"
+                        density="compact"
+                        label="Choose Gender"
+                        v-model="model.gender"
+                        :rules="genderRules"
+                        :items="['Female', 'Male']"
+                      >
+                      </v-select>
+                    </v-col>
+                  </v-row>
                   <v-row>
                     <v-col>
                       <v-text-field
@@ -119,19 +143,6 @@
                       </v-text-field>
                     </v-col>
                   </v-row>
-                  <v-row>
-                    <v-col>
-                      <v-select
-                        prepend-inner-icon="mdi-account-box"
-                        density="compact"
-                        label="Choose Gender"
-                        v-model="model.gender"
-                        :rules="genderRules"
-                        :items="['Female', 'Male']"
-                      >
-                      </v-select>
-                    </v-col>
-                  </v-row>
                   <v-list class="d-flex justify-space-between">
                     <v-btn
                       type="button"
@@ -150,17 +161,28 @@
             </v-dialog>
           </button>
           <!-- add transcript button -->
-          <button
-            class="bg-teal-800 hover:bg-teal-900 text-white font-bold px-2 rounded">
+          <!-- <button
+            class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold px-2 rounded"
+            >
             <router-link to=""> Add Transcript </router-link>
-          </button>
-          <!--See detail button -->
-          <button class="bg-orange-700 hover:bg-orange-800 text-white font-bold px-2 rounded"
+          </button> -->
+          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
             :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
-            <p v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Add Transcript</p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/batch/student_detail/${selectedUsers}`">
+              <router-link :to="`/admin/students/detail/${selectedUsers}`">
+                Add Transcript
+              </router-link>
+            </p>
+          </button>
+          <!--See detail button -->
+          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
+            :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
+            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:orange-700'">
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
+            <p v-if="selectedUsers.length == 1">
+              <router-link :to="`/admin/students/detail/${selectedUsers}`">
                 See Detail
               </router-link>
             </p>
@@ -183,7 +205,7 @@
       <div class="d-flex mt-5 justify-between">
         <div>
           <button
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
+            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto mr-2"
             @click="showPreviousClasses"
           >
             Previous
@@ -195,7 +217,7 @@
             :key="className"
             @click="selectedClass = className"
             :class="buttonClass(className)"
-            class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5"
+            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto ml-5"
           >
             CLASS-{{ className }}
           </button>
@@ -203,7 +225,7 @@
         <div>
           <button
             :disabled="canShowMore"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-auto mr-12"
+            class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 border-blue-700 rounded w-auto "
             @click="showMore"
           >
             Next
@@ -211,8 +233,8 @@
         </div>
       </div>
       <!-- table  -->
-      <div class="d-flex mt-8 mr-12">
-        <table class="border-collapse border w-14/12" v-if="selectedClass">
+      <div class="d-flex mt-8 relative overflow-x-auto shadow-md sm:rounded-t-lg">
+        <table class="border-collapse border w-100 m-auto" v-if="selectedClass" >
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -277,6 +299,7 @@ export default {
       model: [],
     };
   },
+
   methods: {
     getStudent() {
       axiosClient
@@ -292,13 +315,16 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
     async editStudent() {
       try {
         if (this.selectedUsers.length == 1) {
           const res = await axiosClient.get("/getStudentByUserId/" + this.selectedUsers);
           this.model = res.data.data;
           console.log(this.model)
-        } 
+        } else {
+          alert("You cannot more than one record!");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -318,10 +344,11 @@ export default {
         console.log(err);
       }
     },
+
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`users/${userId}`)
+          .delete(`students/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getStudent();
@@ -336,6 +363,7 @@ export default {
         selected: className === this.selectedClass,
       };
     },
+
     showMore() {
       this.startIndex += this.classesToShow;
       if (this.startIndex > 5) {
@@ -345,6 +373,7 @@ export default {
         this.showNext = false;
       }
     },
+
     showPreviousClasses() {
       this.startIndex -= this.classesToShow;
       if (this.startIndex < 0) {

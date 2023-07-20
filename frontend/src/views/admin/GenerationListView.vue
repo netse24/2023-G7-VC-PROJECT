@@ -1,20 +1,19 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <nav-bar/>
     <div class="d-flex flex-col p-10">
-      <div class="flex justify-between mb-3">
-        <h1 class="text-3xl mb-3">All Generation</h1>
-        <div class="search-controll">
-          <v-btn class="search-bar">
-            <input placeholder="search generation..." class="input-search outline outline-0 px-3"/>
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-        </div>
+      <div class="flex gap-2">
+        <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
+          <router-link to="/admin">Home</router-link>
+        </button>
       </div>
-      <div>
-        <div class="grid grid-cols-5 gap-4">
+      <div class="flex justify-between mb-3">
+        <h1 class="text-3xl m-auto font-bold mb-3">All Generation of the Students</h1>
+      </div>
+      <div class="w-75 m-auto border border-1 h-50 p-10 rounded shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]">
+        <div class="grid grid-cols-8 gap-2 gap-4">
           <button v-for="(generation, index) in generationList" :key="index" @click="showlistStudent(generation.id)"
-            class="bg-cyan-500 py-10 px-9 text-2xl font-bold rounded-lg d-flex justify-center items-center">
+            class="bg-cyan-500 py-3 px-5 text-2xl font-bold rounded-lg d-flex justify-center items-center">
             {{ generation.name }}
           </button>
         </div>
@@ -48,6 +47,5 @@ export default {
   mounted() {
     this.getGenerationList();
   },
-
 };
 </script>

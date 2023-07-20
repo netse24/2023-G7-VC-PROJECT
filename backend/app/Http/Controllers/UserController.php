@@ -208,10 +208,16 @@ class UserController extends Controller
   public function getUserById($id)
   {
     $user = User::where('id', '=', $id)->first();
+    if (!$user) {
+      return response()->json([
+        'message' => 'User not found',
+      ], 404);
+    }
+    $user = new UserResource($user);
     return response()->json([
-      'message' => 'success',
+      'message' => 'Get user successfully ',
       'data' => $user
-    ]);
+    ], 200);
   }
 
   // user to logout user and delete that users' token 

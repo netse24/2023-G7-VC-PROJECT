@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ShowTeacherResource;
 use App\Http\Resources\TeacherResource;
 use App\Http\Resources\UserResource;
 use App\Models\Teacher;
@@ -15,26 +14,13 @@ class TeacherController extends Controller
   /**
    * Display a listing of the resource.
    */
-  public function index(Request $request)
+  public function index()
   {
-    $query = DB::table('teachers')
-      ->join('users', 'users.id', '=', 'teachers.user_id')
-      ->join('courses', 'courses.id', '=', 'teachers.course_id')
-      ->join('roles', 'roles.id', '=', 'users.role_id')
-      ->select('teachers.*', 'users.first_name', 'users.last_name', 'users.gender', 'courses.course');
-    // Get date by query
-    $queryParams = $request->all();
-    if (count($queryParams) > 0) {
-      foreach ($queryParams as $key => $value) {
-        $query->where($key, '=', $value);
-        $query->where('roles.name', '=', 'teacher');
-      };
-    } else {
-      $query->where('roles.name', '=', 'teacher');
-    }
-    $teacher = $query->get();
+    $teacher = Teacher::all();
+    $teacher = TeacherResource::collection($teacher);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
+
   /**
    * Store a newly created resource in storage.
    */
@@ -70,13 +56,11 @@ class TeacherController extends Controller
    */
   public function show($id)
   {
-    $user = User::find($id);
-    $teacher = Teacher::where('user_id', '=', $user->id)->first();
-    $teacher = new TeacherResource($teacher);
+    $teacher = Teacher::findOrFail($id);
     if (!$teacher) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
-    // $teacher = new TeacherResource($teacher);
+    $teacher = new TeacherResource($teacher);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 
@@ -88,5 +72,4 @@ class TeacherController extends Controller
     $teacher = Teacher::store($request, $id);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
-
 }

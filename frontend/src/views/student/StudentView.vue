@@ -7,12 +7,12 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrumb.length > 0"><a href="/students">Home</a></li>
         <li class="breadcrumb-item " aria-current="page" v-for="(item, index) in breadCrumb" :key="index"><a
-            :href="item.href"> {{ item.title }}</a></li>
+          :href="item.href"> {{ item.title }}</a></li>
       </ol>
     </div>
     <div class="mt-5 w-100 px-2">
       <div class="w-100 m-auto row row-cols-1 row-cols-md-4 row-cols-sm-2 d-flex justify-content-center gap-6">
-        <div class="card text-center mb-3" style="width: 15rem" @click="onClickCategory(index)"
+        <div class="card text-center mb-3" style="width: 15rem" @click="onClickCategory(schoolItem, index)"
           v-for="(schoolItem, index) in schoolItems" :key="index">
           <div class="card-body">
             <h5 class="card-title">{{ schoolItem.title }}</h5>
@@ -62,9 +62,18 @@
   </section>
 </template>
 <script>
+import { storeManageCookie } from "@/store/cookie";
+import { AES,enc } from "crypto-js";
 export default {
+  setup() {
+    const userCookie = storeManageCookie()
+    return {
+      userCookie
+    }
+  },
   data() {
     return {
+      user_id:null,
       breadCrumb: [],
       schoolItems: [
         {
@@ -79,21 +88,26 @@ export default {
     };
   },
   methods: {
-    onClickCategory(index) {
+    onClickCategory(schoolItem, index) {
+      this.toggleClick(schoolItem);
       this.breadCrumb = [];
-      this.breadCrumb.push(
-        {
-          title: `${this.schoolItems[index].title}`,
-          href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
-        }
-      );
-      this.breadCrumb.forEach(path => {
-        if (path) {
-          this.$router.push(`/students/${path.title.toLowerCase()}`);
-        } else {
-          this.$router.push('/404');
-        }
+      this.breadCrumb.push({
+        title: `${this.schoolItems[index].title}`,
+        href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
       });
+      // this.breadCrumb.forEach((path) => {
+      //   if (path) {
+      //     this.$router.push(`/students/${path.title.toLowerCase()}`);
+      //   } else {
+      //     this.$router.push('/404');
+      //   }
+      // });
+    },
+    toggleClick(action) {
+      if (action.title == 'Background') {
+        console.log(AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8))
+        this.$router.push(`/students/background/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
+      }
     },
   },
 };
