@@ -35,7 +35,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
-    Route::get('/users/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/getInToken/{id}', [UserController::class, "getUserById"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
@@ -55,4 +55,5 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('users', UserController::class);
 Route::resource('schedule', ScheduleController::class);
+Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 

@@ -36,7 +36,7 @@ export const userInformations = defineStore('userInfo', {
         },
         getUserData() {
             let userId = CryptoJS.AES.decrypt(this.getCookie('user_id'), "Screat id").toString(CryptoJS.enc.Utf8)
-            axiosClient.get("users/" + userId).then((res) => {
+            axiosClient.get("users/getInToken/" + userId).then((res) => {
                 this.userStore = res.data
             }).catch(err => console.log(err))
         },
