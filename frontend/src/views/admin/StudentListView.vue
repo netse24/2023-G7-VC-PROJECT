@@ -386,11 +386,8 @@ export default {
     // function search name //Got from chatGPT
     matchesSearch(student) {
       const nameFilter = this.searchByQuery.toLowerCase();
-      return (
-        !nameFilter ||
-        student.user.first_name.toLowerCase().includes(nameFilter)
-      );
-    },
+      return !nameFilter || student.user.first_name || student.user.last_name.toLowerCase().includes(nameFilter);
+    }
   },
 
   mounted() {
