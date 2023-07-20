@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TeacherResource;
-use App\Http\Resources\UserResource;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $teacher = Teacher::all();
-        $teacher = TeacherResource::collection($teacher);
-        return response()->json(['success'=>true, 'data'=>$teacher], 200);
-    }
-   
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $teacher = Teacher::all();
+    $teacher = TeacherResource::collection($teacher);
+    return response()->json(['success' => true, 'data' => $teacher], 200);
+  }
+
   /**
    * Store a newly created resource in storage.
    */
@@ -56,13 +54,11 @@ class TeacherController extends Controller
    */
   public function show($id)
   {
-    $user = User::find($id);
-    $teacher = Teacher::where('user_id', '=', $user->id)->first();
-    $teacher = new TeacherResource($teacher);
+    $teacher = Teacher::findOrFail($id);
     if (!$teacher) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
-    // $teacher = new TeacherResource($teacher);
+    $teacher = new TeacherResource($teacher);
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 
@@ -75,4 +71,3 @@ class TeacherController extends Controller
     return response()->json(['success' => true, 'data' => $teacher], 200);
   }
 }
-

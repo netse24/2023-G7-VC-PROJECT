@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Mail\PermissionEmail;
 use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Generation;
@@ -12,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -30,7 +32,8 @@ class UserController extends Controller
   public function store(Request $request)
 
   {
-    $user = User::create($request->input('user'));
+    $userData = $request->input('user');
+    $user = User::create($userData);
     $userId = $user->id;
     $role = $user->role_id;
     if ($role == 2) {
@@ -42,6 +45,7 @@ class UserController extends Controller
         $teacherData['user_id'] = $userId;
         $teacherData['course_id'] = $courseId;
         $teacher = Teacher::create($teacherData);
+        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
         return response()->json([
           'success' => true,
           'user' => $user,
@@ -58,6 +62,7 @@ class UserController extends Controller
         $teacherData['user_id'] = $userId;
         $teacherData['course_id'] = $courseId;
         $teacher = Teacher::create($teacherData);
+        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
         return response()->json([
           'success' => true,
           'user' => $user,
@@ -79,6 +84,8 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
+
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -95,6 +102,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -115,6 +123,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -133,6 +142,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -142,8 +152,6 @@ class UserController extends Controller
       }
     }
   }
-
-
   /**
    * Display the specified resource.
    */
@@ -201,10 +209,16 @@ class UserController extends Controller
   public function getUserById($id)
   {
     $user = User::where('id', '=', $id)->first();
+    if (!$user) {
+      return response()->json([
+        'message' => 'User not found',
+      ], 404);
+    }
+    $user = new UserResource($user);
     return response()->json([
-      'message' => 'success',
+      'message' => 'Get user successfully ',
       'data' => $user
-    ]);
+    ], 200);
   }
 
   // user to logout user and delete that users' token 

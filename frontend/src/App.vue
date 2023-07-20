@@ -16,9 +16,6 @@ export default {
       userData, 
     }
   },
-  methods: {
-  },
-
 }
 
 </script>
