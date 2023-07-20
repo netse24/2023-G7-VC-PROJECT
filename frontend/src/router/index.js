@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { storeToRefs } from 'pinia';
