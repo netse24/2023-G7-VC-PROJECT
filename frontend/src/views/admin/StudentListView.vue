@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <nav-bar />
     <div class="w-11/12 m-auto">
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
