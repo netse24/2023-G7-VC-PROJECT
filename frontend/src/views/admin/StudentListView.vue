@@ -131,29 +131,6 @@
                   <v-row>
                     <v-col>
                       <v-text-field
-                        density="compact"
-                        v-model="model.email"
-                        label="Enter Email"
-                        :rules="emailRules"
-                        prepend-inner-icon="mdi-email"
-                      >
-                      </v-text-field>
-                    </v-col>
-                    <v-col>
-                      <v-select
-                        prepend-inner-icon="mdi-account-box"
-                        density="compact"
-                        label="Choose Gender"
-                        v-model="model.gender"
-                        :rules="genderRules"
-                        :items="['Female', 'Male']"
-                      >
-                      </v-select>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col>
-                      <v-text-field
                         prepend-inner-icon="mdi mdi-calendar-clock"
                         density="compact"
                         type="date"
@@ -172,6 +149,19 @@
                         prepend-inner-icon="mdi-map-marker-radius"
                       >
                       </v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-select
+                        prepend-inner-icon="mdi-account-box"
+                        density="compact"
+                        label="Choose Gender"
+                        v-model="model.gender"
+                        :rules="genderRules"
+                        :items="['Female', 'Male']"
+                      >
+                      </v-select>
                     </v-col>
                   </v-row>
                   <v-list class="d-flex justify-space-between">

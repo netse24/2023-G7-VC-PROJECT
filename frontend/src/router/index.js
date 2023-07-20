@@ -60,7 +60,6 @@ const routes = [
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
-    props: true,
   },
   {
     path: '/admin/students/detail/:student_id',
