@@ -13,7 +13,7 @@ const isUserLoginRequired = async (to, from, next) => {
   if (userStore.value !== null && getCookie('user_token')) {
     next()
   } else  {
-    next('/login')
+    next('/login') 
   }
 }
 
@@ -58,26 +58,22 @@ const routes = [
     path: '/admin/generations/studentList/:id',
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
-    meta: {
-      requireAuth: true,
-      token: token,
-      role: isAdmin
-    },
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+
   },
   {
     path: '/admin/teachers/detail/:teacher_id',
     name: 'admin-teachers-detail',
     component: () => import('../views/teacher/TeacherDetailView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+
   },
   {
-    path: '/admin/students/detail',
+    path: '/admin/students/detail/:student_id',
     name: 'admin-students-detail',
     component: () => import('../views/student/StudentDetailView.vue'),
-    meta: {
-      requireAuth: true,
-      token: token,
-      role: isAdmin
-    },
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+
     props: true
   },
 
@@ -119,9 +115,8 @@ const routes = [
   {
     path: '/student/schedule',
     name: 'student-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
-
-
   },
 
   {
