@@ -55,6 +55,7 @@ const routes = [
     props: true
   },
   {
+    props:true,
     path: '/admin/generations/studentList/:id',
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),

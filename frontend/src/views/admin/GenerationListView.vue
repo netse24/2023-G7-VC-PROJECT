@@ -3,7 +3,7 @@
     <nav-bar/>
     <div class="d-flex flex-col p-10">
       <div class="flex gap-2">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+        <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
           <router-link to="/admin">Home</router-link>
         </button>
       </div>
@@ -41,6 +41,7 @@ export default {
         });
     },
     showlistStudent(id) {
+      console.log(id);
       this.$router.push(`/admin/generations/studentList/${id}`)
     }
   },

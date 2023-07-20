@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\StudentResource;
 use App\Http\Resources\UserResource;
 use App\Mail\PermissionEmail;
 use App\Models\Classes;
@@ -155,23 +158,29 @@ class UserController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+  public function show($id)
   {
     $user = User::find($id);
     if (!$user) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
-    $user = new UserResource($user);
     return response()->json(['success' => true, 'data' => $user], 200);
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(UpdateUserRequest $request, string $id)
   {
-    $user = User::store($request, $id);
-    return response()->json(['success' => true, 'data' => $user], 200);
+    $users = User::find($id);
+        $users->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'address' => $request->address,
+        ]);
+      return response()->json(['success' => true, 'data' => $users], 200);
   }
 
   /**

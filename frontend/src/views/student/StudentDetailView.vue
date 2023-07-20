@@ -1,7 +1,7 @@
 <template>
   <section>
     <nav-bar />
-    <button class="add-schedule btn btn-primary ml-4 mt-4 w-24 font-bold">
+    <button class="add-schedule bg-cyan-500 hover:bg-cyan-600 text-black btn btn-primary ml-4 mt-4 w-24 font-bold">
       <router-link :to="`/admin/students`">Back</router-link>
     </button>
     <div class="main flex gap-4 justify-center my-2" v-if="students != null">

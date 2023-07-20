@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
+use App\Models\Classes;
+use App\Models\Generation;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,25 +34,33 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
+        $users = User::find($id);
+        $students = Student::all();
+        foreach ($students as $student){
+          if($student['user_id'] == $users->id){
+            $student = new StudentResource($student);
+            return response()->json(['success' => true, 'data' => $student], 200);
+        
+        };
         //findOrFail($id)bec
-        $user = User::findOrFail($id);
-        $student = Student::where('user_id', '=', $user->id)->first();
-        if (!$user) {
-            return response()->json(['massage' =>'Not Found'], 404);
-        }
-        $student = new StudentResource($student);
-        return response()->json(['success' => true, 'data' => $student], 200);
+        // $user = User::findOrFail($id);
+        // $student = Student::where('user_id', '=', $user->id)->first();
+        // if (!$user) {
+        //     return response()->json(['massage' =>'Not Found'], 404);
+        // }
+        // $student = new StudentResource($student);
+        // return response()->json(['success' => true, 'data' => $student], 200);
     }
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($request, string $id)
     {
-        $student = Student::store($request, $id);
-        return response()->json(['success' => true, 'data' => $student], 200);
+        
     }
 
     /**
@@ -58,9 +69,16 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         $student = Student::find($id);
-        $findInUser = User::where('id' ,'=', $student->user_id)->first();
+        $findInUser = User::where('id', '=', $student->user_id)->first();
         $findInUser->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
     }
-   
+    public function getStudentByUserId($userId)
+    {
+        $student = User::find($userId);
+        if (!$student) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $student], 200);
+    }
 }

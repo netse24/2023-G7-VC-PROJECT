@@ -73,6 +73,22 @@ class User extends Authenticatable
         $user = self::updateOrCreate(['id' => $id], $user);
         return $user;
     }
+    public static function storeUserStudent($request, $id = null)
+    {
+        $user = $request->only([
+            'first_name',
+            'last_name',
+            'gender',
+            'email',
+            'password',
+            'date_of_birth',
+            'address',
+            'role_id',
+        ]);
+        
+        $user = self::updateOrCreate(['id' => $id], $user);
+        return $user;
+    }
    
    
 }
