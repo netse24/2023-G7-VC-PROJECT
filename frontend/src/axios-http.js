@@ -1,3 +1,4 @@
+// senior code 2022-G3-VC2-Part2 
 import axios from 'axios';
 import { storeManageCookie } from '@/store/cookie.js';
 export const axiosClient = axios.create({
@@ -6,9 +7,9 @@ export const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(
-    (config) => {
+     async (config) => {
         const authStore = storeManageCookie();
-        const token = authStore.getToken;
+        const token = await authStore.getToken();
         config.headers.Authorization = "Bearer " + token;
         config.headers.Accept = "application/json";
         return config;

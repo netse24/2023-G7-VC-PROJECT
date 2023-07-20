@@ -35,18 +35,20 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
-    Route::get('/users/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/getByIdCookie/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/auth', [AuthController::class, "getUserByAuth"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
     Route::resource('students', StudentController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
+    
+    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
+    Route::get('/students/background/{id}', [StudentController::class,'show']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
-
-Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
 Route::resource('rooms', RoomController::class);
 Route::resource('classes', ClasseController::class);
 Route::resource('courses', CourseController::class);
