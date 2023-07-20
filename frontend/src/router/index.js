@@ -115,7 +115,7 @@ const routes = [
   {
     path: '/student/schedule',
     name: 'student-schedule',
-    component: () => import('../views/schedule/ScheduleView.vue'),
+    component: () => import('../views/scheule/ScheduleView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
 

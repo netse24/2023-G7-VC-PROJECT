@@ -64,7 +64,6 @@ export default {
       ],
     };
   },
-
   methods: {
     onClickCategory(index) {
       this.breadCrumb = [];
@@ -98,7 +97,7 @@ export default {
          
         })
         .catch((error) => {
-          console.error(error);
+          console.error(error.message);
         });
     },
   },
@@ -110,4 +109,8 @@ export default {
   transition: ease-in-out 0.1s;
   border: 2px solid #48b8f4;
 }
+
+/* h5 {
+  background: #48b8f4;
+} */
 </style>
