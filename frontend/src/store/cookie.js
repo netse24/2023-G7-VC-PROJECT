@@ -10,13 +10,14 @@ export const storeManageCookie = defineStore('manageCookie', {
         }
     },
     getters: {
-        getToken() {
-            return this.token === null ? this.getCookie('user_token') : this.token;
-        },
+       
 
     },
     actions: {
         //
+        getToken() {
+            return this.token == null ? this.getCookie('user_token') : null;
+        },
         deleteCookie: (cookieName) => {
             var date = new Date();
             date.setTime(date.getTime() - (60 * 60 * 1000));

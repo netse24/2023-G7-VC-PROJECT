@@ -64,16 +64,14 @@ export default {
   methods: {
     getTeacher() {
       axiosClient
-      .get('teachers/background/'+this.id)
-      .then((res) => {
-          alert(this.id)
-          // this.teachers = res.data.data
-          console.log(res.data.data)
+        .get('teachers/background/' + this.id)
+        .then((res) => {
+          this.teachers = res.data.data
         })
         .catch((err) => console.log(err));
     },
   },
-  mounted() {
+  created() {
     this.getTeacher();
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <nav-bar />
     <div class="w-11/12 m-auto">
       <div class="flex justify-between my-2 mt-5">
         <div class="flex gap-2">
@@ -206,9 +206,10 @@ export default {
       }
     },
     // function search name //Got from chatGPT
+    //keyWord: how to search name in eacher class in vue JS
     matchesSearch(student) {
       const nameFilter = this.searchByQuery.toLowerCase();
-      return !nameFilter || student.user.first_name.toLowerCase().includes(nameFilter);
+      return !nameFilter || student.user.first_name || student.user.last_name.toLowerCase().includes(nameFilter);
     }
   },
 

@@ -41,17 +41,16 @@
 import image from '../../assets/background-1-1.png';
 import imageForm from '../../assets/bg-login.png';
 import { axiosClient } from '../../axios-http';
-import { storeManageCookie } from '@/store/cookie'
-import { userInformations } from '@/store/userStore'
+// import { userInformations } from '../../store/userStore';
+import { storeManageCookie } from '../../store/cookie';
 import Swal from 'sweetalert2'
+
 export default {
   name: 'App',
   setup() {
-    const userCookies = storeManageCookie();
-    const userData = userInformations();
+    const cookie = storeManageCookie()
     return {
-      userCookies,
-      userData
+      cookie
     }
   },
   data() {
@@ -84,6 +83,7 @@ export default {
         this.password = null;
       }, 2000);
     },
+
     async login() {
       if (
         this.$refs.form.validate() && this.passwordRules && this.emailRules && this.email && this.password) {
@@ -92,24 +92,22 @@ export default {
           email: this.email,
           password: this.password,
         };
+
         try {
           const res = await axiosClient.post('login', user);
           this.timeLoading();
-
-          // Senior Code
-          var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
+          // Senior Code  // senior code 2022-G3-VC2-Part2 
+          // AES stand for advaned enscryption standard
+          var userRole = this.$CryptoJS.AES.encrypt(res.data.user.role.role, "Secret role").toString();
           var userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
-          if (res.status == 202) {
-            setTimeout(() => {
-              this.loginSuccess = true;
-            }, 500);
-
+          setTimeout(() => {
+            this.loginSuccess = true;
+          }, 500);
+          if (res.status) {
             // set cookies
-            this.userCookies.setCookie('user_token', res.data.token, 30);
-            this.userCookies.setCookie('user_id', userId, 30);
-            this.userCookies.setCookie('user_role', userRole, 30);
-
-            // load token from cookie after login
+            this.cookie.setCookie('user_token', res.data.token, 30);
+            this.cookie.setCookie('user_id', userId, 30);
+            this.cookie.setCookie('user_role', userRole, 30);
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -117,34 +115,37 @@ export default {
               showConfirmButton: false,
               timer: 1500
             })
-            this.userData.getUserData();
-            if (res.data.role.name == 'admin') {
-              setTimeout(() => {
-                this.$router.push('admin');
-              }, 1500);
-            } else if (res.data.role.name == 'teacher') {
-              setTimeout(() => {
-                this.$router.push('teachers');
-              }, 1500);
-            } else if (res.data.role.name == 'student') {
-              setTimeout(() => {
-                this.$router.push('students');
-              }, 1500);
+            // https://zzzcode.ai/answer-question: use old code and tell ai correct it.
+            switch (res.data.user.role.role) {
+              case 'admin':
+                setTimeout(() => {
+                  this.$router.push('admin');
+                }, 1500);
+                break;
+              case 'teacher':
+                setTimeout(() => {
+                  this.$router.push('teachers');
+                }, 1500);
+                break;
+              case 'student':
+                setTimeout(() => {
+                  this.$router.push('students');
+                }, 1500);
+                break;
             }
           }
-        } catch (error) {
-          this.errorMessage = error.response.data.message;
+        }
+        catch (error) {
           setTimeout(() => {
             this.loading = false;
-            Swal.fire(this.errorMessage)
+            console.error(error);
+            Swal.fire(error.response.data.message);
           }, 1000);
         }
       }
-    },
+    }
   },
-  // mounted() {
-  //   this.userData.getUserData();
-  // }
+
 }
 
 </script>

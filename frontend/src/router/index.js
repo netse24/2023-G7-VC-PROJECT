@@ -3,23 +3,26 @@ import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { storeToRefs } from 'pinia';
 
+// https://router.vuejs.org/guide/advanced/navigation-guards.html
 const isUserLoginRequired = async (to, from, next) => {
   const { getCookie } = storeManageCookie();
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations()); // use to get user data that store in state in userSore in pinia
   await getUserData();
-  console.log(userStore.value)
-  if (userStore && getCookie('user_token')) {
+  console.log(userStore.value);
+  if (userStore.value !== null && getCookie('user_token')) {
     next()
-  } else {
+  } else  {
     next('/login')
   }
 }
 
+// call back function find user role 
 const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations());
   await getUserData();
+  console.log(userStore.value.role.role == role)
   if (userStore.value.role.role == role) {
     next()
   } else {
@@ -72,7 +75,7 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
   },
   {
-    path: '/admin/teachers/detail/:id',
+    path: '/admin/teachers/detail/:teacher_id',
     name: 'admin-teachers-detail',
     component: () => import('../views/teacher/TeacherDetailView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
@@ -90,35 +93,37 @@ const routes = [
     path: '/teacher/schedule',
     name: 'teacher-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+
   },
   {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
-    meta: {
-      requireAuth: true,
-    }
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+
   },
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherBackground.vue'),
-    props: true
+    props: true,
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+
   },
   {
     path: '/students',
     name: 'students',
     component: () => import('../views/student/StudentView.vue'),
-    meta: {
-      requireAuth: true,
-    }
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
+
   },
   {
     path: '/students/schedule',
     name: 'student-schedule',
-    meta: {
-      requireAuth: true
-    }
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
+
+
   },
 
   {

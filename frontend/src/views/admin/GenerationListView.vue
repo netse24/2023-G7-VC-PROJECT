@@ -1,17 +1,17 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <nav-bar/>
     <div class="d-flex flex-col p-10">
-      <div class="flex justify-between mb-3">
-        <h1 class="text-3xl mb-3">All Generation</h1>
-      </div>
       <div class="flex gap-2">
         <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-          <router-link to="/admin/students">Back</router-link>
+          <router-link to="/admin">Home</router-link>
         </button>
       </div>
-      <div class="w-75 m-auto border border-1 h-50 p-10 rounded  shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]">
-        <div class="grid grid-cols-10 gap-4">
+      <div class="flex justify-between mb-3">
+        <h1 class="text-3xl m-auto font-bold mb-3">All Generation of the Students</h1>
+      </div>
+      <div class="w-75 m-auto border border-1 h-50 p-10 rounded shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]">
+        <div class="grid grid-cols-8 gap-2 gap-4">
           <button v-for="(generation, index) in generationList" :key="index" @click="showlistStudent(generation.id)"
             class="bg-cyan-500 py-3 px-5 text-2xl font-bold rounded-lg d-flex justify-center items-center">
             {{ generation.name }}
@@ -47,6 +47,5 @@ export default {
   mounted() {
     this.getGenerationList();
   },
-
 };
 </script>
