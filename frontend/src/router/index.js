@@ -13,7 +13,7 @@ const isUserLoginRequired = async (to, from, next) => {
   if (userStore.value !== null && getCookie('user_token')) {
     next()
   } else  {
-    next('/login')
+    next('/login') 
   }
 }
 
@@ -127,9 +127,8 @@ const routes = [
   {
     path: '/students/schedule',
     name: 'student-schedule',
+    component: () => import('../views/schedule/ScheduleView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
-
-
   },
 
   {

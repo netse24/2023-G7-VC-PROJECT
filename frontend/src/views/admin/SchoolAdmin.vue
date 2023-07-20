@@ -50,6 +50,7 @@ export default {
       ],
     };
   },
+
   methods: {
     onClickCategory(index) {
       this.breadCrumb = [];
@@ -78,7 +79,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error.message);
+          console.error(error);
         });
     },
   },

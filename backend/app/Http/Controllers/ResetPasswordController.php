@@ -15,7 +15,7 @@ class ResetPasswordController extends Controller
     public function resetPasswordPost(Request $request)
     {
         $user = Auth::user();
-        $email = User::where('email', '=', $user->email )->first();
+        $email = User::where('email', '=', $user->email)->first();
         if ($email) {
             return response()->json([
                 'status' => 'success',
@@ -32,8 +32,8 @@ class ResetPasswordController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'current_password' => 'required|min:6',
-            'new_password' => 'required|min:6',
+            'current_password' => 'required|min:8|regex:/[a-zA-Z]/',
+            'new_password' => 'required|min:8|regex:/[a-zA-Z]/',
         ]);
         if (Hash::check($request->current_password, $user->password)) {
             $user->update([
