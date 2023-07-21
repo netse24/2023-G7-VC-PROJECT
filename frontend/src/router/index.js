@@ -12,8 +12,8 @@ const isUserLoginRequired = async (to, from, next) => {
   console.log(userStore.value);
   if (userStore.value !== null && getCookie('user_token')) {
     next()
-  } else  {
-    next('/login') 
+  } else {
+    next('/login')
   }
 }
 
@@ -51,11 +51,11 @@ const routes = [
     path: '/admin/students',
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin') ],
     props: true
   },
   {
-    props:true,
+    props: true,
     path: '/admin/generations/studentList/:id',
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
@@ -103,6 +103,21 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
 
   },
+  {
+    path: '/teacher/students',
+    name: 'generation_of_students',
+    component: () => import('../views/admin/GenerationListView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher') ],
+
+  },
+  {
+    path: '/teacher/generations/studentList/:id',
+    name: 'student_in_a_generation',
+    component: () => import('../views/admin/StudentListView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
+    props:true
+  },
+  
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',

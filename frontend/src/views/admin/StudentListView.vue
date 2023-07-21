@@ -1,10 +1,10 @@
 <template>
   <section>
-    <nav-bar></nav-bar>
+    <nav-bar />
     <div class="w-11/12 m-auto">
       <div class="flex justify-between my-2 mt-5">
-        <div class="flex gap-2">
-          <!-- Back button -->
+        <div class="flex gap-2 admin-page" v-if="user_role != null && user_role == 'admin'">
+          <!-- Back button see by admin -->
           <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded" :disabled="selectedUsers.length > 0"
             :style="selectedUsers.length > 0
               ? 'background-color:gray'
@@ -18,8 +18,8 @@
           <!--Delete button -->
           <button class="bg-red-600 hover cursor-pointer hover:bg-red-700  font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length >= 0" :style="selectedUsers.length == 0
-                ? 'background-color:gray'
-                : 'background-color:red-700'
+              ? 'background-color:gray'
+              : 'background-color:red-700'
               ">
             <p class="text-white" v-if="selectedUsers.length == 0">Delete</p>
             <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
@@ -54,8 +54,8 @@
           <!-- update button-->
           <button class="bg-cyan-500 hover:bg-cyan-600  font-bold py-2 px-4 border border-blue-700 rounded w-28"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0" :style="selectedUsers.length > 1 || selectedUsers.length == 0
-                ? 'background-color: gray'
-                : 'background-color: bg-blue-700'
+              ? 'background-color: gray'
+              : 'background-color: bg-blue-700'
               ">
             <p class="text-white" v-if="selectedUsers.length == 0 || selectedUsers.length > 1">
               Update
@@ -116,8 +116,8 @@
           <!-- add transcript button -->
           <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0" :style="selectedUsers.length > 1 || selectedUsers.length == 0
-                ? 'background-color:gray'
-                : 'background-color:orange-700'
+              ? 'background-color:gray'
+              : 'background-color:orange-700'
               ">
             <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">
               Add Transcript
@@ -129,8 +129,8 @@
           <!--See detail button -->
           <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0" :style="selectedUsers.length > 1 || selectedUsers.length == 0
-                ? 'background-color:gray'
-                : 'background-color:orange-700'
+              ? 'background-color:gray'
+              : 'background-color:orange-700'
               ">
             <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">
               See Detail
@@ -142,7 +142,34 @@
             </p>
           </button>
         </div>
-        <!-- search button-->
+        <div class="flex gap-2" v-if="user_role != null && user_role == 'teacher'">
+          <!-- Back button see by teacher-->
+          <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded" :disabled="selectedUsers.length > 0"
+            :style="selectedUsers.length > 0
+              ? 'background-color:gray'
+              : 'background-color:blue-600'
+              ">
+            <p class="text-white" v-if="selectedUsers.length > 0">Back</p>
+            <p v-if="selectedUsers.length == 0">
+              <router-link to="/teacher/students">Back</router-link>
+            </p>
+          </button>
+          <!--See detail button -->
+          <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded"
+            :disabled="selectedUsers.length > 1 || selectedUsers.length == 0" :style="selectedUsers.length > 1 || selectedUsers.length == 0
+              ? 'background-color:gray'
+              : 'background-color:orange-700'
+              ">
+            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">
+              Comment
+            </p>
+            <p v-if="selectedUsers.length == 1">
+              <router-link :to="`/teacher/student/transcrypt/${selectedUsers}`">
+                Comment
+              </router-link>
+            </p>
+          </button>
+        </div>
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
             <input v-model="searchByQuery" placeholder="search student..." class="input-search outline outline-0 px-3" />
@@ -213,8 +240,16 @@
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
+import { storeManageCookie } from "@/store/cookie";
+import { AES, enc } from "crypto-js";
 
 export default {
+  setup() {
+    const userCookie = storeManageCookie()
+    return {
+      userCookie
+    }
+  },
   props: ["id"],
   data() {
     return {
@@ -230,6 +265,7 @@ export default {
       searchByQuery: "",
       selectedClass: null,
       user_id: null,
+      user_role: null
     };
   },
 
@@ -329,10 +365,14 @@ export default {
         student.user.last_name.toLowerCase().includes(nameFilter)
       );
     },
+    getUserRole() {
+      this.user_role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
+    },
   },
 
   mounted() {
     this.getStudent();
+    this.getUserRole();
   },
 
   computed: {

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav-bar/>
+    <nav-bar />
     <div class="d-flex flex-col p-10">
       <div class="flex gap-2">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
@@ -23,7 +23,15 @@
 </template>
 <script>
 import { axiosClient } from "../../axios-http";
+import { storeManageCookie } from "@/store/cookie";
+import { AES, enc } from 'crypto-js';
 export default {
+  setup() {
+    const userCookie = storeManageCookie()
+    return {
+      userCookie
+    }
+  },
   data() {
     return {
       generationList: [],
@@ -41,8 +49,13 @@ export default {
         });
     },
     showlistStudent(id) {
-      console.log(id);
-      this.$router.push(`/admin/generations/studentList/${id}`)
+      const role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
+      // alert(role)
+      if (role == 'admin') {
+        this.$router.push(`/admin/generations/studentList/${id}`)
+      } else if (role == 'teacher') {
+        this.$router.push(`/teacher/generations/studentList/${id}`)
+      }
     }
   },
   mounted() {

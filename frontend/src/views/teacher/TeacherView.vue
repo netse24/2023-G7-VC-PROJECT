@@ -27,7 +27,7 @@
 </template>
 <script>
 import { storeManageCookie } from "@/store/cookie";
-import { AES,enc } from "crypto-js";
+import { AES, enc } from "crypto-js";
 
 export default {
   setup() {
@@ -50,16 +50,8 @@ export default {
           image: require("../../assets/schedule.png")
         },
         {
-          title: "Assignment",
+          title: "Feedback",
           image: require("../../assets/assignment.png")
-        },
-        {
-          title: "Transcript",
-          image: require("../../assets/transcript.png")
-        },
-        {
-          title: "Curriculum",
-          image: require("../../assets/curriculum.png")
         },
       ],
     };
@@ -81,6 +73,10 @@ export default {
     toggleClick(action) {
       if (action.title.toLowerCase() == 'background') {
         this.$router.push(`/teachers/background/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
+      } else if (action.title.toLowerCase() == 'schedule') {
+        this.$router.push('/teacher/schedule')
+      } else if (action.title.toLowerCase() == 'feedback') {
+        this.$router.push('/teacher/students')
       }
     },
   },
