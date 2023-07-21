@@ -13,9 +13,8 @@ class ResetPasswordController extends Controller
     //
 
     public function resetPasswordPost(Request $request)
-    {
-        $user = Auth::user();
-        $email = User::where('email', '=', $user->email)->first();
+    {    
+        $email = User::where('email', '=', $request->email)->first();
         if ($email) {
             return response()->json([
                 'status' => 'success',
