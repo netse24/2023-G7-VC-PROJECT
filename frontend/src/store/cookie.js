@@ -3,19 +3,21 @@ import { defineStore } from "pinia";
 // senior code 2022-G3-VC2-Part2 
 export const storeManageCookie = defineStore('manageCookie', {
 
-    // defind token
+    // define token
     state() {
         return {
             token: null
         }
     },
     getters: {
-        getToken() {
-            return this.token === null ? this.getCookie('user_token') : this.token;
-        },
+       
+
     },
     actions: {
         //
+        getToken() {
+            return this.token == null ? this.getCookie('user_token') : null;
+        },
         deleteCookie: (cookieName) => {
             var date = new Date();
             date.setTime(date.getTime() - (60 * 60 * 1000));

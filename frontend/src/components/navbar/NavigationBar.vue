@@ -1,18 +1,8 @@
 <template>
   <v-app-bar>
     <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-    <v-app-bar-title >School Management System</v-app-bar-title>
+    <v-app-bar-title>School Management System</v-app-bar-title>
     <v-spacer></v-spacer>
-    <div class="search-controll" v-if="isAdmin">
-      <v-btn v-if="showSearchBar" class="search-bar">
-        <input v-model="searchQuery" placeholder="Search..." class="input-search" />
-        <v-icon @click="toggleSearchBar">mdi-magnify</v-icon>
-      </v-btn>
-      <v-btn @click="toggleSearchBar" icon v-else>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </div>
-
     <v-btn icon>
       <v-icon>mdi-moon-waning-crescent</v-icon>
     </v-btn>
@@ -38,9 +28,11 @@
 import { storeManageCookie } from '@/store/cookie';
 import { userInformations } from '@/store/userStore';
 import { axiosClient } from '../../axios-http'
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
+import Swal from 'sweetalert2'
 
 export default {
+  props: ['breadCrum'],
   setup() {
     const userCookie = storeManageCookie();
     const userData = userInformations();
@@ -49,19 +41,18 @@ export default {
       userData,
     }
   },
-  props: ['breadCrum'],
   data() {
     return {
       isVertical: false,
       breadcrum: [],
-      items: [
-        { title: "Your Profile", icon: "mdi-account-circle", type: "profile" },
-        { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
-        { title: "Log Out", icon: "mdi-logout", type: "logout" },
-      ],
+      items:
+        [
+          { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
+          { title: "Log Out", icon: "mdi-logout", type: "logout" },
+        ],
       showSearchBar: false,
       searchQuery: null,
-      isAdmin: null,
+      isLogout: false
 
     }
   },
@@ -69,30 +60,60 @@ export default {
     onClickVertical() {
       this.isVertical = !this.isVertical;
     },
-    async logout() {
-      if (confirm('Do you want to logout?')) {
-        this.$router.push('/')
-        await axiosClient.post('logout').then(() => {
-          this.userCookie.deleteCookie('user_token')
-          this.userCookie.deleteCookie('user_role')
-          this.userCookie.deleteCookie('user_id')
-        }).catch(error => {
-          if (error.response.status === 401) {
-            console.log('un-auth')
-          }
-        })
 
+    // user logout
+    async logout() {
+      const confirmed = await this.confirmLogout();
+      if (confirmed) {
+        try {
+          await axiosClient.post('logout');
+          this.userCookie.deleteCookie('user_token');
+          this.userCookie.deleteCookie('user_role');
+          this.userCookie.deleteCookie('user_id');
+          this.$router.push('/');
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            console.log('un-auth');
+          }
+        }
       }
     },
+
+    // user comfirm logout 
+    async confirmLogout() {
+      const result = await Swal.fire({
+        position: 'center',
+        icon: 'info',
+        title: 'Do you want to logout?',
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        reverseButtons: true,
+      });
+
+      if (result.isConfirmed) {
+        await Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Logout Successfully!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return true; // Return true after successful confirmation
+      } else {
+        return false; // Return false if the confirmation is canceled
+      }
+    },
+
+    // user reset password
     resetPW() {
-      this.$swal.fire({
+      Swal.fire({
         title: 'Reset your password?',
         input: 'email',
         inputPlaceholder: 'Enter your Email',
         confirmButtonText: 'Continue',
         reverseButtons: true,
         inputAttributes: {
-          autocapitalize: 'Cancel'
+          autocapitalize: 'off'
         },
         showCancelButton: true,
         showLoaderOnConfirm: true,
@@ -105,18 +126,18 @@ export default {
               return response.data.status
             })
             .catch(error => {
-              this.$swal.showValidationMessage(
+              Swal.showValidationMessage(
                 `Request failed: ${error}`
               )
             })
         },
-        allowOutsideClick: () => !this.$swal.isLoading()
+        allowOutsideClick: () => !Swal.isLoading()
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$swal.fire({
+          Swal.fire({
             confirmButtonText: 'Confirm',
             inputAttributes: {
-              autocapitalize: 'Cancel'
+              autocapitalize: 'off'
             },
             showCancelButton: true,
             showLoaderOnConfirm: true,
@@ -128,16 +149,16 @@ export default {
             reverseButtons: true,
             preConfirm: () => {
               let current = document.getElementById('current_pass').value
-              let new_pass = document.getElementById('current_pass').value
+              let new_pass = document.getElementById('new_pass').value
               let input_body = {
                 current_password: current,
                 new_password: new_pass
               }
               return axiosClient.put('changepass', input_body).then((response) => {
-                if (!response.status == 200) {
+                if (response.status !== 200) {
                   throw new Error(response.response.data.message)
                 } else {
-                  return this.$swal.fire({
+                  return Swal.fire({
                     position: 'center',
                     icon: 'success',
                     title: response.data.message,
@@ -145,7 +166,7 @@ export default {
                   })
                 }
               }).catch(error => {
-                this.$swal.showValidationMessage(
+                Swal.showValidationMessage(
                   error.response.data.message,
                 )
               })
@@ -154,33 +175,17 @@ export default {
         }
       })
     },
-    detailPF() {
-      this.$swal.fire({
-        title: 'DO you want to see you profile?',
-      })
-    },
+
+    // hand user click on reset password or logout 
     handleItemClick(action) {
-      if (action.type == "profile") {
-        this.detailPF();
-      } else if (action.type == "resetPW") {
+      if (action.type == "resetPW") {
         this.resetPW();
       } else if (action.type == "logout") {
         this.logout();
       }
     },
-    // toggle search button
-    toggleSearchBar() {
-      this.showSearchBar = !this.showSearchBar;
-    },
   },
-  mounted() {
-    const role = CryptoJS.AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(CryptoJS.enc.Utf8)
-    if (role == 'admin') {
-      this.isAdmin = role
-    }
-  }
 }
-
 </script>
 <style scoped>
 * {

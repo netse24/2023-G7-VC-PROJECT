@@ -1,133 +1,124 @@
-// Reference: FullCalendar library => https://fullcalendar.io/
-
+// Reference from FullCalendar library => https://fullcalendar.io/ //
 <template>
   <section>
-    <ScheduleForm @createSchedule="addSchedule" />
-    <div class="home" style="margin: 10px">
-      <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-      <!-- <select name="schedule" id="teachers">
-        <option value="" selected disabled>Choose teacher</option>
-        <option value="him">Him</option>
-        <option value="rady">Rady</option>
-        <option value="narin">Narin</option>
-        <option value="yon">Yon</option>
-      </select> -->
-      <FullCalendar :options="calendarOptions" />
-    </div>
+    <form class="w-75 m-auto mt-3">
+      <div class="mb-3">
+        <select
+          id="disabledSelect"
+          class="form-select"
+          v-model="filterValue"
+          @change="filterOption"
+          @click="listSchedules"
+        >
+          <option
+            v-for="(option, index) in selectOption"
+            :key="index"
+            :value="option.name"
+          >
+            {{ option.name }}
+          </option>
+        </select>
+      </div>
+    </form>
+    <ScheduleForm @createSchedule="listSchedules()" />
+    <CustomCalendar ref="toCallCalendar" />
   </section>
 </template>
-
 <script>
 import ScheduleForm from "./ScheduleForm.vue";
-import FullCalendar from "@fullcalendar/vue3";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import multiMonthPlugin from "@fullcalendar/multimonth";
+// import FilterSchedule from "./FilterSchedule.vue";
+import CustomCalendar from "../../components/schedule/CustomCalendar.vue";
+import { axiosClient } from "../../axios-http";
+import { storeManageCookie } from "../../store/cookie";
+import { AES, enc } from 'crypto-js';
+
 export default {
+  setup() {
+    const getRole = storeManageCookie();
+    return {getRole};
+  },
   name: "HomeView",
-  props: ["createSchedule"],
   components: {
     ScheduleForm,
-    FullCalendar, // make the <FullCalendar> tag available
+    CustomCalendar,
   },
   data() {
     return {
-      calendarOptions: {
-        plugins: [
-          dayGridPlugin,
-          interactionPlugin,
-          timeGridPlugin,
-          multiMonthPlugin,
-          listPlugin,
-        ],
-        // Fuction
-        // dateClick: this.handleDateClick,
-        // Time
-        timeZone: "Asia/Phnom_Penh", // Set the timezone to Cambodia
-        slotMinTime: "07:00:00",
-        slotMaxTime: "24:00:00",
-        // View
-        initialView: "timeGridWeek",
-        // Other
-        expandRows: true,
-        height: 650,
-        handleWindowResize: true,
-        // navLinks: true, // can click day/week names to navigate views
-        // weekNumbers:true,
-        editable: true,
-        selectable: true,
-        nowIndicator: true,
-        dayMaxEvents: true, // allow "more" link when too many events
-        allDaySlot: false, // Disable the all-day slot
-
-        // Events
-        eventDidMount: function (info) {
-          let teacher = info.event.extendedProps.teacherName;
-          let room = info.event.extendedProps.roomName;
-          info.el.querySelector(
-            ".fc-event-title"
-          ).innerHTML += `<br>${teacher}<br>${room}<br>`;
-        },
-        // eventDataTransform: function( eventData ) {
-        //   console.log(eventData);
-        // },
-        events: [
-          {
-            title: "VC 2",
-            start: "2023-07-10T07:30:00",
-            end: "2023-07-10T09:00:00",
-            name: "",
-            extendedProps: {
-              teacherName: "Rady",
-              roomName: "B32",
-            },
-          },
-        ],
-
-        // Toolbar
-        titleFormat: { year: "numeric", month: "long", day: "numeric" },
-        headerToolbar: {
-          left: "prev,next today",
-          // start: "",
-          end: "timeGridWeek,dayGridMonth,multiMonthYear,listMonth",
-          center: "title",
-        },
-        views: {
-          timeGridWeek: { buttonText: "week" },
-          //   dayGridMonth: { buttonText: "Month" },
-          //   dayGridWeek: { buttonText: "Week" },
-          listMonth: { buttonText: "all event" },
-        },
-      },
+      selectOption: [],
+      teachers: [],
+      filterValue: "WEP A",
+      user: "",
     };
   },
   methods: {
-    addSchedule(schedule) {
-      // console.log(schedule);
-      this.events.push({
-        title: `${schedule.subjectName}`,
-        start: `${schedule.startDate}T${schedule.startTime}`,
-        end: `${schedule.endDate}T${schedule.endTime}`,
-        name: "",
-        extendedProps: {
-          teacherName: `${schedule.teacherName}`,
-          roomName: `${schedule.roomName}`,
-        },
-      });
-      console.log(`Here is event: ${this.events}`);
+    filterOption() {
+      let role = AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(enc.Utf8);
+      const path = (role === 'student') ? 'classes' : 'teachers';
+      axiosClient
+        .get(path)
+        .then((response) => {
+          if(path == 'classes') {
+            this.selectOption = response.data.data;
+          } else if (path == 'teachers') {
+            this.selectOption = [];
+            this.teachers = response.data.data;
+            this.teachers.forEach(teacher => {
+              this.teachers = [];
+              this.selectOption.push({name:`${teacher.first_name} ${teacher.last_name}`});
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
+    listSchedules() {
+      axiosClient
+        .get("/schedule")
+        .then((response) => {
+          // Declare calendar event
+          const calendarEvents = [];
+          if (response.data && response.data.data) {
+            response.data.data.forEach((calenndar) => {
+              // Add each event to array calendarEvents
+              if(this.filterValue == calenndar.className || this.filterValue == `${calenndar.first_name} ${calenndar.last_name}`) {
+                calendarEvents.push({
+                  title: calenndar.course,
+                  start: `${calenndar.start_date}T${calenndar.start_time}`,
+                  end: `${calenndar.end_date}T${calenndar.end_time}`,
+                  extendedProps: {
+                    className: `${calenndar.className}`,
+                    teacherName: `${calenndar.first_name} ${calenndar.last_name}`,
+                    roomName: `${calenndar.roomName}`,
+                  },
+                });
+
+              }
+            });
+            // Add event to fullCalendar and view            
+            this.$refs.toCallCalendar.addEvents(calendarEvents);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  created() {
+    this.listSchedules();
+  },
+  mounted() {
+    this.filterOption();
   },
 };
 </script>
-<style>
+<style scoped>
 /* .fc-toolbar-title {
 } */
 .fc-event-time {
   display: none;
 }
-.fc-col-header-cell-cushion {
+.fc-col-header-cell-cushion, .fc-sticky {
   color: #000;
   text-decoration: none;
 }

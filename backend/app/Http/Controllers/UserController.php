@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\StudentResource;
 use App\Http\Resources\UserResource;
+use App\Mail\PermissionEmail;
 use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Generation;
@@ -12,6 +16,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -30,38 +35,43 @@ class UserController extends Controller
   public function store(Request $request)
 
   {
-    $user = User::create($request->input('user'));
+    $userData = $request->input('user');
+    $user = User::create($userData);
     $userId = $user->id;
     $role = $user->role_id;
     if ($role == 2) {
       $teacherData = $request->input('teacher');
-      $courses = Course::all();
-      foreach ($courses as $course) {
-        $courseData = $request->input('course');
-        if (!Course::where('course', $courseData['course'])->exists()) {
-          $newCourse = Course::create($courseData);
-          $courseId = $newCourse->id;
-          $teacherData['user_id'] = $userId;
-          $teacherData['course_id'] = $courseId;
-          $teacher = Teacher::create($teacherData);
-          return response()->json([
-            'success' => true,
-            'user' => $user,
-            'teacher' => $teacher,
-            'course' => $newCourse
-          ], 201);
-        } else {
-          $courseId = $course->id;
-          $teacherData['user_id'] = $userId;
-          $teacherData['course_id'] = $courseId;
-          $teacher = Teacher::create($teacherData);
-          return response()->json([
-            'success' => true,
-            'user' => $user,
-            'teacher' => $teacher,
-            'course' => $course
-          ], 201);
+      $courseData = $request->input('course');
+      if (!Course::where('course', $courseData['course'])->exists()) {
+        $newCourse = Course::create($courseData);
+        $courseId = $newCourse->id;
+        $teacherData['user_id'] = $userId;
+        $teacherData['course_id'] = $courseId;
+        $teacher = Teacher::create($teacherData);
+        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
+        return response()->json([
+          'success' => true,
+          'user' => $user,
+          'teacher' => $teacher,
+          'course' => $newCourse
+        ], 201);
+      } else {
+        $courses = Course::all();
+        foreach ($courses as $course) {
+          if ($course['course'] == $courseData['course']) {
+            $courseId = $course['id'];
+          }
         }
+        $teacherData['user_id'] = $userId;
+        $teacherData['course_id'] = $courseId;
+        $teacher = Teacher::create($teacherData);
+        Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
+        return response()->json([
+          'success' => true,
+          'user' => $user,
+          'teacher' => $teacher,
+          'course' => $course
+        ], 201);
       }
     } else if ($role == 3) {
       $studentData = $request->input('student');
@@ -77,6 +87,8 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
+
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -93,6 +105,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -113,6 +126,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -131,6 +145,7 @@ class UserController extends Controller
           $studentData['class_id'] = $classId;
           $studentData['generation_id'] = $generationId;
           $student = Student::create($studentData);
+          Mail::to($user->email)->send(new PermissionEmail($user, $user->first_name, $user->last_name, $user->email, $userData['password']));
           return response()->json([
             'success' => true,
             'user' => $user,
@@ -140,12 +155,10 @@ class UserController extends Controller
       }
     }
   }
-
-
   /**
    * Display the specified resource.
    */
-  public function show(string $id)
+  public function show($id)
   {
     $user = User::find($id);
     if (!$user) {
@@ -158,10 +171,17 @@ class UserController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(UpdateUserRequest $request, string $id)
   {
-    $user = User::store($request, $id);
-    return response()->json(['success' => true, 'data' => $user], 200);
+    $users = User::find($id);
+      $users->update([
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'gender' => $request->gender,
+        'date_of_birth' => $request->date_of_birth,
+        'address' => $request->address,
+      ]);
+      return response()->json(['success' => true, 'data' => $users], 200);
   }
 
   /**
@@ -175,7 +195,7 @@ class UserController extends Controller
   }
 
   /**
-   * Search name of the user.
+   * Search First, Last Name of the student and teacher.
    */
   public function searchUserByName($searchUser)
   {
@@ -185,6 +205,7 @@ class UserController extends Controller
       ->get();
     return $searchUserName;
   }
+
   /**
    * select remove 
    */
@@ -199,10 +220,16 @@ class UserController extends Controller
   public function getUserById($id)
   {
     $user = User::where('id', '=', $id)->first();
+    if (!$user) {
+      return response()->json([
+        'message' => 'User not found',
+      ], 404);
+    }
+    $user = new UserResource($user);
     return response()->json([
-      'message' => 'success',
+      'message' => 'Get user successfully ',
       'data' => $user
-    ]);
+    ], 200);
   }
 
   // user to logout user and delete that users' token 

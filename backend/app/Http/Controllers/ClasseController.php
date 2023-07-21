@@ -51,7 +51,6 @@ class ClasseController extends Controller
         $class = StudentResource::collection($student);
         return response()->json(['success' => true, 'data' => $class], 200);
     }
-
     /**
      * Update the specified resource in storage.
      */

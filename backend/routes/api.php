@@ -1,14 +1,12 @@
 <?php
-
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
@@ -35,21 +33,29 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
-    Route::get('/users/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/getByIdCookie/{id}', [UserController::class, "getUserById"]);
+    Route::get('/users/auth', [AuthController::class, "getUserByAuth"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
     Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
     Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
-    Route::resource('users', UserController::class);
-    Route::resource('teachers', TeacherController::class);
-    Route::resource('rooms', RoomController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('classes', ClasseController::class);
-    Route::resource('courses', CourseController::class);
     Route::resource('students', StudentController::class);
-    Route::resource('generations', GenerationController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
-    Route::resource('schedule', ScheduleController::class);
-    Route::get('/teacher/{ids}', [TeacherController::class, 'getTeacherInfo']);
+    
+    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
+    Route::get('/students/background/{id}', [StudentController::class,'show']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
+    Route::resource('users', UserController::class);
+
 });
+Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
+Route::resource('rooms', RoomController::class);
+Route::resource('classes', ClasseController::class);
+Route::resource('courses', CourseController::class);
+Route::resource('generations', GenerationController::class);
+Route::resource('teachers', TeacherController::class);
+Route::resource('students', StudentController::class);
+Route::resource('schedule', ScheduleController::class);
+Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
+Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
+// Route::get('/getTeacherByUserId/{UserId}', [TeacherController::class, 'getTeacherByUserId']);
