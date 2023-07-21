@@ -38,7 +38,7 @@
                 <v-text class="text-dart" v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-red-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-cyan-500">Delete date of Teacher</v-card-title>
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -48,7 +48,7 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
+                    <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
                       @click="dialogDelete = false">Cancel
                     </v-btn>
                     <v-btn v-if="selectedUsers.length > 0" @click="deleteTeacher()"
@@ -177,7 +177,7 @@
       </div>
       <hr />
       <!-- table get teacher -->
-      <div class="d-flex mt-8 relative sm:rounded-t-lg overflow-y-auto h-80">
+      <div class="mt-3 relative sm:rounded-t-lg overflow-y-auto h-80">
         <table class="border-collapse border w-100 m-auto  text-center">
           <thead class="bg-cyan-500">
             <tr>
