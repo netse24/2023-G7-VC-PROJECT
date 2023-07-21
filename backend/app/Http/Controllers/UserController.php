@@ -164,6 +164,7 @@ class UserController extends Controller
     if (!$user) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
+    $user = new UserResource($user);
     return response()->json(['success' => true, 'data' => $user], 200);
   }
 
@@ -173,13 +174,13 @@ class UserController extends Controller
   public function update(UpdateUserRequest $request, string $id)
   {
     $users = User::find($id);
-        $users->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'date_of_birth' => $request->date_of_birth,
-            'address' => $request->address,
-        ]);
+      $users->update([
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'gender' => $request->gender,
+        'date_of_birth' => $request->date_of_birth,
+        'address' => $request->address,
+      ]);
       return response()->json(['success' => true, 'data' => $users], 200);
   }
 
@@ -194,7 +195,7 @@ class UserController extends Controller
   }
 
   /**
-   * Search name of the user.
+   * Search First, Last Name of the student and teacher.
    */
   public function searchUserByName($searchUser)
   {
@@ -204,6 +205,7 @@ class UserController extends Controller
       ->get();
     return $searchUserName;
   }
+
   /**
    * select remove 
    */

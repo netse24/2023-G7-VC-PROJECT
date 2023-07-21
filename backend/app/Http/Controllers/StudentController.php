@@ -44,14 +44,6 @@ class StudentController extends Controller
             return response()->json(['success' => true, 'data' => $student], 200);
         
         };
-        //findOrFail($id)bec
-        // $user = User::findOrFail($id);
-        // $student = Student::where('user_id', '=', $user->id)->first();
-        // if (!$user) {
-        //     return response()->json(['massage' =>'Not Found'], 404);
-        // }
-        // $student = new StudentResource($student);
-        // return response()->json(['success' => true, 'data' => $student], 200);
     }
 }
 
@@ -72,13 +64,5 @@ class StudentController extends Controller
         $findInUser = User::where('id', '=', $student->user_id)->first();
         $findInUser->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
-    }
-    public function getStudentByUserId($userId)
-    {
-        $student = User::find($userId);
-        if (!$student) {
-            return response()->json(['massage' => 'Not Found'], 404);
-        }
-        return response()->json(['success' => true, 'data' => $student], 200);
     }
 }

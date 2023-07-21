@@ -57,5 +57,5 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
-
-
+Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
+// Route::get('/getTeacherByUserId/{UserId}', [TeacherController::class, 'getTeacherByUserId']);

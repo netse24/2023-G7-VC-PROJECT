@@ -332,12 +332,12 @@ export default {
       students: [],
       selectedUsers: [],
       classroom: [],
-      selectedClass: null,
+      model: [],
       classesToShow: 5,
       startIndex: 0,
       searchByQuery: "",
+      selectedClass: null,
       user_id: null,
-      model: [],
     };
   },
 
@@ -357,11 +357,12 @@ export default {
         .catch((err) => console.log(err));
     },
 
+    //update student
     async editStudent() {
       try {
         if (this.selectedUsers.length == 1) {
           const res = await axiosClient.get(
-            "/getStudentByUserId/" + this.selectedUsers
+            "users/" + this.selectedUsers
           );
           this.model = res.data.data;
           console.log(this.model);
@@ -388,6 +389,7 @@ export default {
       }
     },
 
+    //delete student
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient

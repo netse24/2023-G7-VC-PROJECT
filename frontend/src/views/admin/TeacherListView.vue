@@ -17,7 +17,7 @@
       </ol>
     </div>
     <div class="w-11/12 m-auto">
-      <div class="flex justify-between my-2 mt-5">
+      <div class="flex justify-between my-2 mt-3">
         <div class="flex gap-2">
           <!-- Back button -->
           <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
@@ -51,7 +51,7 @@
                     <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
                       @click="dialogDelete = false">Cancel
                     </v-btn>
-                    <v-btn v-if="selectedUsers.length > 0" @click="deleteTeacher((dialogDelete = false))"
+                    <v-btn v-if="selectedUsers.length > 0" @click="deleteTeacher()"
                       class="bg-red text-white w-20" color="font-normal text-1xl font-bold">Delete
                     </v-btn>
                   </div>
@@ -67,11 +67,92 @@
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
             :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:green-700'">
             <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Update</p>
-            <p v-if="selectedUsers.length == 1">
-              <router-link to="#">
-                Update
-              </router-link>
-            </p>
+            <v-dialog class="w-50" v-if="selectedUsers.length == 1" v-model="dialogUpdate">
+              <template v-slot:activator="{ props }">
+                <v-text v-bind="props" @click="editTeacher">Update</v-text>
+              </template>
+              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Update form info</h1>
+              <v-sheet width="auto" class="pa-5 pb-7" v-if="model != null">
+                <v-form @submit.prevent="updateTeacher">
+                  <v-row class="d-flex">
+                    <v-col>
+                      <v-text-field
+                        required
+                        density="compact"
+                        v-model="model.first_name"
+                        label="Enter Firstname"
+                        :value="model.first_name"
+                        :rules="firstNameRules"
+                        prepend-inner-icon="mdi-account-box">
+                      </v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                        density="compact"
+                        v-model="model.last_name"
+                        label="Enter Lastname"
+                        :rules="lastNameRules"
+                        prepend-inner-icon="mdi-account-box">
+                      </v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                        density="compact"
+                        v-model="model.email"
+                        label="Enter Email"
+                        :rules="emailRules"
+                        prepend-inner-icon="mdi-email">
+                      </v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-select
+                        prepend-inner-icon="mdi-account-box"
+                        density="compact"
+                        label="Choose Gender"
+                        v-model="model.gender"
+                        :rules="genderRules"
+                        :items="['Female', 'Male']">
+                      </v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                        prepend-inner-icon="mdi mdi-calendar-clock"
+                        density="compact"
+                        type="date"
+                        label="Date Of Birth"
+                        v-model="model.date_of_birth"
+                        :rules="dateRules">
+                      </v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                        density="compact"
+                        v-model="model.address"
+                        label="Enter Address"
+                        :rules="addressRules"
+                        prepend-inner-icon="mdi-map-marker-radius">
+                      </v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-list class="d-flex justify-space-between">
+                    <v-btn
+                      type="button"
+                      class="bg-grey-lighten-1"
+                      @click="dialogUpdate = false"
+                      >CANCEL</v-btn>
+                    <v-btn
+                      type="submit"
+                      class="bg-cyan"
+                      @click="dialogUpdate = false">Save
+                    </v-btn>
+                  </v-list>
+                </v-form>
+              </v-sheet>
+            </v-dialog>
           </button>
           <!--See detail button -->
           <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
@@ -96,21 +177,21 @@
       </div>
       <hr />
       <!-- table get teacher -->
-      <div class="d-flex mt-8 relative overflow-x-auto shadow-md sm:rounded-t-lg">
-        <table class="border-collapse border w-100 m-auto">
-          <thead class="bg-cyan-500 text-center">
+      <div class="d-flex mt-8 relative sm:rounded-t-lg overflow-y-auto h-80">
+        <table class="border-collapse border w-100 m-auto  text-center">
+          <thead class="bg-cyan-500">
             <tr>
-              <th class="px-4 py-4 w-2">ID</th>
-              <th class="px-4 py-4 w-64">First Name</th>
-              <th class="px-4 py-4 w-64">Last Name</th>
-              <th class="px-4 py-4 w-64">Gender</th>
-              <th class="px-4 py-4 w-64">Course</th>
+              <th class="px-2 py-3 w-2">ID</th>
+              <th class="px-2 py-3 w-64">First Name</th>
+              <th class="px-2 py-3 w-64">Last Name</th>
+              <th class="px-2 py-3 w-64">Gender</th>
+              <th class="px-2 py-3 w-64">Course</th>
             </tr>
           </thead>
-          <tbody class=" text-center">
+          <tbody>
             <tr v-for="(teacher, index) of filterUserList" :key="index">
               <td class="border border-slate-300">
-                <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.id"
+                <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.user.id"
                   class="accent-cyan-500 w-4 h-4 rounded" />
               </td>
               <td class="py-2 px-4 border border-slate-300">
@@ -138,35 +219,70 @@ export default {
   props: ["teacher_id"],
   data() {
     return {
+      searchByQuery: "",
       dialogDelete: false,
       dialogUpdate: false,
       breadCrum: [],
       teachers: [],
       selectedUsers: [],
-      searchByQuery: "",
+      model: [],
     };
   },
   methods: {
-    getTeacher() {
+    async getTeacher() {
       let teacher_id = this.selectedUsers;
-      axiosClient
-        .get("teachers/" + teacher_id)
+      await axiosClient
+        .get("teachers/" + teacher_id )
         .then((res) => {
           this.teachers = res.data.data;
           console.log(res.data.data)
         })
         .catch((err) => console.log(err));
     },
+
+    // update teacher 
+    async editTeacher() {
+      try {
+        if (this.selectedUsers.length == 1) {
+          const res = await axiosClient
+            .get("users/" + this.selectedUsers
+          );
+          this.model = res.data.data;
+        } 
+        else {
+          alert("You cannot more than one record!");
+        }
+        }catch (err) {console.log(err);
+      }
+    },
+    async updateTeacher() {
+      try {
+        if (this.selectedUsers.length == 1 && this.model != null) {
+          const res = await axiosClient
+            .put("users/" + this.selectedUsers,this.model
+          );
+          this.getTeacher();
+          location.reload();
+          console.log(res.data.user);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
     
     //delete teacher
-    deleteTeacher() {
+      deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
-        axiosClient
+          axiosClient
           .delete(`teachers/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getTeacher();
-            location.reload();
+            this.dialogDelete = false
+
+            setTimeout(()=>{
+              location.reload();
+            }, 2000)
           })
           .catch((err) => console.error(err));
       });

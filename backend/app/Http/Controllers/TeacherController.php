@@ -20,10 +20,6 @@ class TeacherController extends Controller
   }
 
   /**
-   * Store a newly created resource in storage.
-   */
-
-  /**
    * Display a listing of the resource.
    */
   public function getAll()
@@ -42,20 +38,39 @@ class TeacherController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(string $id)
+  public function destroy($id)
   {
-    $teacher = Teacher::find($id);
-    $findInUser = User::where('id', '=', $teacher->user_id)->first();
-    $findInUser->delete();
-    return response()->json(['success' => true, 'message' => 'Teacher delete successfully'], 200);
+    // $findInUser = User::find($id);
+    // // $findInUser = User::where('id', '=', $teacher->user_id)->first();
+    // $findInUser->delete();
+    // return response()->json(['success' => true, 'message' => 'Teacher delete successfully'], 200);
+    try {
+      $user = User::findOrFail($id);
+      $user->delete();
+      
+      return response()->json(['success' => true, 'message' => 'User deleted successfully'], 200);
+  } catch (\Exception $e) {
+      return response()->json(['success' => false, 'message' => 'Failed to delete user'], 500);
   }
+  }
+  
   /**
    * Display the specified resource.
    */
   public function show($id)
   {
-    $teacher = Teacher::findOrFail($id);
-    if (!$teacher) {
+    $user = User::find($id);
+    $teachers = Teacher::all();
+    foreach ($teachers as $teacher) {
+      if ($teacher['user_id'] == $user->id) {
+        $teacher = new TeacherResource($teacher);
+        return response()->json(['success' => true, 'data' =>$teacher], 200);
+      }
+    }
+    $user = User::find($id);
+    
+    $teacher = Teacher::where('user_id','=', $user->id);
+    if (!$user) {
       return response()->json(['massage' => 'Not Found'], 404);
     }
     $teacher = new TeacherResource($teacher);
@@ -67,7 +82,6 @@ class TeacherController extends Controller
    */
   public function update(Request $request, string $id)
   {
-    $teacher = Teacher::store($request, $id);
-    return response()->json(['success' => true, 'data' => $teacher], 200);
+    //
   }
 }
