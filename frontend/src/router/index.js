@@ -145,12 +145,31 @@ const routes = [
     component: () => import('../views/schedule/ScheduleView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
+  {
+    path: '/student/transcript',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+  },
+  {
+    path: '/forget-password',
+    name: 'forget-password',
+    component: () => import('../views/forget-password/ForgetPassword.vue'),
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('../views/forget-password/ResetPassword.vue'),
+  },
+  
+
 
   {
     path: '/404',
     name: 'page-not-found',
     component: () => import('../views/404/PageNotFound.vue')
-  }
+  }, 
+
+
 ]
 
 const router = createRouter({
