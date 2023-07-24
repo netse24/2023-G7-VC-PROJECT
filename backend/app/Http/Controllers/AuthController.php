@@ -28,13 +28,14 @@ class AuthController extends Controller
       }
       return response()->json(
         [
+          'message' => 'Login successful',
           'token' => $token,
           'user' => new UserResource($user),
         ],
         202
       );
     } else {
-      return response()->json(['message' => 'invalid login', 'email' => request()->email, 'password' => request()->password], 404);
+      return response()->json(['message' => 'Invalid login', 'email' => request()->email, 'password' => request()->password], 404);
     }
   }
 

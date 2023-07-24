@@ -1,7 +1,9 @@
 <?php
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoomController;
@@ -36,17 +38,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/getByIdCookie/{id}', [UserController::class, "getUserById"]);
     Route::get('/users/auth', [AuthController::class, "getUserByAuth"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);
-    Route::post('/check_email', [ResetPasswordController::class, "resetPasswordPost"]);
-    Route::put('/changepass', [ResetPasswordController::class, "resetNewPasswordController"]);
+    Route::put('/changepass', [ResetPasswordController::class, "changePassword"]);
     Route::resource('students', StudentController::class);
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
-    
-    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
-    Route::get('/students/background/{id}', [StudentController::class,'show']);
+
+    Route::get('/teachers/background/{id}', [TeacherController::class, 'show']);
+    Route::get('/students/background/{id}', [StudentController::class, 'show']);
     Route::get('/getteachers', [TeacherController::class, 'getAll']);
     Route::resource('users', UserController::class);
-
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
 Route::resource('rooms', RoomController::class);
@@ -58,4 +58,6 @@ Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
-// Route::get('/getTeacherByUserId/{UserId}', [TeacherController::class, 'getTeacherByUserId']);
+
+Route::post('/forget_password', [ForgetPasswordController::class, 'forgetPassword']);
+Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword']);
