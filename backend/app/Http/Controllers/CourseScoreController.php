@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseScoreRequest;
+use App\Models\CourseScore;
 use Illuminate\Http\Request;
 
 class CourseScoreController extends Controller
@@ -11,7 +13,12 @@ class CourseScoreController extends Controller
      */
     public function index()
     {
-        //
+        $score = CourseScore::all();
+        return response()->json([
+            "success"=> true,
+            "message"=>"Create score successfull",
+            'data' => $score
+        ],200);
     }
 
     /**
@@ -19,15 +26,25 @@ class CourseScoreController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CourseScoreRequest $request)
     {
-        //
+        $score = CourseScore::create([
+            "course_id" => $request->course_id,
+            "student_id"=> $request->student_id,
+            "score"=> $request->score,
+        
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Create score successfull",
+            'data' => $score
+        ],200);
     }
 
     /**
@@ -49,9 +66,19 @@ class CourseScoreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CourseScoreRequest $request, string $id)
     {
-        //
+        $score = CourseScore::find($id)->update([
+            "course_id" => $request->course_id,
+            "student_id"=> $request->student_id,
+            "score"=> $request->score,
+        
+        ]);
+        return response()->json([
+            "success"=> true,
+            "message"=>"Update score successfull",
+            'data' => $score
+        ],200);
     }
 
     /**
@@ -59,6 +86,10 @@ class CourseScoreController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        CourseScore::find($id)->delete();
+        return response()->json([
+            "success"=> true,
+            "message"=>"Delete score successfull",
+        ],200);
     }
 }

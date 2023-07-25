@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseScoreController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TranscriptController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +58,9 @@ Route::resource('generations', GenerationController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
+Route::resource('scores', CourseScoreController::class);
+Route::resource('transcripts', TranscriptController::class);
+
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
 
