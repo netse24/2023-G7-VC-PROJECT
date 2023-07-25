@@ -151,6 +151,12 @@ const routes = [
     component: () => import('../views/transcript/TranscriptView.vue'),
   },
   {
+    path: '/admin/students/transcript/:student_id',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/CreateTranscript.vue'),
+    props: true,
+  },
+  {
     path: '/forget-password',
     name: 'forget-password',
     component: () => import('../views/forget-password/ForgetPassword.vue'),
