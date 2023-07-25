@@ -216,7 +216,7 @@
       </div>
       <!-- table  -->
       <div class="d-flex mt-8">
-        <table class="border-collapse border w-100 m-auto" v-if="selectedClass">
+        <table class="border-collapse border w-100 m-auto text-center" v-if="selectedClass">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -228,7 +228,7 @@
           </thead>
           <tbody>
             <tr v-for="student in studentsByClass[selectedClass]" :key="student" v-show="matchesSearch(student)">
-              <td class="border border-slate-300 pl-4">
+              <td class="border border-slate-300">
                 <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="student.user.id"
                   class="accent-cyan-500 w-4 h-4 rounded" />
               </td>
