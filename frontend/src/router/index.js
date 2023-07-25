@@ -51,7 +51,7 @@ const routes = [
     path: '/admin/students',
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin') ],
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true
   },
   {
@@ -107,7 +107,7 @@ const routes = [
     path: '/teacher/students',
     name: 'generation_of_students',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher') ],
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
 
   },
   {
@@ -115,9 +115,9 @@ const routes = [
     name: 'student_in_a_generation',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
-    props:true
+    props: true
   },
-  
+
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',
@@ -151,23 +151,47 @@ const routes = [
     component: () => import('../views/transcript/TranscriptView.vue'),
   },
   {
+    path: '/admin/students/transcript/:student_id',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/CreateTranscript.vue'),
+    props: true,
+  },
+  {
     path: '/forget-password',
     name: 'forget-password',
     component: () => import('../views/forget-password/ForgetPassword.vue'),
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'login') {
+        // Allow access to the "forget-password" route if we from the login
+        next();
+      } else {
+        // Redirect to another route or show an error message
+        next('/'); // Redirect to the home page login page
+      }
+    },
   },
   {
     path: '/reset-password',
     name: 'reset-password',
     component: () => import('../views/forget-password/ResetPassword.vue'),
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'forget-password') {
+        // Allow access to the "reset-password" route
+        next();
+      } else {
+        // Redirect to another route or show an error message
+        next('/'); // Redirect to the home page
+      }
+    },
   },
-  
+
 
 
   {
     path: '/404',
     name: 'page-not-found',
     component: () => import('../views/404/PageNotFound.vue')
-  }, 
+  },
 
 
 ]

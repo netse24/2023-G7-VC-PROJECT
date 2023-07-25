@@ -123,7 +123,9 @@
               Add Transcript
             </p>
             <p v-if="selectedUsers.length == 1">
-              Add Transcript
+              <router-link :to="`/admin/students/transcript/${selectedUsers}`">
+                Add Transcript
+              </router-link>
             </p>
           </button>
           <!--See detail button -->
