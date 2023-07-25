@@ -19,7 +19,7 @@
 
                 <v-label for="password_confirmation" class="font-bold">Password Confirmation</v-label>
                 <v-text-field v-model="password_confirmation" :rules="Confirm_passwordRules"
-                  :type="Confirmt_passwordShow ? 'text' : 'password'" label="Password" placeholder="Password"
+                  :type="Confirmt_passwordShow ? 'text' : 'password'" label="Confirm Password" placeholder="Confirm Password"
                   prepend-inner-icon="mdi-key" :append-inner-icon="Confirmt_passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="Confirmt_passwordShow = !Confirmt_passwordShow" />
                 <v-card-actions class="btn-reset-link d-flex justify-end">
@@ -55,7 +55,7 @@ export default {
         value => (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) ? true : "Password must contain at least one letter and one number"
       ],
       Confirm_passwordRules: [
-        value => !!value || 'Confirst Password is required',
+        value => !!value || 'Confirm Password is required',
         value => this.password === value ? true : "Confirm Passwords do not match"
       ],
       numberRule: [
