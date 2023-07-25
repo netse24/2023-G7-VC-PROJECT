@@ -1,9 +1,11 @@
 <template>
   <section>
     <nav-bar />
-    <button class="add-schedule bg-cyan-500 hover:bg-cyan-600 text-black btn btn-primary ml-4 mt-4 w-24 font-bold">
-      <router-link :to="`/admin/students`">Back</router-link>
-    </button>
+    <div class="mt-3 ml-5">
+      <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded mb-4">
+        <router-link :to="`/admin/students`">Back</router-link>
+      </button>
+    </div>
     <div class="main flex gap-4 justify-center my-2" v-if="students != null">
       <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -20,41 +22,41 @@
         <p class="flex justify-center mb-1 text-2xl">{{ students.class }}</p>
         <p class="flex justify-center mb-1 text-2xl">{{ students.user.address }}</p>
       </div>
-      <div class="border-gray-200 rounded-lg shadow-xl">
+      <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
         <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
           {{ students.user.first_name + " " + students.user.last_name }}
         </p>
         <p class="flex justify-start px-5 py-1 mt-4 font-normal dark:text-dark">
           <span>First Name</span>
-          <span class="ml-20">{{ students.user.first_name }}</span>
+          <span class="ml-14">{{ students.user.first_name }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Last Name</span>
-          <span class="ml-20">{{ students.user.last_name }}</span>
+          <span class="ml-14">{{ students.user.last_name }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Email</span>
-          <span class="ml-28">{{ students.user.email }}</span>
+          <span class="ml-24">{{ students.user.email }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Date of birth</span>
-          <span class="ml-16">{{ students.user.date_of_birth }}</span>
+          <span class="ml-11">{{ students.user.date_of_birth }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Address</span>
-          <span class="ml-24">{{ students.user.address }}</span>
+          <span class="ml-20">{{ students.user.address }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Gender</span>
-          <span class="ml-24">{{ students.user.gender }}</span>
+          <span class="ml-20">{{ students.user.gender }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
           <span>Generation</span>
-          <span class="ml-20">{{ students.generation }}</span>
+          <span class="ml-14">{{ students.generation }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 mb-4 font-normal dark:text-dark">
           <span>Class</span>
-          <span class="ml-28">{{ students.class }}</span>
+          <span class="ml-24">{{ students.class }}</span>
         </p>
       </div>
     </div>
