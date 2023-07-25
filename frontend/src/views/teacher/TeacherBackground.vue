@@ -1,11 +1,13 @@
 <template>
   <section>
     <nav-bar />
-    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 border-blue-700 rounded w-28 mt-2 ml-5">
-      <router-link to='/teachers'>Back</router-link>
-    </button>
+    <div class="mt-3 ml-5">
+      <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded">
+          <router-link to='/teachers'>Back</router-link>
+      </button>
+    </div>
     <div class="main flex gap-4 justify-center my-3" v-if="teachers">
-      <div class="p-10 rounded-lg shadow-xl bg-cyan-500">
+      <div class="p-10 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <v-img class="w-28 m-auto mt-3 mb-2" src="../../assets/AdminSeeTeacherDeatil.png">
           <template #sources>
             <source srcset="../../assets/AdminSeeTeacherDeatil.png">

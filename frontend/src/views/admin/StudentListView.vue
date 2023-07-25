@@ -105,6 +105,19 @@
                       </v-text-field>
                     </v-col>
                   </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-select
+                        prepend-inner-icon="mdi-account-box"
+                        density="compact"
+                        label="Choose Gender"
+                        v-model="model.gender"
+                        :rules="genderRules"
+                        :items="['Female', 'Male']"
+                      >
+                      </v-select>
+                    </v-col>
+                  </v-row>
                   <v-list class="d-flex justify-space-between">
                     <v-btn type="button" class="bg-grey-lighten-1" @click="dialogUpdate = false">CANCEL</v-btn>
                     <v-btn type="submit" class="bg-cyan" @click="dialogUpdate = false">Save</v-btn>
@@ -321,7 +334,7 @@ export default {
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`students/${userId}`)
+          .delete(`users/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getStudent();

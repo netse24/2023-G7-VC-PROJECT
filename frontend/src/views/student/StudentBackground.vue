@@ -1,9 +1,11 @@
 <template>
     <section>
         <nav-bar />
-        <button class="add-schedule btn btn-primary ml-4 mt-4 w-24 font-bold">
-            <router-link to='/students'>Back</router-link>
-        </button>
+        <div class="mt-3 ml-5">
+            <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded">
+                <router-link to='/students'>Back</router-link>
+            </button>
+        </div>
         <div class="main flex gap-4 justify-center my-2" v-if="students">
             <div class="p-10 rounded-lg shadow-xl bg-cyan-500 w-3/12">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -21,7 +23,7 @@
                 <p class="flex justify-center mb-1 text-2xl">{{ students.class }}</p>
                 <p class="flex justify-center mb-1 text-2xl">{{ students.user.address }}</p>
             </div>
-            <div class="border-gray-200 rounded-lg shadow-xl">
+            <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
                 <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
                     {{ students.user.first_name + " " + students.user.last_name }}
                 </p>
