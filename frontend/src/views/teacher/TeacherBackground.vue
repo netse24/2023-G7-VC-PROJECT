@@ -5,7 +5,7 @@
       <router-link to='/teachers'>Back</router-link>
     </button>
     <div class="main flex gap-4 justify-center my-3" v-if="teachers">
-      <div class="p-10 rounded-lg shadow-xl bg-cyan-500">
+      <div class="p-10 rounded-lg shadow-xl bg-cyan-500 w-1/6">
         <v-img class="w-28 m-auto mt-3 mb-2" src="../../assets/AdminSeeTeacherDeatil.png">
           <template #sources>
             <source srcset="../../assets/AdminSeeTeacherDeatil.png">
@@ -17,7 +17,7 @@
         <p class="flex justify-center mb-1 text-2xl"> {{ teachers.course.course_name }}</p>
         <p class="flex justify-center mb-1 text-2xl"> {{ teachers.user.address }}</p>
       </div>
-      <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
+      <div class="border-gray-200 rounded-lg shadow-xl w-4/12">
         <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
           {{ teachers.user.first_name + " " + teachers.user.last_name }}
         </p>

@@ -138,7 +138,10 @@
               See Detail
             </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/students/detail/${selectedUsers}`">
+              <!-- <router-link :to="`/admin/students/detail/${selectedUsers}`">
+                See Detail
+              </router-link> -->
+              <router-link :to="{ path: `/admin/students/detail/${selectedUsers}`, query: { generation_id: id } }">
                 See Detail
               </router-link>
             </p>
@@ -205,8 +208,8 @@
       </div>
       <!-- table  -->
       <div class="d-flex mt-8">
-        <table class="border-collapse border w-100 m-auto" v-if="selectedClass">
-          <thead class="bg-cyan-500">
+        <table class="border-collapse border w-100 m-auto text-center" v-if="selectedClass">
+          <thead class="bg-cyan-500 ">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
               <th class="px-4 py-4 w-64">First Name</th>
