@@ -126,7 +126,7 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
   },
   {
-    path: '/teacher/student/transcrypt/:id',
+    path: '/teacher/student/transcrypt/:user_id',
     name: 'teacher-feedback-transcript',
     component: () => import('../views/transcript/TranscriptView.vue'),
     props: true,

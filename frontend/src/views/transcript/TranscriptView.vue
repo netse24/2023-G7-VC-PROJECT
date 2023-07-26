@@ -222,23 +222,10 @@ export default {
       this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
     },
 
-    getTeacher() {
-      axiosClient
-        .get("/teachers")
-        .then((response) => {
-          this.datas = response.data.data;
-          console.log(response.data.data);
-        })
-        .catch((err) => console.log(err));
-    },
 
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;
-      axiosClient
-      .get("/teachers")
-      .then((response) => {
-        this.datas = response.data.data;
         const element = document.getElementById("My_table"); 
         html2canvas(element).then((canvas) => {
           const image = canvas.toDataURL("image/png");
@@ -248,15 +235,11 @@ export default {
           const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
           pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
           //Name of file after download
-          const fileName = "MyTranscript.pdf";
+          const fileName = "transcript.pdf";
           pdf.save(fileName);
           this.isDetail = false;
           this.getRole();
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     },
   
     async getTerm() {
