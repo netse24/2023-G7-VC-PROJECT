@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Term;
+use App\Http\Requests\StoreTermRequest;
+use App\Http\Requests\UpdateTermRequest;
 
-class TranscriptController extends Controller
+class TermController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $terms = Term::orderBy('term', 'desc')->get();
+        return response()->json(['success' => true, 'data' => $terms], 200);
         //
     }
 
@@ -25,7 +29,7 @@ class TranscriptController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTermRequest $request)
     {
         //
     }
@@ -33,7 +37,7 @@ class TranscriptController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Term $term)
     {
         //
     }
@@ -41,7 +45,7 @@ class TranscriptController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Term $term)
     {
         //
     }
@@ -49,7 +53,7 @@ class TranscriptController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateTermRequest $request, Term $term)
     {
         //
     }
@@ -57,7 +61,7 @@ class TranscriptController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Term $term)
     {
         //
     }

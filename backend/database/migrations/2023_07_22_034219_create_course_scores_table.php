@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transcripts', function (Blueprint $table) {
+        Schema::create('course_scores', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('term');
+            $table->unsignedBigInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->integer('score');
+            $table->unsignedBigInteger('term_id');
+            $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transcripts');
+        Schema::dropIfExists('course_score');
     }
 };

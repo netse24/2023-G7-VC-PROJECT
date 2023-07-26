@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ShowTranscriptResource;
+use App\Http\Resources\TranscriptResource;
+use App\Models\CourseScore;
+use App\Models\Transcript;
 use Illuminate\Http\Request;
 
 class CourseScoreController extends Controller
@@ -11,7 +15,7 @@ class CourseScoreController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -35,7 +39,7 @@ class CourseScoreController extends Controller
      */
     public function show(string $id)
     {
-        //
+    
     }
 
     /**
