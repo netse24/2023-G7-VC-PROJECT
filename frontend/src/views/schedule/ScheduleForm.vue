@@ -198,7 +198,7 @@ export default {
       // Call to api teacher by query course_id
       if (this.subjectsItem && this.subjectsItem.id) {
         axiosClient
-          .get(`/teachers/?course_id=${this.subjectsItem.id}`)
+          .get(`/getAllTeacher/?course_id=${this.subjectsItem.id}`)
           .then((response) => {
             this.teachers = response.data.data;
           })
@@ -214,7 +214,7 @@ export default {
           let data = response.data.data;
           if (path === "courses") {
             this.courses = data;
-          } else if (path === "teachers") {
+          } else if (path === "getAllTeacher") {
             this.teachers = data;
           } else if (path === "classes") {
             this.classes = data;
