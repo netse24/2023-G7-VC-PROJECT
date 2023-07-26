@@ -15,15 +15,11 @@ class Student extends Model
         'class_id',
         'generation_id',
     ];
-
     public function user():BelongsTo{
         return $this->belongsTo(User::class);
     }
-    public function courseScore():HasMany{
+    public function courseScores():HasMany{
         return $this->hasMany(CourseScore::class);
-    }
-    public function transcript():HasMany{
-        return $this->hasMany(Transcript::class);
     }
     public function class():BelongsTo{
         return $this->belongsTo(Classes::class);
@@ -39,5 +35,4 @@ class Student extends Model
         $student = self::updateOrCreate(['id' => $id], $student);
         return $student;
     }
-
 }

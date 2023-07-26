@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ShowTranscriptResource;
+use App\Http\Resources\TranscriptResource;
+use App\Models\Transcript;
 use App\Http\Requests\CourseScoreRequest;
 use App\Models\CourseScore;
 use Illuminate\Http\Request;
@@ -13,6 +16,7 @@ class CourseScoreController extends Controller
      */
     public function index()
     {
+
         $score = CourseScore::all();
         return response()->json([
             "success"=> true,
@@ -52,7 +56,7 @@ class CourseScoreController extends Controller
      */
     public function show(string $id)
     {
-        //
+    
     }
 
     /**
