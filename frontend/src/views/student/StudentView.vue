@@ -116,6 +116,9 @@ export default {
       }
     },
   },
+  mounted() {
+    localStorage.setItem("selectedTerm", '01');
+  }
 };
 </script>
 <style>
