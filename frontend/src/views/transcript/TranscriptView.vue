@@ -2,8 +2,8 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
 <template>
   <section>
     <nav-bar></nav-bar>
-    <div class="container-btn-term d-flex items-center">
-      <div class="group-btn ml-5">
+    <div class="container-btn-term d-flex items-center mt-2">
+      <div class="group-btn ml-5 mr-2">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
           <p class="text-white py-2">Home</p>
         </button>
@@ -253,15 +253,8 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
                 <strong>{{ feedback.course }}</strong> : {{ feedback.feedback }}
               </p>
               <div class="w-[30%]">
-<<<<<<< HEAD
-                <button class="pr-1 font-semibold text-sm">Edit</button> |
-                <button class="pl-1 font-semibold text-sm hover-red">
-                  Delete
-                </button>
-=======
                 <button class="pr-1  font-semibold text-sm" @click="updateFeedback(feedback, index)">Edit</button> |
                 <button class="pl-1 font-semibold text-sm hover-red">Delete</button>
->>>>>>> e13a3ca3a6efd8e4665bf726ccd7ddbb0e62ea13
               </div>
             </div>
           </div>
@@ -278,28 +271,11 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
             >
               Comment
             </label>
-<<<<<<< HEAD
-            <input
-              class="border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
-              id="username"
-              type="text"
-              placeholder="Write a comment..."
-              v-model="writeFeedback"
-            />
-            <div class="group-btn d-flex justify-end">
-              <div class="btn-cancel p-1">
-                <button
-                  class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm"
-                >
-                  Cancel
-                </button>
-=======
               <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2" placeholder="Write a comment..." v-model="writeFeedback"></textarea>
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
                 <button
                   class=" focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm" @click="clearData">Cancel</button>
->>>>>>> e13a3ca3a6efd8e4665bf726ccd7ddbb0e62ea13
               </div>
               <div class="btn-comment p-1">
                 <button
@@ -370,7 +346,6 @@ export default {
   props: ["user_id"],
   methods: {
     getRole() {
-<<<<<<< HEAD
       this.role = AES.decrypt(
         this.userCookie.getCookie("user_role"),
         "Secret role"
@@ -398,27 +373,6 @@ export default {
         pdf.save(fileName);
         this.isDetail = false;
       });
-=======
-      this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
-    },
-    //Download transcript function
-    downloadPDF() {
-      this.isDetail = true;
-        const element = document.getElementById("My_table"); 
-        html2canvas(element).then((canvas) => {
-          const image = canvas.toDataURL("image/png");
-          const pdf = new jsPDF();
-          const imgProps = pdf.getImageProperties(image);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
-          //Name of file after download
-          const fileName = "transcript.pdf";
-          pdf.save(fileName);
-          this.isDetail = false;
-          this.getRole();
-        });
->>>>>>> e13a3ca3a6efd8e4665bf726ccd7ddbb0e62ea13
     },
 
     async getTerm() {
@@ -450,16 +404,6 @@ export default {
       });
       return scores / length;
     },
-<<<<<<< HEAD
-
-    addFeedback(){
-      // let newFeedback = {
-      //   feedback: this.writeFeedback,
-      //   student_id: this.user_id,
-      //   teacher_id: this.getId,
-      //   term_id: this.selectedTerm
-      // }
-=======
     clearData() {
       this.writeFeedback = "";
       this.feedbackID = "";
@@ -487,7 +431,6 @@ export default {
         });
       }
       this.clearData();
->>>>>>> e13a3ca3a6efd8e4665bf726ccd7ddbb0e62ea13
     }
   },
   mounted() {
@@ -512,9 +455,6 @@ export default {
 button.selected {
   background-color: rgb(217, 142, 2);
 }
-<<<<<<< HEAD
-</style>
-=======
 textarea {
   resize: none;
   border: 1px solid gray;
@@ -523,4 +463,3 @@ textarea:focus {
   outline-color: #48b8f4;
 }
 </style>
->>>>>>> e13a3ca3a6efd8e4665bf726ccd7ddbb0e62ea13
