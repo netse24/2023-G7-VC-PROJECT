@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav-bar />
+    <nav-bar></nav-bar>
     <div class="container-btn-term d-flex items-center">
       <div class="group-btn ml-5 ">
         <button class="bg-cyan-500 hover:bg-cyan-600  font-bold px-2 rounded">
@@ -19,8 +19,8 @@
     </div>
     <!-- part table transcript -->
     <div class="container-transcript w-[40%] m-auto">
-      <div class="head-transcript transcript ">
-        <div class="logo-tex d-flex items-end w-ful h-auto">
+      <div id="My_table" class="head-transcript transcript">
+        <div class="logo-tex d-flex items-end w-full h-auto">
           <div class="logo justify-start pl-2 w-[40%]">
             <img :src="require('../../assets/school-1.png')" class="w-[40%] pl-2" />
             <hr class=" h-[2px] w-[44%] rounded bg-dark opacity-100">
@@ -85,15 +85,16 @@
             </table>
           </div>
         </div>
-      </div>
-      <div class="btn-download" v-if="role != null && role == 'student'">
-        <div class="download d-flex justify-end pt-4">
-          <button
-            class=" bg-cyan-500 hover:bg-cyan-700 text-white focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm">
-            Donwload </button>
+        </div>
+        <div class="btn-download" v-if="role != null && role == 'student'">
+          <div class="download d-flex justify-end pt-4">
+            <button 
+              class=" bg-cyan-500 hover:bg-cyan-700 text-white focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm" @click="downloadPDF()">
+              Donwload 
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
     <!-- part show teacher commnet to their student! -->
     <div class="teacher-permission" v-if="role != null && role == 'student'">
@@ -144,29 +145,73 @@
 <script>
 import { storeManageCookie } from "@/store/cookie";
 import { AES, enc } from "crypto-js";
-
+import { axiosClient } from "../../axios-http";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 export default {
   setup() {
     const userCookie = storeManageCookie()
     return {
-      userCookie
+      userCookie,
     }
   },
   data() {
     return {
       role: null,
+      isDownloading: false,
+      isDetail: false,
+      pdfBaseUrl:null,
     }
   },
   props: ['student_id'],
   methods: {
     getRole() {
       this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
-    }
+    },
+
+    getTeacher() {
+      axiosClient
+        .get("/teachers")
+        .then((response) => {
+          this.datas = response.data.data;
+          console.log(response.data.data);
+        })
+        .catch((err) => console.log(err));
+    },
+
+    //Download transcript function
+    downloadPDF() {
+      this.isDetail = true;
+      axiosClient
+      .get("/teachers")
+      .then((response) => {
+        this.datas = response.data.data;
+        const element = document.getElementById("My_table"); 
+        html2canvas(element).then((canvas) => {
+          const image = canvas.toDataURL("image/png");
+          const pdf = new jsPDF();
+          const imgProps = pdf.getImageProperties(image);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+          //Name of file after download
+          const fileName = "MyTranscript.pdf";
+          pdf.save(fileName);
+          this.isDetail = false;
+          this.getRole();
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    },
   },
   mounted() {
     this.getRole();
   }
-
 }
-
 </script>
+<!-- <style scoped>
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+  /* @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css"); */
+</style> -->
