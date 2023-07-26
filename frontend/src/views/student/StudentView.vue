@@ -95,13 +95,13 @@ export default {
         title: `${this.schoolItems[index].title}`,
         href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
       });
-      // this.breadCrumb.forEach((path) => {
-      //   if (path) {
-      //     this.$router.push(`/students/${path.title.toLowerCase()}`);
-      //   } else {
-      //     this.$router.push('/404');
-      //   }
-      // });
+      this.breadCrumb.forEach((path) => {
+        if (path) {
+          this.$router.push(`/student/${path.title.toLowerCase()}`);
+        } else {
+          this.$router.push('/404');
+        }
+      });
     },
     toggleClick(action) {
       if (action.title == 'Background') {

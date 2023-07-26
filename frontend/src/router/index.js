@@ -152,7 +152,7 @@ const routes = [
   },
   {
     path: '/admin/students/transcript/:student_id',
-    name: 'student-transcript',
+    name: 'student-transcript-id',
     component: () => import('../views/transcript/CreateTranscript.vue'),
     props: true,
   },
