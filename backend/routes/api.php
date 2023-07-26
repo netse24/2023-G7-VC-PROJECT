@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseScoreController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
@@ -70,3 +71,8 @@ Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
 Route::post('/forget_password', [ForgetPasswordController::class, 'forgetPassword']);
 Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword']);
 Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStudentCourseScore']);
+
+
+Route::get('/getfeedbacks', [FeedbackController::class, 'index']);
+Route::post('/getfeedback', [FeedbackController::class, 'store']);
+Route::get('/getfeedback/{id}', [FeedbackController::class, 'show']);
