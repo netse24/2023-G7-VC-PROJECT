@@ -1,7 +1,6 @@
 <template>
   <section>
     <v-app :style="{ backgroundImage: `url(${image})` }" class="bg-no-repeat h-screen">
-      <!-- <v-alert type="success" title="Success " v-if="loginSuccess" class="w-50 m-auto"></v-alert> -->
       <v-main class="d-flex justify-center align-center">
         <v-col cols="10" lg="4" class="mx-auto">
           <h1 class="pa-5 text-3xl text-center bold font-bold">Welcome to <br> School Management System</h1>
@@ -30,9 +29,6 @@
           </v-card>
         </v-col>
       </v-main>
-      <!-- <v-snackbar top color="light-green" v-model="snackbar">
-        Login success
-      </v-snackbar> -->
     </v-app>
   </section>
 </template>
@@ -41,17 +37,16 @@
 import image from '../../assets/background-1-1.png';
 import imageForm from '../../assets/bg-login.png';
 import { axiosClient } from '../../axios-http';
-import { storeManageCookie } from '@/store/cookie'
-import { userInformations } from '@/store/userStore'
+// import { userInformations } from '../../store/userStore';
+import { storeManageCookie } from '../../store/cookie';
 import Swal from 'sweetalert2'
+
 export default {
   name: 'App',
   setup() {
-    const userCookies = storeManageCookie();
-    const userData = userInformations();
+    const cookie = storeManageCookie()
     return {
-      userCookies,
-      userData
+      cookie
     }
   },
   data() {
@@ -70,7 +65,8 @@ export default {
       password: null,
       passwordRules: [
         value => !!value || 'Password is required',
-        value => (value && value.length >= 6) || 'Password must be 6  characters or more!',
+        value => value?.length >= 8 ? true : "Password must be filled out at least 8 characters",
+        value => (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) ? true : "Password must contain at least one letter and one number"
       ],
       errorMessage: null,
     }
@@ -84,6 +80,7 @@ export default {
         this.password = null;
       }, 2000);
     },
+
     async login() {
       if (
         this.$refs.form.validate() && this.passwordRules && this.emailRules && this.email && this.password) {
@@ -92,57 +89,61 @@ export default {
           email: this.email,
           password: this.password,
         };
+
         try {
           const res = await axiosClient.post('login', user);
           this.timeLoading();
-          var userRole = this.$CryptoJS.AES.encrypt(res.data.role.name, "Secret role").toString();
-          let userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
-          if (res.status == 202) {
-            setTimeout(() => {
-              this.loginSuccess = true;
-            }, 500);
-
+          console.log(res);
+          // Senior Code  // senior code 2022-G3-VC2-Part2 
+          // AES stand for advaned enscryption standard
+          var userRole = this.$CryptoJS.AES.encrypt(res.data.user.role.role, "Secret role").toString();
+          var userId = this.$CryptoJS.AES.encrypt(res.data.user.id.toString(), "Secret id").toString();
+          setTimeout(() => {
+            this.loginSuccess = true;
+          }, 500);
+          if (res.status) {
             // set cookies
-            this.userCookies.setCookie('user_token', res.data.token, 30);
-            this.userCookies.setCookie('user_id', userId, 30);
-            this.userCookies.setCookie('user_role', userRole, 30);
-
-            // load token from cookie after login
-            this.userData.getUserData();
+            this.cookie.setCookie('user_token', res.data.token, 30);
+            this.cookie.setCookie('user_id', userId, 30);
+            this.cookie.setCookie('user_role', userRole, 30);
             Swal.fire({
               position: 'center',
               icon: 'success',
               title: 'Login Success',
               showConfirmButton: false,
-              timer: 2000
+              timer: 1500
             })
-            if (res.data.role.name == 'admin') {
-              setTimeout(() => {
-                this.$router.push('admin');
-              }, 1500);
-            } else if (res.data.role.name == 'teacher') {
-              setTimeout(() => {
-                this.$router.push('teachers');
-              }, 1500);
-            } else if (res.data.role.name == 'student') {
-              setTimeout(() => {
-                this.$router.push('students');
-              }, 1500);
+            // https://zzzcode.ai/answer-question: use old code and tell ai correct it.
+            switch (res.data.user.role.role) {
+              case 'admin':
+                setTimeout(() => {
+                  this.$router.push('admin');
+                }, 1500);
+                break;
+              case 'teacher':
+                setTimeout(() => {
+                  this.$router.push('teachers');
+                }, 1500);
+                break;
+              case 'student':
+                setTimeout(() => {
+                  this.$router.push('students');
+                }, 1500);
+                break;
             }
           }
-        } catch (error) {
-          this.errorMessage = error.response.data.message;
+        }
+        catch (error) {
           setTimeout(() => {
             this.loading = false;
-            Swal.fire(this.errorMessage)
+            console.error(error);
+            Swal.fire(error.response.data.message);
           }, 1000);
         }
       }
-    },
+    }
   },
-  // mounted() {
-  //   this.userData.getUserData();
-  // }
+
 }
 
 </script>

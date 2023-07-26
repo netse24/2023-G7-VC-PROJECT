@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('123456789'),
                 'date_of_birth' => Carbon::create('2003-3-3'),
                 'address' => 'Kompong Thom',
-                'role_id' => 2,
+                'role_id' => 3,
             ],
             [
                 'first_name' => 'Soki',
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('123456789'),
                 'date_of_birth' => Carbon::create('2004-12-12'),
                 'address' => 'Porsat',
-                'role_id' => 2,
+                'role_id' => 3,
             ],
             [
                 'first_name' => 'Dariya',

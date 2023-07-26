@@ -1,6 +1,6 @@
 <template>
   <section>
-    <NavBar />
+    <nav-bar />
     <div class="m-3"
       style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
       aria-label="breadcrumb">
@@ -26,7 +26,6 @@
   </section>
 </template>
 <script>
-import NavBar from "./../../components/navbar/NavigationBar.vue";
 import { storeManageCookie } from "@/store/cookie";
 import { AES, enc } from "crypto-js";
 
@@ -51,22 +50,11 @@ export default {
           image: require("../../assets/schedule.png")
         },
         {
-          title: "Assignment",
+          title: "Feedback",
           image: require("../../assets/assignment.png")
-        },
-        {
-          title: "Transcript",
-          image: require("../../assets/transcript.png")
-        },
-        {
-          title: "Curriculum",
-          image: require("../../assets/curriculum.png")
         },
       ],
     };
-  },
-  components: {
-    NavBar,
   },
 
   methods: {
@@ -91,7 +79,11 @@ export default {
     },
     toggleClick(action) {
       if (action.title.toLowerCase() == 'background') {
-        this.$router.push(`/teacher/background/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
+        this.$router.push(`/teachers/background/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
+      } else if (action.title.toLowerCase() == 'schedule') {
+        this.$router.push('/teacher/schedule')
+      } else if (action.title.toLowerCase() == 'feedback') {
+        this.$router.push('/teacher/students')
       }
     },
   },

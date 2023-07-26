@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\StudentGenerationListResource;
 use App\Http\Resources\StudentResource;
-use App\Models\Classes;
 use App\Models\Generation;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\VarDumper\Cloner\Stub;
 
 class GenerationController extends Controller
@@ -49,6 +48,16 @@ class GenerationController extends Controller
     public function update(Request $request, Generation $generation)
     {
         //
+    }
+    /**
+     * search generation.
+     */
+    public function searchGeneration($searchGeneration)
+    {
+      $searchUserName = DB::table('Generations')
+        ->where('name', 'like', '%' . $searchGeneration . '%')
+        ->get();
+      return $searchUserName;
     }
 
     /**
