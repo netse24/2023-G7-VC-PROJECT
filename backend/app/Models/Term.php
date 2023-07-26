@@ -16,4 +16,7 @@ class Term extends Model
     public function courseScores():HasMany{
         return $this->hasMany(CourseScore::class);
     }
+    public function feedbacks():HasMany{
+        return $this->hasMany(Feedback::class);
+    }
 }
