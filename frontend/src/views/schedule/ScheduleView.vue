@@ -8,34 +8,31 @@
           class="form-select"
           v-model="filterValue"
           @change="filterOption"
-          @click="listSchedules"
         >
-          <option
-            v-for="(option, index) in selectOption"
-            :key="index"
-            :value="option.name"
-          >
+          <option v-for="(option, index) in selectOption" :key="index" :value="option">
             {{ option.name }}
           </option>
         </select>
       </div>
     </form>
-    <ScheduleForm @createSchedule="listSchedules()" />
-    <CustomCalendar ref="toCallCalendar" />
+    <ScheduleForm
+      @createSchedule="listSchedules()"
+      ref="refToChildScheduleForm"
+    />
+    <CustomCalendar ref="toCallCalendar" @updateCalendar="updateCalendar" />
   </section>
 </template>
 <script>
 import ScheduleForm from "./ScheduleForm.vue";
-// import FilterSchedule from "./FilterSchedule.vue";
 import CustomCalendar from "../../components/schedule/CustomCalendar.vue";
 import { axiosClient } from "../../axios-http";
 import { storeManageCookie } from "../../store/cookie";
-import { AES, enc } from 'crypto-js';
+import { AES, enc } from "crypto-js";
 
 export default {
   setup() {
     const getRole = storeManageCookie();
-    return {getRole};
+    return { getRole };
   },
   name: "HomeView",
   components: {
@@ -46,25 +43,54 @@ export default {
     return {
       selectOption: [],
       teachers: [],
-      filterValue: "WEP A",
-      user: "",
+      filterValue: "",
+      role: AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(
+        enc.Utf8
+      ),
     };
   },
   methods: {
+    addEventsToCalendar(data) {
+      const calendarEvents = [];
+      data.forEach((calenndar) => {
+        // Add each event to array calendarEvents
+        calendarEvents.push({
+          title: calenndar.course,
+          start: `${calenndar.start_date}T${calenndar.start_time}`,
+          end: `${calenndar.end_date}T${calenndar.end_time}`,
+          extendedProps: {
+            className: `${calenndar.className}`,
+            teacherName: `${calenndar.first_name} ${calenndar.last_name}`,
+            roomName: `${calenndar.roomName}`,
+            dataCalenndar: calenndar,
+          },
+        });
+        // }
+      });
+      this.$refs.toCallCalendar.addEvents(calendarEvents);
+    },
     filterOption() {
-      let role = AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(enc.Utf8);
-      const path = (role === 'student') ? 'classes' : 'teachers';
+      const path = this.role === "student" ? "classes" : "getAllTeacher";
       axiosClient
         .get(path)
         .then((response) => {
-          if(path == 'classes') {
+          this.selectOption = [];
+          let query = "";
+          if (path === "classes") {
             this.selectOption = response.data.data;
-          } else if (path == 'teachers') {
-            this.selectOption = [];
-            this.teachers = response.data.data;
-            this.teachers.forEach(teacher => {
-              this.teachers = [];
-              this.selectOption.push({name:`${teacher.first_name} ${teacher.last_name}`});
+            query = `class_id=${this.filterValue.id}`;
+          } else if (path === "getAllTeacher") {
+            if (response.data.data.length > 0) {
+              this.selectOption = response.data.data.map((teacher) => {
+                teacher.name = `${teacher.first_name} ${teacher.last_name}`;
+                return teacher;
+              });
+              query = `teacher_id=${this.filterValue.id}`;
+            }
+          }
+          if (query && this.filterValue && Object.keys(this.filterValue).length> 0) {
+            axiosClient.get(`schedule?${query}`).then((res) => {
+              this.addEventsToCalendar(res.data.data);
             });
           }
         })
@@ -72,31 +98,19 @@ export default {
           console.error(error);
         });
     },
+    updateCalendar(event) {
+      if(this.role === "admin") {
+        this.$refs.refToChildScheduleForm.updateSchedule(event);
+        this.$refs.refToChildScheduleForm.openDialog();
+      }
+    },
     listSchedules() {
       axiosClient
         .get("/schedule")
         .then((response) => {
           // Declare calendar event
-          const calendarEvents = [];
           if (response.data && response.data.data) {
-            response.data.data.forEach((calenndar) => {
-              // Add each event to array calendarEvents
-              if(this.filterValue == calenndar.className || this.filterValue == `${calenndar.first_name} ${calenndar.last_name}`) {
-                calendarEvents.push({
-                  title: calenndar.course,
-                  start: `${calenndar.start_date}T${calenndar.start_time}`,
-                  end: `${calenndar.end_date}T${calenndar.end_time}`,
-                  extendedProps: {
-                    className: `${calenndar.className}`,
-                    teacherName: `${calenndar.first_name} ${calenndar.last_name}`,
-                    roomName: `${calenndar.roomName}`,
-                  },
-                });
-
-              }
-            });
-            // Add event to fullCalendar and view            
-            this.$refs.toCallCalendar.addEvents(calendarEvents);
+            this.addEventsToCalendar(response.data.data);
           }
         })
         .catch((error) => {
@@ -113,12 +127,11 @@ export default {
 };
 </script>
 <style scoped>
-/* .fc-toolbar-title {
-} */
 .fc-event-time {
   display: none;
 }
-.fc-col-header-cell-cushion, .fc-sticky {
+.fc-col-header-cell-cushion,
+.fc-sticky {
   color: #000;
   text-decoration: none;
 }

@@ -111,6 +111,7 @@ export default {
           this.userCookie.deleteCookie('user_token');
           this.userCookie.deleteCookie('user_role');
           this.userCookie.deleteCookie('user_id');
+          localStorage.setItem("selectedTerm", '01');
           this.$router.push('/');
         } catch (error) {
           if (error.response && error.response.status === 401) {

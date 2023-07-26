@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/login', [AuthController::class, 'login']);
 
-// get user by if with their if store in cookie 
+// get user by if with their if store in cookie
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
@@ -46,9 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
 
-    Route::get('/teachers/background/{id}', [TeacherController::class, 'show']);
-    Route::get('/students/background/{id}', [StudentController::class, 'show']);
-    Route::get('/getteachers', [TeacherController::class, 'getAll']);
+    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
+    Route::get('/students/background/{id}', [StudentController::class,'show']);
     Route::resource('users', UserController::class);
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
@@ -57,6 +56,8 @@ Route::resource('classes', ClasseController::class);
 Route::resource('courses', CourseController::class);
 Route::resource('generations', GenerationController::class);
 Route::resource('teachers', TeacherController::class);
+Route::get('/getAllTeacher', [TeacherController::class, 'getAllTeachersForSchedule']);
+
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
