@@ -1,17 +1,26 @@
 <template>
   <section>
     <nav-bar />
-    <div class="m-3" style="
+    <div
+      class="m-3"
+      style="
         --bs-breadcrumb-divider: url(
           &#34;data:image/svg + xml,
           %3Csvgxmlns='http://www.w3.org/2000/svg'width='8'height='8'%3E%3Cpathd='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z'fill='%236c757d'/%3E%3C/svg%3E&#34;
         );
-      " aria-label="breadcrumb">
+      "
+      aria-label="breadcrumb"
+    >
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrum.length > 0">
           <a href="/admin">Home</a>
         </li>
-        <li class="breadcrumb-item" aria-current="page" v-for="(item, index) in breadCrum" :key="index">
+        <li
+          class="breadcrumb-item"
+          aria-current="page"
+          v-for="(item, index) in breadCrum"
+          :key="index"
+        >
           <a :href="item.href"> {{ item.title }}</a>
         </li>
       </ol>
@@ -20,22 +29,43 @@
       <div class="flex justify-between my-2 mt-3">
         <div class="flex gap-2">
           <!-- Back button -->
-          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 0"
-            :style="selectedUsers.length > 0 ? 'background-color:gray' : 'background-color:cyan-500'" >
+            :style="
+              selectedUsers.length > 0
+                ? 'background-color:gray'
+                : 'background-color:cyan-500'
+            "
+          >
             <p v-if="selectedUsers.length > 0" class="text-white">Home</p>
             <p v-if="selectedUsers.length == 0">
               <router-link to="/admin">Home</router-link>
             </p>
           </button>
           <!--Delete button -->
-          <button class="bg-red-700 hover:bg-red-700 text-dark font-bold py-2 px-4 rounded"
+          <button
+            class="bg-red-700 hover:bg-red-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length == 0"
-            :style="selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:red-700'">
+            :style="
+              selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:red-700'
+            "
+          >
             <p class="text-white" v-if="selectedUsers.length == 0">Delete</p>
-            <v-dialog class="w-5/12" v-model="dialogDelete" v-if="selectedUsers.length >= 1">
+            <v-dialog
+              class="w-5/12"
+              v-model="dialogDelete"
+              v-if="selectedUsers.length >= 1"
+            >
               <template v-slot:activator="{ props }">
-                <v-text class="text-dart" v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
+                <v-text
+                  class="text-dart"
+                  v-bind="props"
+                  v-if="selectedUsers.length >= 1"
+                  >Delete</v-text
+                >
               </template>
               <v-card>
                 <v-card-title class="border-gray-200 bg-cyan-500">Delete date of Teacher</v-card-title>
@@ -55,15 +85,20 @@
                       class="bg-red text-white w-20" color="font-normal text-1xl font-bold">Delete
                     </v-btn>
                   </div>
-                  <v-btn v-else @click="dialogDelete = false" class="bg-blue text-white w-20"
-                    color="font-normal text-1xl  font-bold">Ok
+                  <v-btn
+                    v-else
+                    @click="dialogDelete = false"
+                    class="bg-blue text-white w-20"
+                    color="font-normal text-1xl  font-bold"
+                    >Ok
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </button>
           <!-- update button-->
-          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
             :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:green-700'">
             <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Update</p>
@@ -83,7 +118,8 @@
                         label="Enter Firstname"
                         :value="model.first_name"
                         :rules="firstNameRules"
-                        prepend-inner-icon="mdi-account-box">
+                        prepend-inner-icon="mdi-account-box"
+                      >
                       </v-text-field>
                     </v-col>
                     <v-col>
@@ -92,7 +128,8 @@
                         v-model="model.last_name"
                         label="Enter Lastname"
                         :rules="lastNameRules"
-                        prepend-inner-icon="mdi-account-box">
+                        prepend-inner-icon="mdi-account-box"
+                      >
                       </v-text-field>
                     </v-col>
                   </v-row>
@@ -103,7 +140,8 @@
                         v-model="model.email"
                         label="Enter Email"
                         :rules="emailRules"
-                        prepend-inner-icon="mdi-email">
+                        prepend-inner-icon="mdi-email"
+                      >
                       </v-text-field>
                     </v-col>
                     <v-col>
@@ -113,7 +151,8 @@
                         label="Choose Gender"
                         v-model="model.gender"
                         :rules="genderRules"
-                        :items="['Female', 'Male']">
+                        :items="['Female', 'Male']"
+                      >
                       </v-select>
                     </v-col>
                   </v-row>
@@ -125,7 +164,8 @@
                         type="date"
                         label="Date Of Birth"
                         v-model="model.date_of_birth"
-                        :rules="dateRules">
+                        :rules="dateRules"
+                      >
                       </v-text-field>
                     </v-col>
                     <v-col>
@@ -143,11 +183,13 @@
                       type="button"
                       class="bg-grey-lighten-1"
                       @click="dialogUpdate = false"
-                      >CANCEL</v-btn>
+                      >CANCEL</v-btn
+                    >
                     <v-btn
                       type="submit"
                       class="bg-cyan"
-                      @click="dialogUpdate = false">Save
+                      @click="dialogUpdate = false"
+                      >Save
                     </v-btn>
                   </v-list>
                 </v-form>
@@ -155,10 +197,21 @@
             </v-dialog>
           </button>
           <!--See detail button -->
-          <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
+          <button
+            class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
-            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:cyan-500'">
-            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">See Detail</p>
+            :style="
+              selectedUsers.length > 1 || selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:cyan-500'
+            "
+          >
+            <p
+              class="text-white"
+              v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
+            >
+              See Detail
+            </p>
             <p v-if="selectedUsers.length == 1">
               <router-link :to="`/admin/teachers/detail/${selectedUsers}`">
                 See Detail
@@ -169,8 +222,12 @@
         <!-- search button-->
         <div class="search-controll mt-2">
           <v-btn class="search-bar">
-            <input @click="searchTeacher" v-model="searchByQuery" placeholder="search teacher..."
-              class="input-search outline outline-0 px-3" />
+            <input
+              @click="searchTeacher"
+              v-model="searchByQuery"
+              placeholder="search teacher..."
+              class="input-search outline outline-0 px-3"
+            />
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
         </div>
@@ -178,7 +235,7 @@
       <hr />
       <!-- table get teacher -->
       <div class="mt-3 relative sm:rounded-t-lg overflow-y-auto h-80">
-        <table class="border-collapse border w-100 m-auto  text-center">
+        <table class="border-collapse border w-100 m-auto text-center">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-2 py-3 w-2">ID</th>
@@ -188,8 +245,8 @@
               <th class="px-2 py-3 w-64">Course</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="(teacher, index) of filterUserList" :key="index">
+          <tbody v-if="filterUserList.length >0">
+            <tr v-for="(teacher, index) of filterUserList" :key="index"> 
               <td class="border border-slate-300">
                 <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.user.id"
                   class="accent-cyan-500 w-4 h-4 rounded" />
@@ -205,6 +262,13 @@
               </td>
               <td class="py-2 px-4 ml-2 border border-slate-300">
                 {{ teacher.course.course_name }}
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="5" class="py-2 px-4 border border-slate- text-red-500 ">
+                Data teacher is unavailable.
               </td>
             </tr>
           </tbody>
@@ -235,7 +299,7 @@ export default {
         .get("teachers/" + teacher_id )
         .then((res) => {
           this.teachers = res.data.data;
-          console.log(res.data.data)
+          console.log(res.data.data);
         })
         .catch((err) => console.log(err));
     },
@@ -306,14 +370,19 @@ export default {
       if (this.searchByQuery === "") {
         return this.teachers;
       } else {
-        const filtered = this.teachers.filter((teacher) =>
-          teacher.user.first_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase()) ||
-          teacher.user.last_name.toLowerCase().includes(this.searchByQuery.trim().toLowerCase())
+        const filtered = this.teachers.filter(
+          (teacher) =>
+            teacher.user.first_name
+              .toLowerCase()
+              .includes(this.searchByQuery.trim().toLowerCase()) ||
+            teacher.user.last_name
+              .toLowerCase()
+              .includes(this.searchByQuery.trim().toLowerCase())
         );
-        if (filtered.length === 0) {
-          return confirm("Nothing teacher that have match name with latter you try to search");
-        } else {
+        if (filtered.length) {
           return filtered;
+        } else {
+          return [];
         }
       }
     },
