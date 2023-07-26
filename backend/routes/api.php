@@ -12,6 +12,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\TranscriptController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -60,6 +61,7 @@ Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
 Route::resource('transcripts', TranscriptController::class);
+Route::resource('term', TermController::class);
 
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);

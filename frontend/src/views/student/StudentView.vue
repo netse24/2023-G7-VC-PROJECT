@@ -7,7 +7,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item" v-if="breadCrumb.length > 0"><a href="/students">Home</a></li>
         <li class="breadcrumb-item " aria-current="page" v-for="(item, index) in breadCrumb" :key="index"><a
-          :href="item.href"> {{ item.title }}</a></li>
+            :href="item.href"> {{ item.title }}</a></li>
       </ol>
     </div>
     <div class="mt-5 w-100 px-2">
@@ -63,7 +63,7 @@
 </template>
 <script>
 import { storeManageCookie } from "@/store/cookie";
-import { AES,enc } from "crypto-js";
+import { AES, enc } from "crypto-js";
 export default {
   setup() {
     const userCookie = storeManageCookie()
@@ -73,17 +73,18 @@ export default {
   },
   data() {
     return {
-      user_id:null,
+      user_id: null,
       breadCrumb: [],
       schoolItems: [
         {
           title: "Background",
           image: require("../../assets/user-background.png"),
         },
-        { title: "Schedule", image: require("../../assets/schedule.png") },
-        { title: "Assignment", image: require("../../assets/assignment.png") },
+        {
+          title: "Schedule",
+          image: require("../../assets/schedule.png")
+        },
         { title: "Transcript", image: require("../../assets/transcript.png") },
-        { title: "Curriculum", image: require("../../assets/curriculum.png") },
       ],
     };
   },
@@ -95,18 +96,23 @@ export default {
         title: `${this.schoolItems[index].title}`,
         href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
       });
-      this.breadCrumb.forEach((path) => {
-        if (path) {
-          this.$router.push(`/student/${path.title.toLowerCase()}`);
-        } else {
-          this.$router.push('/404');
-        }
-      });
+      // this.breadCrumb.forEach((path) => {
+      //   if (path) {
+      //     this.$router.push(`/student/${path.title.toLowerCase()}`);
+      //   } else {
+      //     this.$router.push('/404');
+      //   }
+      // });
     },
     toggleClick(action) {
       if (action.title == 'Background') {
-        console.log(AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8))
         this.$router.push(`/students/background/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
+      }
+      else if (action.title == 'Schedule') {
+        this.$router.push('/students/schedule')
+      }
+      else if (action.title == 'Transcript') {
+        this.$router.push(`/students/transcript/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
       }
     },
   },

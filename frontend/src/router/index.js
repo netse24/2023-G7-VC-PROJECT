@@ -146,9 +146,17 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
   {
-    path: '/student/transcript',
+    path: '/students/transcript',
     name: 'student-transcript',
     component: () => import('../views/transcript/TranscriptView.vue'),
+  },
+  {
+    props: true,
+    path: '/students/transcript/:student_id',
+    name: 'self-student-transcript-id',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
+
   },
   {
     path: '/admin/students/transcript/:student_id',

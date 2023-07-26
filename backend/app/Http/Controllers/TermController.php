@@ -16,7 +16,7 @@ class TermController extends Controller
      */
     public function index()
     {
-        $terms = Term::orderBy('term', 'desc')->get();
+        $terms = Term::orderBy('term', 'asc')->get();
         return response()->json(['success' => true, 'data' => $terms], 200);
         //
     }
@@ -32,19 +32,8 @@ class TermController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TranscriptRequest $request)
+    public function store(Request $request)
     {
-        $transcript = Transcript::create([
-            "title" => $request->title,
-            "term"=> $request->term,
-            "student_id"=> $request->student_id,
-        
-        ]);
-        return response()->json([
-            "success"=> true,
-            "message"=>"Create Transcript successfull",
-            'data' =>  $transcript
-        ],200);
     }
 
     /**
@@ -66,30 +55,14 @@ class TermController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TranscriptRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $transcript = Transcript::find($id)->update([
-            "title" => $request->title,
-            "term"=> $request->term,
-            "student_id"=> $request->student_id,
-        
-        ]);
-        return response()->json([
-            "success"=> true,
-            "message"=>"Update transcript successfull",
-            'data' => $transcript
-        ],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Term $term)
+    public function destroy($id)
     {
-        Transcript::find($id)->delete();
-        return response()->json([
-            "success"=> true,
-            "message"=>"Delete transcript successfull",
-        ],200);
     }
 }

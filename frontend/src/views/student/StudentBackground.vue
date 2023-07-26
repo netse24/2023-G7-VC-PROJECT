@@ -90,7 +90,6 @@ export default {
             //it catch id user because I change backend
             .then((res)=> {
                 this.students = res.data.data
-                console.log(res.data.data)
             })
             .catch((err)=> console.log(err));
         }
