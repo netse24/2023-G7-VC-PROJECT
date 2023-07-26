@@ -336,7 +336,7 @@ export default {
   mounted() {
     this.listRooms();
     this.listItems("courses");
-    this.listItems("teachers");
+    this.listItems("getAllTeacher");
     this.listItems("classes");
   },
 };
