@@ -126,6 +126,19 @@ const routes = [
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
   },
   {
+    path: '/teacher/student/transcrypt/:id',
+    name: 'teacher-feedback-transcript',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+    props: true,
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+  },
+  {
+    path: '/teacher/feedback',
+    name: 'teacher-feedback',
+    component: () => import('../views/admin/GenerationListView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+  },
+  {
     path: '/students',
     name: 'students',
     component: () => import('../views/student/StudentView.vue'),

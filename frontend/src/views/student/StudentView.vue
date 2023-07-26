@@ -94,7 +94,7 @@ export default {
       this.breadCrumb = [];
       this.breadCrumb.push({
         title: `${this.schoolItems[index].title}`,
-        href: `/students/${this.schoolItems[index].title.toLowerCase()}`,
+        href: `/student/${this.schoolItems[index].title.toLowerCase()}`,
       });
       // this.breadCrumb.forEach((path) => {
       //   if (path) {
