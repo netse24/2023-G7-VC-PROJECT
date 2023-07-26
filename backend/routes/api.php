@@ -58,6 +58,9 @@ Route::resource('generations', GenerationController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
+Route::resource('scores', CourseScoreController::class);
+Route::resource('transcripts', TranscriptController::class);
+
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
 
