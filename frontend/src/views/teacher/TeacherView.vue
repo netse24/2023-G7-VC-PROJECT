@@ -66,9 +66,16 @@ export default {
       this.breadCrumb.push(
         {
           title: `${this.schoolItems[index].title}`,
-          href: `/teachers/${this.schoolItems[index].title.toLowerCase()}`,
+          href: `/teacher/${this.schoolItems[index].title.toLowerCase()}`,
         }
       );
+      this.breadCrumb.forEach(path => {
+        if (path) {
+          this.$router.push(`/teacher/${path.title.toLowerCase()}`);
+        } else {
+          this.$router.push('/404');
+        }
+      });
     },
     toggleClick(action) {
       if (action.title.toLowerCase() == 'background') {
