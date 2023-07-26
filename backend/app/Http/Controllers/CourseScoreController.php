@@ -6,7 +6,10 @@ use App\Http\Resources\ShowTranscriptResource;
 use App\Http\Resources\TranscriptResource;
 use App\Models\Transcript;
 use App\Http\Requests\CourseScoreRequest;
+use App\Http\Resources\ShowStudentResource;
 use App\Models\CourseScore;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CourseScoreController extends Controller
@@ -19,10 +22,9 @@ class CourseScoreController extends Controller
 
         $score = CourseScore::all();
         return response()->json([
-            "success"=> true,
-            "message"=>"Create score successfull",
+            "success" => true,
             'data' => $score
-        ],200);
+        ], 200);
     }
 
     /**
@@ -30,7 +32,6 @@ class CourseScoreController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -40,23 +41,35 @@ class CourseScoreController extends Controller
     {
         $score = CourseScore::create([
             "course_id" => $request->course_id,
-            "student_id"=> $request->student_id,
-            "score"=> $request->score,
-        
+            "student_id" => $request->student_id,
+            "score" => $request->score,
+
         ]);
         return response()->json([
-            "success"=> true,
-            "message"=>"Create score successfull",
+            "success" => true,
+            "message" => "Create score successfull",
             'data' => $score
-        ],200);
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-    
+
+        $user = User::find($id);
+        $student = Student::where('user_id', $user->id)->first();
+        $coureScore = new ShowStudentResource($student);
+        if (!$student) {
+            return response()->json([
+                "message" => 'Student not found',
+            ], 404);
+        }
+        return response()->json([
+            "success" => true,
+            'data' => $coureScore
+        ], 200);
     }
 
     /**
@@ -74,15 +87,15 @@ class CourseScoreController extends Controller
     {
         $score = CourseScore::find($id)->update([
             "course_id" => $request->course_id,
-            "student_id"=> $request->student_id,
-            "score"=> $request->score,
-        
+            "student_id" => $request->student_id,
+            "score" => $request->score,
+
         ]);
         return response()->json([
-            "success"=> true,
-            "message"=>"Update score successfull",
+            "success" => true,
+            "message" => "Update score successfull",
             'data' => $score
-        ],200);
+        ], 200);
     }
 
     /**
@@ -92,8 +105,8 @@ class CourseScoreController extends Controller
     {
         CourseScore::find($id)->delete();
         return response()->json([
-            "success"=> true,
-            "message"=>"Delete score successfull",
-        ],200);
+            "success" => true,
+            "message" => "Delete score successfull",
+        ], 200);
     }
 }

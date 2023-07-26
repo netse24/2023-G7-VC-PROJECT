@@ -16,7 +16,7 @@ class TermController extends Controller
      */
     public function index()
     {
-        $terms = Term::orderBy('term', 'asc')->get();
+        $terms = Term::all();
         return response()->json(['success' => true, 'data' => $terms], 200);
         //
     }
