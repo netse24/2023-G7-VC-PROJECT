@@ -15,6 +15,16 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
+
+        $teacher = Teacher::all();
+        $teacher = TeacherResource::collection($teacher);
+        return response()->json(['success' => true, 'data' => $teacher], 200);
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function getAllTeachersForSchedule(Request $request)
+    {
         $query = DB::table('teachers')
             ->join('users', 'users.id', '=', 'teachers.user_id')
             ->join('courses', 'courses.id', '=', 'teachers.course_id')
@@ -31,15 +41,6 @@ class TeacherController extends Controller
             $query->where('roles.name', '=', 'teacher');
         }
         $teacher = $query->get();
-        return response()->json(['success' => true, 'data' => $teacher], 200);
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function getAll()
-    {
-        $teacher = Teacher::all();
         return response()->json(['success' => true, 'data' => $teacher], 200);
     }
 
