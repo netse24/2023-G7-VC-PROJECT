@@ -17,7 +17,6 @@ const isUserLoginRequired = async (to, from, next) => {
   }
 }
 
-
 // call back function find user role 
 const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
