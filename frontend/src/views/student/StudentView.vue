@@ -89,7 +89,7 @@ export default {
       );
       this.breadCrumb.forEach(path => {
         if (path) {
-          this.$router.push(`/students/${path.title.toLowerCase()}`);
+          this.$router.push(`/student/${path.title.toLowerCase()}`);
         } else {
           this.$router.push('/404');
         }
