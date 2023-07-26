@@ -35,4 +35,3 @@ class Feedback extends Model
         return $feedback;
     }
 }
-
