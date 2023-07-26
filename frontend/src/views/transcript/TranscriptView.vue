@@ -151,7 +151,7 @@
             <div class="w-100 text ml-15 d-flex  justify-between items-center">
               <p class="w-75"> <strong>{{ feedback.course }}</strong> : {{ feedback.feedback }}</p>
               <div class="w-[30%]">
-                <button class="pr-1  font-semibold text-sm">Edit</button> |
+                <button class="pr-1  font-semibold text-sm" @click="updateFeedback(feedback, index)">Edit</button> |
                 <button class="pl-1 font-semibold text-sm hover-red">Delete</button>
               </div>
             </div>
@@ -166,12 +166,11 @@
             <label class="block text-gray-700 text-md font-bold mb-2" for="username">
               Comment
             </label>
-            <input class="border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
-              id="username" type="text" placeholder="Write a comment..." v-model="writeFeedback">
+              <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2" placeholder="Write a comment..." v-model="writeFeedback"></textarea>
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
                 <button
-                  class=" focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm">Cancel</button>
+                  class=" focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm" @click="clearData">Cancel</button>
               </div>
               <div class="btn-comment p-1">
                 <button class="focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm" @click="addComment">Comment</button>
@@ -209,6 +208,7 @@ export default {
       StudentCourseScores: null,
       totalScore: 0,
       writeFeedback: "",
+      feedbackID: '',
       feedbacks: [
         {first_name: "Rady", last_name: "Y", course: "Vue.js", feedback: "Good job! improment point: Be active to volunteer to answer the question"},
         {first_name: "Lavy", last_name: "Hou", course: "PL", feedback: "Good job! improment point: Be active to volunteer to answer the question"},
@@ -221,7 +221,6 @@ export default {
     getRole() {
       this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
     },
-
     getTeacher() {
       axiosClient
         .get("/teachers")
@@ -289,6 +288,34 @@ export default {
       });
       return scores / length
     },
+    clearData() {
+      this.writeFeedback = "";
+      this.feedbackID = "";
+    },
+    updateFeedback(info, index){
+      this.writeFeedback = info.feedback;
+      this.feedbackID = index;
+    },
+    addComment() {
+      let newFeedback = {
+        feedback: this.writeFeedback,
+        user_id: 4,
+        course_id: 3,
+        student_id: 2
+      }
+      if(this.feedbackID) {
+        axiosClient
+        .put(`feedback/${this.feedbackID}`, newFeedback)
+        .then((response) => {
+          this.feedbacks.push(newFeedback);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
+      this.clearData();
+    }
   },
   mounted() {
     this.getRole();
@@ -313,5 +340,12 @@ export default {
 <style scoped>
 button.selected {
   background-color: rgb(217, 142, 2);
+}
+textarea {
+  resize: none;
+  border: 1px solid gray;
+}
+textarea:focus {
+  outline-color: #48b8f4;
 }
 </style>
