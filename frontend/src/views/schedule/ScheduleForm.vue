@@ -1,9 +1,9 @@
 <template>
   <section>
-    <NavBar />
     <button
       type="button"
       class="add-schedule btn btn-primary m-2"
+      ref="openDialog"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
       data-bs-whatever="@mdo"
@@ -17,13 +17,12 @@
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
+      data-bs-backdrop="static"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Creat Schedule
-            </h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ labelForm?'Update':'Create' }} Schedule</h1>
             <button
               type="button"
               class="btn-close"
@@ -36,17 +35,16 @@
             <form class="">
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50 d-flex flex-column">
-                  <label for="recipient-name" class="col-form-label"
-                    >Subject:</label
-                  >
+                  <label for="recipient-name" class="col-form-label">Course:</label>
                   <select
                     name="subject"
                     id="subject"
                     class="form-select"
                     v-model="subjectsItem"
                     @change="changeCourse"
+                    @click="testing"
                   >
-                    <option value="" disabled selected>Choose A Subject</option>
+                    <option value="" disabled selected>Choose A Course</option>
                     <option
                       v-for="(subject, index) in courses"
                       :key="index"
@@ -57,9 +55,7 @@
                   </select>
                 </div>
                 <div class="mb-2 w-50 d-flex flex-column">
-                  <label for="recipient-name" class="col-form-label"
-                    >Teacher:</label
-                  >
+                  <label for="recipient-name" class="col-form-label">Teacher:</label>
                   <select
                     name="teacher"
                     id="teacher"
@@ -80,9 +76,7 @@
               </div>
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50 d-flex flex-column">
-                  <label for="recipient-name" class="col-form-label"
-                    >Class:</label
-                  >
+                  <label for="recipient-name" class="col-form-label">Class:</label>
                   <select
                     name="room"
                     id="room"
@@ -101,21 +95,10 @@
                   </select>
                 </div>
                 <div class="mb-2 w-50 d-flex flex-column">
-                  <label for="recipient-name" class="col-form-label"
-                    >Room:</label
-                  >
-                  <select
-                    name="room"
-                    id="room"
-                    class="form-select"
-                    v-model="roomsItem"
-                  >
+                  <label for="recipient-name" class="col-form-label">Room:</label>
+                  <select name="room" id="room" class="form-select" v-model="roomsItem">
                     <option value="" disabled selected>Choose A Room</option>
-                    <option
-                      v-for="(room, index) in rooms"
-                      :key="index"
-                      :value="room"
-                    >
+                    <option v-for="(room, index) in rooms" :key="index" :value="room">
                       {{ room ? room.roomName : "" }}
                     </option>
                   </select>
@@ -123,44 +106,21 @@
               </div>
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50">
-                  <label for="message-text" class="col-form-label"
-                    >Start Date:</label
-                  >
-                  <input
-                    type="date"
-                    id="date"
-                    class="form-control"
-                    v-model="startDate"
-                  />
+                  <label for="message-text" class="col-form-label">Start Date:</label>
+                  <input type="date" id="date" class="form-control" v-model="startDate" />
                 </div>
                 <div class="mb-2 w-50">
-                  <label for="message-text" class="col-form-label"
-                    >End Date:</label
-                  >
-                  <input
-                    type="date"
-                    id="date"
-                    class="form-control"
-                    v-model="endDate"
-                  />
+                  <label for="message-text" class="col-form-label">End Date:</label>
+                  <input type="date" id="date" class="form-control" v-model="endDate" />
                 </div>
               </div>
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50">
-                  <label for="message-text" class="col-form-label"
-                    >Start-Time:</label
-                  >
-                  <input
-                    type="time"
-                    id="date"
-                    class="form-control"
-                    v-model="startTime"
-                  />
+                  <label for="message-text" class="col-form-label">Start-Time:</label>
+                  <input type="time" id="date" class="form-control" v-model="startTime" />
                 </div>
                 <div class="mb-2 w-50">
-                  <label for="message-text" class="col-form-label"
-                    >End-time:</label
-                  >
+                  <label for="message-text" class="col-form-label">End-time:</label>
                   <input
                     type="time"
                     id="date"
@@ -181,15 +141,12 @@
               class="close btn btn-secondary"
               id="closeDialog"
               data-bs-dismiss="modal"
+              @click="closeDialog"
             >
               Close
             </button>
-            <button
-              type="button"
-              class="add btn btn-primary m-2"
-              @click="createSchedule"
-            >
-              Add
+            <button type="button" class="add btn btn-primary m-2" @click="createSchedule">
+             {{ labelForm?'Update':'Create' }}
             </button>
           </div>
         </div>
@@ -197,17 +154,16 @@
     </div>
   </section>
 </template>
-
 <script>
 import { axiosClient } from "../../axios-http";
-import NavBar from "../../components/navbar/NavigationBar.vue";
 import { storeManageCookie } from "../../store/cookie";
 import { AES, enc } from "crypto-js";
 export default {
-  components: {
-    NavBar,
+
+  props: {
+    dataCourse: Array,
   },
-  props: [],
+  updated() {},
   emits: ["createSchedule"],
   setup() {
     const getRole = storeManageCookie();
@@ -227,21 +183,22 @@ export default {
       rooms: [],
       courses: [],
       classes: [],
-      role: AES.decrypt(
-        this.getRole.getCookie("user_role"),
-        "Secret role"
-      ).toString(enc.Utf8),
+      role: AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(
+        enc.Utf8
+      ),
       dialog: false,
+      // ID
+      scheduleID: "",
+      labelForm: ""
     };
   },
   watch: {},
   methods: {
     changeCourse() {
       // Call to api teacher by query course_id
-      console.log("this.subjectsItem.id", this.subjectsItem.id);
       if (this.subjectsItem && this.subjectsItem.id) {
         axiosClient
-          .get(`/teachers/?course_id=${this.subjectsItem.id}`)
+          .get(`/getAllTeacher/?course_id=${this.subjectsItem.id}`)
           .then((response) => {
             this.teachers = response.data.data;
           })
@@ -255,11 +212,11 @@ export default {
         .get(path)
         .then((response) => {
           let data = response.data.data;
-          if(path === 'courses') {
+          if (path === "courses") {
             this.courses = data;
-          } else if (path === 'teachers') {
+          } else if (path === "getAllTeacher") {
             this.teachers = data;
-          } else if (path === 'classes') {
+          } else if (path === "classes") {
             this.classes = data;
           }
         })
@@ -297,39 +254,90 @@ export default {
         });
     },
     closeDialog() {
+      this.clearData()
       this.$refs.closeDialog.click();
     },
+    openDialog() {
+      this.$refs.openDialog.click();
+    },
+    updateSchedule(data) {
+      this.subjectsItem = this.courses.find(
+        (courseItem) => courseItem.id === data.extendedProps.dataCalenndar.course_id
+      );
+      this.teachersItem = this.teachers.find(
+        (teacherItem) => teacherItem.id === data.extendedProps.dataCalenndar.teacher_id
+      );
+      this.roomsItem = this.rooms.find(
+        (roomItem) => roomItem.id === data.extendedProps.dataCalenndar.room_id
+      );
+      this.classesItem = this.classes.find(
+        (classItem) => classItem.id === data.extendedProps.dataCalenndar.class_id
+      );
+      this.startDate = data.extendedProps.dataCalenndar.start_date;
+      this.endDate = data.extendedProps.dataCalenndar.end_date;
+      this.startTime = data.extendedProps.dataCalenndar.start_time;
+      this.endTime = data.extendedProps.dataCalenndar.end_time;
+      // Get ID schedule
+      this.scheduleID = data.extendedProps.dataCalenndar.id;
+      if(this.scheduleID) {
+        this.labelForm = "Update"
+      }
+    },
+    clearData() {
+      this.scheduleID = "";
+      this.subjectsItem = "";
+      this.teachersItem = "";
+      this.classesItem = "";
+      this.roomsItem = "";
+      this.startDate = "";
+      this.endDate = "";
+      this.startTime = "";
+      this.endTime = "";
+      this.labelForm = "";
+    },
     createSchedule() {
+      const startD  = this.startDate.split('T');
+      const endD = this.endDate.split('T');
       let schedule = {
         course_id: this.subjectsItem.id,
         teacher_id: this.teachersItem.id,
         class_id: this.classesItem.id,
         room_id: this.roomsItem.id,
-        start_date: `${this.startDate}T${this.startTime}:00`,
-        end_date: `${this.endDate}T${this.endTime}:00`,
+        start_date: `${startD[0]}`,
+        end_date: `${endD[0]}`,
         start_time: this.startTime,
         end_time: this.endTime,
       };
-      axiosClient
-        .post(`/schedule`, schedule)
-        .then((response) => {
-          console.log("res", response.data);
-          this.$emit("createSchedule");
-          this.closeDialog();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      
+      if (this.scheduleID) {
+        axiosClient
+          .put(`schedule/${this.scheduleID}`, schedule)
+          .then((response) => {
+            this.$emit("createSchedule", response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        axiosClient
+          .post(`schedule`, schedule)
+          .then((response) => {
+            this.$emit("createSchedule",response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      this.closeDialog()
     },
   },
+  created() {
+  },
   mounted() {
-    // this.listCourses();
-    // this.listTeachers();
-    // this.listClasses();
     this.listRooms();
-    this.listItems('courses');
-    this.listItems('teachers');
-    this.listItems('classes');
+    this.listItems("courses");
+    this.listItems("getAllTeacher");
+    this.listItems("classes");
   },
 };
 </script>
@@ -344,7 +352,7 @@ export default {
 
 .add-schedule,
 .add {
-  background: #3788D8;
+  background: #3788d8;
 }
 
 .close {

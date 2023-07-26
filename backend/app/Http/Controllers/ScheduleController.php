@@ -17,24 +17,24 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $query = DB::table('schedules')
-        ->join('courses', 'courses.id','=','schedules.course_id')
-        ->join('teachers','teachers.id','=','schedules.teacher_id')
-        ->join('classes','classes.id','=','schedules.class_id')
-        ->join('rooms','rooms.id','=','schedules.room_id')
-        ->join('users','users.id','=','teachers.user_id')
-        ->join('roles', 'roles.id', '=', 'users.role_id')
-        ->select('schedules.*', 'users.first_name', 'users.last_name', 'users.gender' ,'roles.name as role', 'courses.course', 'classes.name as className', 'rooms.name as roomName');
-        // Get date by query
+            ->join('courses', 'courses.id','=','schedules.course_id')
+            ->join('teachers', 'teachers.id','=','schedules.teacher_id')
+            ->join('classes', 'classes.id','=','schedules.class_id')
+            ->join('rooms', 'rooms.id','=','schedules.room_id')
+            ->join('users', 'users.id','=','teachers.user_id')
+            ->join('roles', 'roles.id', '=', 'users.role_id')
+            ->select('schedules.*', 'users.first_name', 'users.last_name', 'users.gender' ,'roles.name as role', 'courses.course', 'classes.name as className', 'rooms.name as roomName');
+        // Add conditions to filter the results
         $queryParams = $request->all();
         if (count($queryParams) > 0) {
             foreach ($queryParams as $key => $value) {
-                $query->where($key, '=', $value);
+                $query->where("schedules.$key", '=', $value);
             };
         } else {
             $query->where('roles.name', '=', 'teacher');
         }
+        // Get the final result
         $schedule = $query->get();
-        // $schedule = Schedule::all();
         return response()->json(['success' => true, 'data' => $schedule], 200);
     }
 
@@ -57,18 +57,18 @@ class ScheduleController extends Controller
             return $validator->errors();
         }
         $schedule = Schedule::create($validator->validated());
-        return response()->json(['message' => 'Schedule Successfully Created!'], 201);
+        return response()->json(['message' => 'Schedule Successfully Created!', 'data' =>$schedule], 201);
     }
     /**
      * Display the specified resource.
      */
-    public function show(Schedule $id)
+    public function show($id)
     {
         $schedule = Schedule::find($id);
         if(!$schedule) {
             return response()->json(['message' => 'Not fount'], 404);
         }
-        $schedule = new StudentResource($schedule);
+        $schedule = new ScheduleResource($schedule);
         return response()->json(['message' =>'Here is all schedules', 'data' =>$schedule], 200);
     }
 

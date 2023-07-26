@@ -68,7 +68,9 @@
                 >
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-cyan-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-cyan-500"
+                  >Delete date of Teacher</v-card-title
+                >
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -78,11 +80,19 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
-                      @click="dialogDelete = false">Cancel
+                    <v-btn
+                      class="bg-cyan"
+                      color="font-normal font-bold"
+                      variant="text"
+                      @click="dialogDelete = false"
+                      >Cancel
                     </v-btn>
-                    <v-btn v-if="selectedUsers.length > 0" @click="deleteTeacher()"
-                      class="bg-red text-white w-20" color="font-normal text-1xl font-bold">Delete
+                    <v-btn
+                      v-if="selectedUsers.length > 0"
+                      @click="deleteTeacher()"
+                      class="bg-red text-white w-20"
+                      color="font-normal text-1xl font-bold"
+                      >Delete
                     </v-btn>
                   </div>
                   <v-btn
@@ -100,13 +110,29 @@
           <button
             class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded"
             :disabled="selectedUsers.length > 1 || selectedUsers.length == 0"
-            :style="selectedUsers.length > 1 || selectedUsers.length == 0 ? 'background-color:gray' : 'background-color:green-700'">
-            <p class="text-white" v-if="selectedUsers.length > 1 || selectedUsers.length == 0">Update</p>
-            <v-dialog class="w-50" v-if="selectedUsers.length == 1" v-model="dialogUpdate">
+            :style="
+              selectedUsers.length > 1 || selectedUsers.length == 0
+                ? 'background-color:gray'
+                : 'background-color:green-700'
+            "
+          >
+            <p
+              class="text-white"
+              v-if="selectedUsers.length > 1 || selectedUsers.length == 0"
+            >
+              Update
+            </p>
+            <v-dialog
+              class="w-50"
+              v-if="selectedUsers.length == 1"
+              v-model="dialogUpdate"
+            >
               <template v-slot:activator="{ props }">
                 <v-text v-bind="props" @click="editTeacher">Update</v-text>
               </template>
-              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">Update form info</h1>
+              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">
+                Update form info
+              </h1>
               <v-sheet width="auto" class="pa-5 pb-7" v-if="model != null">
                 <v-form @submit.prevent="updateTeacher">
                   <v-row class="d-flex">
@@ -136,29 +162,6 @@
                   <v-row>
                     <v-col>
                       <v-text-field
-                        density="compact"
-                        v-model="model.email"
-                        label="Enter Email"
-                        :rules="emailRules"
-                        prepend-inner-icon="mdi-email"
-                      >
-                      </v-text-field>
-                    </v-col>
-                    <v-col>
-                      <v-select
-                        prepend-inner-icon="mdi-account-box"
-                        density="compact"
-                        label="Choose Gender"
-                        v-model="model.gender"
-                        :rules="genderRules"
-                        :items="['Female', 'Male']"
-                      >
-                      </v-select>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col>
-                      <v-text-field
                         prepend-inner-icon="mdi mdi-calendar-clock"
                         density="compact"
                         type="date"
@@ -174,8 +177,22 @@
                         v-model="model.address"
                         label="Enter Address"
                         :rules="addressRules"
-                        prepend-inner-icon="mdi-map-marker-radius">
+                        prepend-inner-icon="mdi-map-marker-radius"
+                      >
                       </v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-select
+                        prepend-inner-icon="mdi-account-box"
+                        density="compact"
+                        label="Choose Gender"
+                        v-model="model.gender"
+                        :rules="genderRules"
+                        :items="['Female', 'Male']"
+                      >
+                      </v-select>
                     </v-col>
                   </v-row>
                   <v-list class="d-flex justify-space-between">
@@ -290,13 +307,14 @@ export default {
       teachers: [],
       selectedUsers: [],
       model: [],
+      isNotFound: false,
     };
   },
   methods: {
     async getTeacher() {
       let teacher_id = this.selectedUsers;
       await axiosClient
-        .get("teachers/" + teacher_id )
+        .get("teachers/" + teacher_id)
         .then((res) => {
           this.teachers = res.data.data;
           console.log(res.data.data);
@@ -304,26 +322,25 @@ export default {
         .catch((err) => console.log(err));
     },
 
-    // update teacher 
+    // update teacher
     async editTeacher() {
       try {
         if (this.selectedUsers.length == 1) {
-          const res = await axiosClient
-            .get("users/" + this.selectedUsers
-          );
+          const res = await axiosClient.get("users/" + this.selectedUsers);
           this.model = res.data.data;
-        } 
-        else {
+        } else {
           alert("You cannot more than one record!");
         }
-        }catch (err) {console.log(err);
+      } catch (err) {
+        console.log(err);
       }
     },
     async updateTeacher() {
       try {
         if (this.selectedUsers.length == 1 && this.model != null) {
-          const res = await axiosClient
-            .put("users/" + this.selectedUsers,this.model
+          const res = await axiosClient.put(
+            "users/" + this.selectedUsers,
+            this.model
           );
           this.getTeacher();
           location.reload();
@@ -333,20 +350,20 @@ export default {
         console.log(err);
       }
     },
-    
+
     //delete teacher
-      deleteTeacher() {
+    deleteTeacher() {
       this.selectedUsers.forEach((userId) => {
-          axiosClient
+        axiosClient
           .delete(`teachers/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getTeacher();
-            this.dialogDelete = false
+            this.dialogDelete = false;
 
-            setTimeout(()=>{
+            setTimeout(() => {
               location.reload();
-            }, 2000)
+            }, 2000);
           })
           .catch((err) => console.error(err));
       });

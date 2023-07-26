@@ -96,20 +96,20 @@
     </div>
 
     <!-- part show teacher commnet to their student! -->
-    <div class="teacher-permission" v-if="role != null && role == 'student'">
+    <div class="teacher-permission" v-if="role != null && role == 'teacher'">
       <div class="show-comment w-[40%] m-auto mt-3">
         <div class="comment-teacher">
-          <div class="profile-and-comment bg-gray-200 p-2 rounded ">
+          <div class="profile-and-comment w-100 bg-gray-200 mt-2 p-2 rounded" v-for="(feedback,index) in feedbacks" :key="index">
             <div class="teacher-name-profile d-flex items-center">
               <img :src="require('../../assets/AdminSeeTeacherDeatil.png')"
                 class="border  w-[45px] h-[45px] rounded-full">
-              <strong class="ml-3">Chan Chav</strong>
+              <strong class="ml-3">{{ feedback.first_name }} {{ feedback.last_name }}</strong>
             </div>
-            <div class="text ml-15 d-flex  justify-between items-center">
-              <p> <strong>PHP</strong> : Good job! You did it.</p>
-              <div>
+            <div class="w-100 text ml-15 d-flex  justify-between items-center">
+              <p class="w-75"> <strong>{{ feedback.course }}</strong> : {{ feedback.feedback }}</p>
+              <div class="w-[30%]">
                 <button class="pr-1  font-semibold text-sm">Edit</button> |
-                <button class="pl-1 font-semibold text-sm">Delete</button>
+                <button class="pl-1 font-semibold text-sm hover-red">Delete</button>
               </div>
             </div>
           </div>
@@ -124,14 +124,14 @@
               Comment
             </label>
             <input class="border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
-              id="username" type="text" placeholder="Write a comment...">
+              id="username" type="text" placeholder="Write a comment..." v-model="writeFeedback">
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
                 <button
                   class=" focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm">Cancel</button>
               </div>
               <div class="btn-comment p-1">
-                <button class="focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm">Comment</button>
+                <button class="focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm" @click="addComment">Comment</button>
               </div>
             </div>
           </div>
@@ -143,6 +143,7 @@
 
 <script>
 import { storeManageCookie } from "@/store/cookie";
+// import { axiosClient } from "../../axios-http.js";
 import { AES, enc } from "crypto-js";
 
 export default {
@@ -155,13 +156,22 @@ export default {
   data() {
     return {
       role: null,
+      writeFeedback: "",
+      feedbacks: [
+        {first_name: "Rady", last_name: "Y", course: "Vue.js", feedback: "Good job! improment point: Be active to volunteer to answer the question"},
+        {first_name: "Lavy", last_name: "Hou", course: "PL", feedback: "Good job! improment point: Be active to volunteer to answer the question"},
+        {first_name: "Narin", last_name: "Noeurn", course: "English", feedback: "Good job! improment point: Practice your English speaking"},
+      ]
     }
   },
   props: ['student_id'],
   methods: {
     getRole() {
       this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
-    }
+    },
+    addComment() {
+
+    },
   },
   mounted() {
     this.getRole();
