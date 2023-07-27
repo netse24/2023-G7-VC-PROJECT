@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;
-use App\Http\Requests\StoreFeedbackRequest;
-use App\Http\Requests\UpdateFeedbackRequest;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
@@ -17,15 +16,10 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $feedback = Feedback::all();
+        $feedback = FeedbackResource::collection($feedback);
+        return response()->json(['success' => true, 'data' => $feedback], 200);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -33,34 +27,26 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $userAsStuent = User::find($request['student_id']);
+        $userAsStuent = User::find($request->student_id);
         $findStudent = Student::where('user_id', '=', $userAsStuent->id)->first();
 
-        $userAsTeacher = User::find($request['teacher_id']);
+        $userAsTeacher = User::find($request->teacher_id);
         $findTeacher = Teacher::where('user_id', '=', $userAsTeacher->id)->first();
         // // $term = Term::find($request->term_id);
 
-        // $feedback = Feedback::create([
-        //     'feedback' => $request['feedback'],
-        //     'student_id' => $findStudent->id,
-        //     'teacher_id' => $findTeacher->id,
-        //     'term_id' => $request['term_id'],
-        // ]);
-        return $findTeacher;
+        $feedback = Feedback::create([
+            'feedback' => $request->feedback,
+            'student_id' => $findStudent->id,
+            'teacher_id' => $findTeacher->id,
+            'term_id' => $request->term_id,
+        ]);
+        return $feedback;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Feedback $feedback)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Feedback $feedback)
+    public function show(string $id)
     {
         //
     }
@@ -68,7 +54,7 @@ class FeedbackController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFeedbackRequest $request, Feedback $feedback)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -76,7 +62,7 @@ class FeedbackController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Feedback $feedback)
+    public function destroy(string $id)
     {
         //
     }
