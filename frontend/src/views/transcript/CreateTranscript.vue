@@ -11,7 +11,7 @@
         <button
           class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded m-2"
         >
-          <router-link :to="`/admin/students/term/${this.$router.currentRoute.value.query.user_id}`">Back</router-link>
+          <router-link :to="`/admin/students/term/${this.$router.currentRoute.value.query.user_id}?generation_id=${this.$router.currentRoute.value.query.generation_id}`">Back</router-link>
         </button>
       </div>
     </div>
@@ -102,7 +102,7 @@
                 </tr>
               </thead>
               <tbody v-for="(score, index) in scoreSubjects" :key="index">
-                <tr v-if="score.term.id == term_id">
+                <tr v-if="score.term.id == term_id && score.student.id == studentList.id">
                   <td class="border-x border-y border-gray-500 py-2 px-4">
                     {{ score.course }}
                   </td>
@@ -270,6 +270,7 @@ export default {
   },
   methods: {
     getScoreSubject() {
+      console.log(this.$router)
       axiosClient.get("scores").then((res) => {
         this.scoreSubjects = res.data.data;
         console.log(this.scoreSubjects);
@@ -383,7 +384,7 @@ export default {
     checkTotalScore(scoreSubjects) {
       let scores = 0;
       scoreSubjects.forEach((score) => {
-        if (score.term.id == this.term_id) {
+        if (score.term.id == this.term_id && score.student.id == this.studentList.id) {
           scores += score.score;
           
         }

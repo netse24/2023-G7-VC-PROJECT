@@ -26,9 +26,9 @@
           v-for="(term, index) in termList"
           :key="index"
           @click="showTranscript(term.id)"
-          class="bg-cyan-500 py-3 px-3 m-2 hover:bg-cyan-600 text-2xl font-bold rounded-lg d-flex justify-center items-center"
+          class="bg-orange-500 m-2 pb-1   text-2xl font-bold rounded-lg d-flex justify-center items-center"
         >
-          <span>Term {{ term.term }}</span>
+          <span class="bg-cyan-500 hover:bg-cyan-600 py-3 px-4 text-2xl font-bold rounded-lg flex justify-center">Term {{ term.term }}</span>
         </button>
       </div>
     </div>
@@ -37,7 +37,7 @@
 <script>
 import { axiosClient } from "../../axios-http";
 export default {
-  props: ["id", "generation_id"],
+  props: ["id"],
   data() {
     return {
       termList: [],
@@ -54,9 +54,10 @@ export default {
         .catch((err) => console.log(err));
     },
     showTranscript(id) {
+      console.log(this.$router)
       this.$router.push({
         path: `/admin/students/term/createtranscript/${id}`,
-        query: { user_id: this.id },
+        query: { user_id: this.id, generation_id: this.$router.currentRoute.value.query.generation_id},
       });
     },
   },
