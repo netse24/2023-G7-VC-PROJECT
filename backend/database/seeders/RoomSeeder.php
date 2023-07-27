@@ -19,11 +19,12 @@ class RoomSeeder extends Seeder
             ],
             [
                 'name' => 'B13'
-
             ],
             [
                 'name' => 'B31'
-
+            ],
+            [
+                'name' => 'B32'
             ],
         ];
 

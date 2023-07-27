@@ -19,15 +19,12 @@ class TermSeeder extends Seeder
             ],
             [
                 'term' => '02'
-
             ],
             [
                 'term' => '03'
-
             ],
             [
                 'term' => '04'
-
             ],
         ];
 
