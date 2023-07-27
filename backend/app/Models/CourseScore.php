@@ -13,8 +13,8 @@ class CourseScore extends Model
     protected $fillable = [
         'course_id',
         'student_id',
+        'score',
         'term_id',
-        'score'
     ];
     public function student(): BelongsTo
     {

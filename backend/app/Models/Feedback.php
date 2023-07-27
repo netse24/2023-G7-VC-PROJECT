@@ -26,13 +26,4 @@ class Feedback extends Model
     {
         return $this->belongsTo(Term::class);
     }
-    public static function store($request, $id = null)
-    {
-        $feedback = $request->only([
-            'feedback', 'student_id', 'teacher_id', 'term_id',
-        ]);
-        $feedback = self::updateOrCreate(['id' => $id], $feedback);
-        return $feedback;
-    }
 }
-

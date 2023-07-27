@@ -174,14 +174,14 @@ class UserController extends Controller
   public function update(UpdateUserRequest $request, string $id)
   {
     $users = User::find($id);
-      $users->update([
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'gender' => $request->gender,
-        'date_of_birth' => $request->date_of_birth,
-        'address' => $request->address,
-      ]);
-      return response()->json(['success' => true, 'data' => $users], 200);
+    $users->update([
+      'first_name' => $request->first_name,
+      'last_name' => $request->last_name,
+      'gender' => $request->gender,
+      'date_of_birth' => $request->date_of_birth,
+      'address' => $request->address,
+    ]);
+    return response()->json(['success' => true, 'data' => $users], 201);
   }
 
   /**
@@ -214,7 +214,7 @@ class UserController extends Controller
     // explode is used to split to individual arrays
     $ids = explode(',', $ids);
     User::whereIn('id', $ids)->delete();
-    return response()->json(['message' => 'Users deleted successfully']);
+    return response()->json(['message' => 'Users deleted successfully'], 200);
   }
   // get user by id that stored in storage cookie. 
   public function getUserById($id)

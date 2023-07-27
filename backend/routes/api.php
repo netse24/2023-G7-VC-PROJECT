@@ -47,10 +47,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/users/delete/{ids}', [UserController::class, 'delete'])->name('deleteMultiple');
     Route::get('search/{name}', [UserController::class, 'searchUserByName']);
 
-    Route::get('/teachers/background/{id}', [TeacherController::class,'show']);
-    Route::get('/students/background/{id}', [StudentController::class,'show']);
-    Route::resource('users', UserController::class);
+    Route::get('/teachers/background/{id}', [TeacherController::class, 'show']);
+    Route::get('/students/background/{id}', [StudentController::class, 'show']);
 });
+
+Route::resource('users', UserController::class);
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
 Route::resource('rooms', RoomController::class);
 Route::resource('classes', ClasseController::class);
@@ -72,7 +73,4 @@ Route::post('/forget_password', [ForgetPasswordController::class, 'forgetPasswor
 Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword']);
 Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStudentCourseScore']);
 
-
-Route::get('/getfeedbacks', [FeedbackController::class, 'index']);
-Route::post('/getfeedback', [FeedbackController::class, 'store']);
-Route::get('/getfeedback/{id}', [FeedbackController::class, 'show']);
+Route::resource('feedback', FeedbackController::class);
