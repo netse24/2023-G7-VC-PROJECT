@@ -79,6 +79,7 @@ export default {
 .card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+
 .card:hover {
   cursor: pointer;
   transition: ease-in-out 0.1s;
