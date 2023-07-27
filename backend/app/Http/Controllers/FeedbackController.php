@@ -59,22 +59,14 @@ class FeedbackController extends Controller
      */
     public function update(Request $request,  $id)
     {
-        // $feedback = Feedback::find($id);
-        // $feedback->update([
-        //     'feedback' => $request->feedback,
-        //     'student_id' => $request->student_id,
-        //     'teacher_id' => $request->teacher_id,
-        //     'term_id' => $request->term_id,
-        // ]);
-        // // $feedback->update($request->all());
-        // return response()->json(['Message' => 'Feedback successfully updated!'], 200);
-
         try {
             $feedback = Feedback::findOrFail($id); // Use findOrFail to throw an exception if the record is not found
+            $findStudent = Student::where('user_id', '=', $request->student_id)->first();
+            $findTeacher = Teacher::where('user_id', '=', $request->teacher_id)->first();
             $feedback->update([
                 'feedback' => $request->input('feedback'),
-                'student_id' => $request->input('student_id'),
-                'teacher_id' => $request->input('teacher_id'),
+                'student_id' => $findStudent->id,
+                'teacher_id' => $findTeacher->id,
                 'term_id' => $request->input('term_id'),
             ]);
 
@@ -91,6 +83,8 @@ class FeedbackController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $feedback = Feedback::find($id);
+        $feedback->delete();
+        return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
 }
