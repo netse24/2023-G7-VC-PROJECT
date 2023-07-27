@@ -37,7 +37,7 @@
 <script>
 import { axiosClient } from "../../axios-http";
 export default {
-  props: ["student_id", "generation_id"],
+  props: ["id", "generation_id"],
   data() {
     return {
       termList: [],
@@ -56,10 +56,8 @@ export default {
     showTranscript(id) {
       this.$router.push({
         path: `/admin/students/term/createtranscript/${id}`,
-        query: { student_id: this.student_id },
+        query: { user_id: this.id },
       });
-
-      // this.$router.currentRoute.query.value.student_id
     },
   },
   mounted() {

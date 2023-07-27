@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseScoreController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
@@ -34,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/login', [AuthController::class, 'login']);
 
-// get user by if with their if store in cookie 
+// get user by if with their if store in cookie
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // protect route if they are not allowed by authenticated user
@@ -48,7 +49,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/teachers/background/{id}', [TeacherController::class, 'show']);
     Route::get('/students/background/{id}', [StudentController::class, 'show']);
-    Route::get('/getteachers', [TeacherController::class, 'getAll']);
     Route::resource('users', UserController::class);
 });
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
@@ -57,10 +57,14 @@ Route::resource('classes', ClasseController::class);
 Route::resource('courses', CourseController::class);
 Route::resource('generations', GenerationController::class);
 Route::resource('teachers', TeacherController::class);
+Route::get('/getAllTeacher', [TeacherController::class, 'getAllTeachersForSchedule']);
+
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
 Route::resource('terms', TermController::class);
+Route::resource('transcripts', TranscriptController::class);
+Route::resource('term', TermController::class);
 
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
@@ -70,3 +74,10 @@ Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword'
 Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStudentCourseScore']);
 Route::get('/getScoreById/{courseScoreId}', [CourseScoreController::class, 'getScoreById']);
 
+
+
+// Route::get('/getfeedbacks', [FeedbackController::class, 'index']);
+// Route::post('/getfeedback', [FeedbackController::class, 'store']);
+// Route::get('/getfeedback/{id}', [FeedbackController::class, 'show']);
+
+Route::resource('feedback', FeedbackController::class);

@@ -11,7 +11,7 @@
         <button
           class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded m-2"
         >
-          <router-link :to="`/admin/students/term/${this.$router.currentRoute.value.query.student_id}`">Back</router-link>
+          <router-link :to="`/admin/students/term/${this.$router.currentRoute.value.query.user_id}`">Back</router-link>
         </button>
       </div>
     </div>
@@ -302,7 +302,7 @@ export default {
     },
     getStudentById() {
       axiosClient
-        .get("students/" + this.$router.currentRoute.value.query.student_id)
+        .get("students/" + this.$router.currentRoute.value.query.user_id)
         .then((res) => {
           this.studentList = res.data.data;
         });

@@ -15,6 +15,7 @@ class TermSeeder extends Seeder
     {
         $terms = [
             [
+<<<<<<< HEAD
                 'term' => "01",
             ],
             [
@@ -37,5 +38,26 @@ class TermSeeder extends Seeder
         foreach ($terms as $term) {
             Term::create($term);
         }
+=======
+                'term' => '01'
+            ],
+            [
+                'term' => '02'
+
+            ],
+            [
+                'term' => '03'
+
+            ],
+            [
+                'term' => '04'
+
+            ],
+        ];
+
+        foreach ($terms as $term) {
+            Term::create($term);
+        };
+>>>>>>> c20529eeee3a453f98673802525b02a0589e0e42
     }
 }

@@ -15,6 +15,7 @@ class TermController extends Controller
     public function index()
     {
         $terms = Term::orderBy('term')->get();
+        $terms = Term::all();
         return response()->json(['success' => true, 'data' => $terms], 200);
         //
     }
@@ -30,9 +31,9 @@ class TermController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($request)
+      
+    public function store(Request $request)
     {
-        
     }
 
     /**
@@ -59,16 +60,16 @@ class TermController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update( $request, string $id)
-    {
+   
        
+    public function update($request, string $id)
+    {
     }
 
     /**
      * Remove the specified resource from storage.
-     */
-    public function destroy( $term)
+     */   
+    public function destroy($id)
     {
-        
     }
 }

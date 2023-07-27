@@ -83,18 +83,6 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-text-field density="compact" v-model="model.email" label="Enter Email" :rules="emailRules"
-                        prepend-inner-icon="mdi-email">
-                      </v-text-field>
-                    </v-col>
-                    <v-col>
-                      <v-select prepend-inner-icon="mdi-account-box" density="compact" label="Choose Gender"
-                        v-model="model.gender" :rules="genderRules" :items="['Female', 'Male']">
-                      </v-select>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col>
                       <v-text-field prepend-inner-icon="mdi mdi-calendar-clock" density="compact" type="date"
                         label="Date Of Birth" v-model="model.date_of_birth" :rules="dateRules">
                       </v-text-field>
@@ -103,6 +91,13 @@
                       <v-text-field density="compact" v-model="model.address" label="Enter Address" :rules="addressRules"
                         prepend-inner-icon="mdi-map-marker-radius">
                       </v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <v-select prepend-inner-icon="mdi-account-box" density="compact" label="Choose Gender"
+                        v-model="model.gender" :rules="genderRules" :items="['Female', 'Male']">
+                      </v-select>
                     </v-col>
                   </v-row>
                   <v-list class="d-flex justify-space-between">
@@ -209,7 +204,7 @@
       <!-- table  -->
       <div class="d-flex mt-8">
         <table class="border-collapse border w-100 m-auto text-center" v-if="selectedClass">
-          <thead class="bg-cyan-500 ">
+          <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
               <th class="px-4 py-4 w-64">First Name</th>
@@ -220,7 +215,7 @@
           </thead>
           <tbody>
             <tr v-for="student in studentsByClass[selectedClass]" :key="student" v-show="matchesSearch(student)">
-              <td class="border border-slate-300 pl-4">
+              <td class="border border-slate-300">
                 <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="student.user.id"
                   class="accent-cyan-500 w-4 h-4 rounded" />
               </td>
@@ -326,7 +321,7 @@ export default {
     deleteStudent() {
       this.selectedUsers.forEach((userId) => {
         axiosClient
-          .delete(`students/${userId}`)
+          .delete(`users/${userId}`)
           .then((res) => {
             console.log(res.data);
             this.getStudent();

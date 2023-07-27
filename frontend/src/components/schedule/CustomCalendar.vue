@@ -19,6 +19,7 @@ export default {
     FullCalendar, // make the <FullCalendar> tag available
   },
   props: {},
+  emits: ["updateCalendar"],
   data() {
     return {
       calendarOptions: {
@@ -50,6 +51,7 @@ export default {
         allDaySlot: false, // Disable the all-day slot
 
         // Events
+        
         eventDidMount: function (info) {
           const teacher = info.event.extendedProps.teacherName;
           const roomName = info.event.extendedProps.roomName;
@@ -62,7 +64,9 @@ export default {
         //   console.log(eventData);
         // },
         // Get calendar event form parent
-        events: [],
+        eventClick: this.editEventCalendar,
+        events: [
+        ],
         // Toolbar
         titleFormat: { year: "numeric", month: "long", day: "numeric" },
         headerToolbar: {
@@ -81,6 +85,13 @@ export default {
     };
   },
   methods: {
+    handleDateClick(){
+      // console.log('ff', info);
+    },
+    editEventCalendar(info){
+      this.$emit('updateCalendar', info.event._def)
+    },
+
     addEvents(
       eventsData = [
         {
