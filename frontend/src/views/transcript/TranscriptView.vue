@@ -222,23 +222,10 @@ export default {
       this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
     },
 
-    getTeacher() {
-      axiosClient
-        .get("/teachers")
-        .then((response) => {
-          this.datas = response.data.data;
-          console.log(response.data.data);
-        })
-        .catch((err) => console.log(err));
-    },
 
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;
-      axiosClient
-      .get("/teachers")
-      .then((response) => {
-        this.datas = response.data.data;
         const element = document.getElementById("My_table"); 
         html2canvas(element).then((canvas) => {
           const image = canvas.toDataURL("image/png");
@@ -253,10 +240,6 @@ export default {
           this.isDetail = false;
           this.getRole();
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     },
   
     async getTerm() {
