@@ -1,6 +1,7 @@
 // Reference from FullCalendar library => https://fullcalendar.io/ //
 <template>
   <section>
+    <nav-bar />
     <form class="w-75 m-auto mt-3">
       <div class="mb-3">
         <select
@@ -9,7 +10,11 @@
           v-model="filterValue"
           @change="filterOption"
         >
-          <option v-for="(option, index) in selectOption" :key="index" :value="option">
+          <option
+            v-for="(option, index) in selectOption"
+            :key="index"
+            :value="option"
+          >
             {{ option.name }}
           </option>
         </select>
@@ -44,9 +49,10 @@ export default {
       selectOption: [],
       teachers: [],
       filterValue: "",
-      role: AES.decrypt(this.getRole.getCookie("user_role"), "Secret role").toString(
-        enc.Utf8
-      ),
+      role: AES.decrypt(
+        this.getRole.getCookie("user_role"),
+        "Secret role"
+      ).toString(enc.Utf8),
     };
   },
   methods: {
@@ -70,7 +76,7 @@ export default {
       this.$refs.toCallCalendar.addEvents(calendarEvents);
     },
     filterOption() {
-      const path = this.role === "student" ? "classes" : "getAllTeacher";
+      const path = this.role === "student" ? "classes" : "teachers";
       axiosClient
         .get(path)
         .then((response) => {
@@ -79,16 +85,20 @@ export default {
           if (path === "classes") {
             this.selectOption = response.data.data;
             query = `class_id=${this.filterValue.id}`;
-          } else if (path === "getAllTeacher") {
+          } else if (path === "teachers") {
             if (response.data.data.length > 0) {
               this.selectOption = response.data.data.map((teacher) => {
-                teacher.name = `${teacher.first_name} ${teacher.last_name}`;
+                teacher.name = `${teacher.user.first_name} ${teacher.user.last_name}`;
                 return teacher;
               });
               query = `teacher_id=${this.filterValue.id}`;
             }
           }
-          if (query && this.filterValue && Object.keys(this.filterValue).length> 0) {
+          if (
+            query &&
+            this.filterValue &&
+            Object.keys(this.filterValue).length > 0
+          ) {
             axiosClient.get(`schedule?${query}`).then((res) => {
               this.addEventsToCalendar(res.data.data);
             });
@@ -99,7 +109,7 @@ export default {
         });
     },
     updateCalendar(event) {
-      if(this.role === "admin") {
+      if (this.role === "admin") {
         this.$refs.refToChildScheduleForm.updateSchedule(event);
         this.$refs.refToChildScheduleForm.openDialog();
       }

@@ -9,7 +9,7 @@ const isUserLoginRequired = async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations()); // use to get user data that store in state in userSore in pinia
   await getUserData();
-  console.log(userStore.value);
+  // console.log(userStore.value);
   if (userStore.value !== null && getCookie('user_token')) {
     next()
   } else {
@@ -22,7 +22,7 @@ const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations());
   await getUserData();
-  console.log(userStore.value.role.role == role)
+  // console.log(userStore.value.role.role == role)
   if (userStore.value.role.role == role) {
     next()
   } else {
