@@ -29,11 +29,11 @@ class User extends Authenticatable
         'address',
         'role_id',
     ];
-    public function student(): HasMany
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class);
     }
-    public function teacher(): HasMany
+    public function teachers(): HasMany
     {
         return $this->HasMany(Teacher::class);
     }

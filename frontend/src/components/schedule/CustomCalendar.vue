@@ -49,9 +49,7 @@ export default {
         nowIndicator: true,
         dayMaxEvents: true, // allow "more" link when too many events
         allDaySlot: false, // Disable the all-day slot
-
         // Events
-        
         eventDidMount: function (info) {
           const teacher = info.event.extendedProps.teacherName;
           const roomName = info.event.extendedProps.roomName;
@@ -60,9 +58,6 @@ export default {
             ".fc-event-title"
           ).innerHTML += `<br>${teacher}<br>${className}<br>${roomName}`;
         },
-        // eventDataTransform: function( eventData ) {
-        //   console.log(eventData);
-        // },
         // Get calendar event form parent
         eventClick: this.editEventCalendar,
         events: [

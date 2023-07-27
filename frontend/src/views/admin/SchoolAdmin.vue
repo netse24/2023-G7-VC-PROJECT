@@ -1,15 +1,6 @@
 <template>
   <section>
     <nav-bar />
-    <div class="m-3"
-      style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
-      aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item" v-if="breadCrumb.length > 0"><a href="/admin">Home</a></li>
-        <li class="breadcrumb-item " aria-current="page" v-for="(item, index) in breadCrumb" :key="index"><a
-            :href="item.href"> {{ item.title }}</a></li>
-      </ol>
-    </div>
     <form-create-user @teacher-emit="createUser" @student-emit="createUser" />
     <div class="mt-5 w-100 ">
       <div class="row row-cols-1 row-cols-md-4 row-cols-sm-2 w-75 m-auto px-1 d-flex justify-content-center gap-10">
@@ -85,6 +76,9 @@ export default {
 };
 </script>
 <style>
+.card {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
 .card:hover {
   cursor: pointer;
   transition: ease-in-out 0.1s;

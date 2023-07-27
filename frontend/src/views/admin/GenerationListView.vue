@@ -9,25 +9,22 @@
           </button>
         </router-link>
       </div>
-
+      <div class="flex justify-between mb-3">
+        <h1 class="text-3xl m-auto font-bold mb-3">
+          All Generation of the Students
+        </h1>
+      </div>
       <div
-        class="w-75 m-auto border border-1 p-10 rounded shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]"
+        class="w-75 m-auto border border-1 h-50 p-10 rounded shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]"
       >
-        <div
-          class="grid grid-cols-8 gap-2"
-          style="height: 50vh; overflow: auto"
-        >
-          <!-- grid grid-cols-8 gap-2 -->
+        <div class="grid grid-cols-8 gap-2 gap-4">
           <button
             v-for="(generation, index) in generationList"
             :key="index"
             @click="showlistStudent(generation.id)"
+            class="bg-cyan-500 py-3 px-5 text-2xl font-bold rounded-lg d-flex justify-center items-center"
           >
-            <v-text
-              class="bg-cyan-500 hover:bg-cyan-600 py-3 px-4 text-2xl font-bold rounded-lg flex justify-center border-b-4 border-b-orange-600"
-            >
-              {{ generation.name }}
-            </v-text>
+            {{ generation.name }}
           </button>
         </div>
       </div>
@@ -49,6 +46,11 @@ export default {
     return {
       generationList: [],
       checkRole: null,
+      backRoute: "",
+      role: AES.decrypt(
+        this.userCookie.getCookie("user_role"),
+        "Secret role"
+      ).toString(enc.Utf8),
     };
   },
   methods: {

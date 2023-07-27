@@ -2,7 +2,7 @@
   <section>
     <button
       type="button"
-      class="add-schedule btn btn-primary m-2"
+      class="add-schedule btn bg-[#3788D8] hover:bg-cyan-600 m-2"
       ref="openDialog"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
@@ -194,10 +194,10 @@ export default {
   },
   watch: {},
   methods: {
-    changeCourse() {
-      // Call to api teacher by query course_id
+     async changeCourse() {
+      // Call from api teacher by query course_id
       if (this.subjectsItem && this.subjectsItem.id) {
-        axiosClient
+        await axiosClient
           .get(`/getAllTeacher/?course_id=${this.subjectsItem.id}`)
           .then((response) => {
             this.teachers = response.data.data;
@@ -207,8 +207,8 @@ export default {
           });
       }
     },
-    listItems(path) {
-      axiosClient
+    async listItems(path) {
+      await axiosClient
         .get(path)
         .then((response) => {
           let data = response.data.data;
@@ -224,9 +224,9 @@ export default {
           console.log(error);
         });
     },
-    changeClass() {
+    async changeClass() {
       if (this.classesItem && this.classesItem.id) {
-        axiosClient
+        await axiosClient
           .get(`/classes/?room_id=${this.classesItem.id}`)
           .then((response) => {
             this.rooms = response.data.data;
@@ -236,8 +236,8 @@ export default {
           });
       }
     },
-    listRooms() {
-      axiosClient
+    async listRooms() {
+      await axiosClient
         .get("/rooms")
         .then((response) => {
           this.rooms = response.data.data;
@@ -310,7 +310,7 @@ export default {
       };
       
       if (this.scheduleID) {
-        axiosClient
+          axiosClient
           .put(`schedule/${this.scheduleID}`, schedule)
           .then((response) => {
             this.$emit("createSchedule", response.data);
@@ -350,7 +350,7 @@ export default {
   background: #d6d6d6ab;
 }
 
-.add-schedule,
+
 .add {
   background: #3788d8;
 }
