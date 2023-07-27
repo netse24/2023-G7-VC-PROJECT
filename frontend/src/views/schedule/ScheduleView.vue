@@ -1,6 +1,7 @@
 // Reference from FullCalendar library => https://fullcalendar.io/ //
 <template>
   <section>
+    <navigationBar/>
     <form class="w-75 m-auto mt-3">
       <div class="mb-3">
         <select
