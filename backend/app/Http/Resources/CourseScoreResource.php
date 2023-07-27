@@ -16,9 +16,11 @@ class CourseScoreResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'course' => $this->course->course,
+            'id'=>$this->id,
+            'course' =>$this->course->course,
+            'student' =>new StudentResource($this->student),
             'score' => $this->score,
-            'term' => $this->term->term
+            'term' => new TermResource($this->term),
         ];
 
     }

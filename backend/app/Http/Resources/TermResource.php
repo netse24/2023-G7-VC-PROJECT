@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use PHPUnit\Logging\TeamCity\TeamCityLogger;
 
-class FeedbackResource extends JsonResource
+class TermResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +14,14 @@ class FeedbackResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return    [
-            'id' => $this->id,
-            'feedback' => $this->feedback,
-            'teachers' => new TeacherResource($this->teacher),
-            'term' => new TermResource ($this->term)
+        return [
+<<<<<<< HEAD
+            'term_id' => $this->id,
+            'term' => $this-> term
+=======
+            'id' =>$this->id,
+            'term' => $this->term
+>>>>>>> b549d9748acb31695635b9f5e4972a9e5d464167
         ];
     }
 }

@@ -31,6 +31,7 @@ class CourseScoreRequest extends FormRequest
             "course_id"=>"required",
             "student_id"=>"required",
             "score"=>"required",
+            "term_id"=>"required",
         ];
     }
 }
