@@ -290,7 +290,7 @@ export default {
     },
     getTerm() {
       axiosClient
-        .get("terms")
+        .get("term")
         .then((response) => {
           this.termList = response.data.data;
           this.termList.forEach((termId) => {

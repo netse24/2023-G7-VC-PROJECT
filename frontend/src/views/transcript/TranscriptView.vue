@@ -4,9 +4,11 @@
     <nav-bar></nav-bar>
     <div class="container-btn-term d-flex items-center mt-2">
       <div class="group-btn ml-5 mr-2">
+       <router-link :to="`/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
-          <p class="text-white py-2">Home</p>
+          <p class="text-white py-2">Back</p>
         </button>
+      </router-link>
       </div>
       <div v-for="(term, index) of terms" :key="index" @click="selectedTerm = term.term">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded mx-2" :class="termBtn(term.term)">

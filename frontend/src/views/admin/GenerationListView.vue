@@ -3,9 +3,11 @@
     <nav-bar />
     <div class="d-flex flex-col p-10">
       <div class="flex gap-2">
-        <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
-          <router-link to="/admin">Home</router-link>
-        </button>
+        <router-link :to="checkRole !== null && checkRole == 'admin' ? '/admin' : '/teachers'">
+          <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
+            Home
+          </button>
+        </router-link>
       </div>
       <div class="flex justify-between mb-3">
         <h1 class="text-3xl m-auto font-bold mb-3">All Generation of the Students</h1>
@@ -35,6 +37,7 @@ export default {
   data() {
     return {
       generationList: [],
+      checkRole: null,
     };
   },
   methods: {
@@ -53,8 +56,13 @@ export default {
       // alert(role)
       if (role == 'admin') {
         this.$router.push(`/admin/generations/studentList/${id}`)
+
       } else if (role == 'teacher') {
         this.$router.push(`/teacher/generations/studentList/${id}`)
+      }
+
+      if (role != null) {
+        this.checkRole = role;
       }
     }
   },
