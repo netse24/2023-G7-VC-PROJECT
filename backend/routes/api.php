@@ -12,6 +12,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\TranscriptController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
-Route::resource('transcripts', TranscriptController::class);
+Route::resource('terms', TermController::class);
 
 Route::get('/getStudentByUserId/{UserId}', [StudentController::class, 'getStudentByUserId']);
 Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
@@ -67,3 +68,5 @@ Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
 Route::post('/forget_password', [ForgetPasswordController::class, 'forgetPassword']);
 Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword']);
 Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStudentCourseScore']);
+Route::get('/getScoreById/{courseScoreId}', [CourseScoreController::class, 'getScoreById']);
+

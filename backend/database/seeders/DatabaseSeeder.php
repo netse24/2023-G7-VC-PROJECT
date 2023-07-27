@@ -28,7 +28,9 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             UserSeeder::class,
             CourseSeeder::class,
-            GenerationSeeder::class
+            GenerationSeeder::class,
+            TermSeeder::class
+
         ]);
     }
 }

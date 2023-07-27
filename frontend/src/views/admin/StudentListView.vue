@@ -123,7 +123,7 @@
               Add Transcript
             </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/students/transcript/${selectedUsers}`">
+              <router-link :to="{ path: `/admin/students/term/${selectedUsers}`, query: { generation_id: id } }">
                 Add Transcript
               </router-link>
             </p>

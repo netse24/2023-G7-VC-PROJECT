@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CourseScoreResource extends JsonResource
+class TermResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +15,8 @@ class CourseScoreResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'course' =>$this->course->course,
-            'student' =>new StudentResource($this->student),
-            'score' => $this->score,
-            'term' => new TermResource($this->term),
+            'id' =>$this->id,
+            'term' => $this->term
         ];
-
     }
 }

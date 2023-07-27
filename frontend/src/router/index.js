@@ -151,10 +151,17 @@ const routes = [
     component: () => import('../views/transcript/TranscriptView.vue'),
   },
   {
-    path: '/admin/students/transcript/:student_id',
+    path: '/admin/students/term/:student_id',
     name: 'student-transcript',
-    component: () => import('../views/transcript/CreateTranscript.vue'),
+    component: () => import('../views/transcript/TermView.vue'),
     props: true,
+  },
+  {
+    path: '/admin/students/term/createtranscript/:term_id',
+    name: 'student_in_a_term',
+    component: () => import('../views/transcript/CreateTranscript.vue'),
+    // beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true
   },
   {
     path: '/forget-password',

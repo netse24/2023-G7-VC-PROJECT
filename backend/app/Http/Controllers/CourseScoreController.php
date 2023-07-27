@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ShowTranscriptResource;
-use App\Http\Resources\TranscriptResource;
-use App\Models\Transcript;
 use App\Http\Requests\CourseScoreRequest;
+use App\Http\Resources\CourseResource;
+use App\Http\Resources\CourseScoreResource;
 use App\Models\CourseScore;
-use Illuminate\Http\Request;
+
 
 class CourseScoreController extends Controller
 {
@@ -17,7 +16,8 @@ class CourseScoreController extends Controller
     public function index()
     {
 
-        $score = CourseScore::all();
+        $score = CourseScore::orderBy('id', 'desc')->get();
+        $score = CourseScoreResource::collection($score);
         return response()->json([
             "success"=> true,
             "message"=>"Create score successfull",
@@ -42,6 +42,8 @@ class CourseScoreController extends Controller
             "course_id" => $request->course_id,
             "student_id"=> $request->student_id,
             "score"=> $request->score,
+            "term_id"=> $request->term_id,
+
         
         ]);
         return response()->json([
@@ -74,9 +76,9 @@ class CourseScoreController extends Controller
     {
         $score = CourseScore::find($id)->update([
             "course_id" => $request->course_id,
-            "student_id"=> $request->student_id,
+            "student_id" => $request->student_id,
             "score"=> $request->score,
-        
+            "term_id" => $request->term_id,
         ]);
         return response()->json([
             "success"=> true,
@@ -95,5 +97,13 @@ class CourseScoreController extends Controller
             "success"=> true,
             "message"=>"Delete score successfull",
         ],200);
+    }
+    public function getScoreById($id){
+        $score = CourseScore::find($id);
+        if (!$score) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        $score = new CourseScoreResource($score);
+        return response()->json(['success' => true, 'data' => $score], 200);
     }
 }

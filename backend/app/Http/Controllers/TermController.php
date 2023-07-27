@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CourseScoreResource;
+use App\Models\CourseScore;
 use App\Models\Term;
-use App\Http\Requests\StoreTermRequest;
-use App\Http\Requests\UpdateTermRequest;
-use App\Http\Requests\TranscriptRequest;
-use App\Models\Transcript;
-use Illuminate\Http\Request;
+
 
 class TermController extends Controller
 {
@@ -16,7 +14,7 @@ class TermController extends Controller
      */
     public function index()
     {
-        $terms = Term::orderBy('term', 'desc')->get();
+        $terms = Term::orderBy('term')->get();
         return response()->json(['success' => true, 'data' => $terms], 200);
         //
     }
@@ -32,29 +30,24 @@ class TermController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TranscriptRequest $request)
+    public function store($request)
     {
-        $transcript = Transcript::create([
-            "title" => $request->title,
-            "term"=> $request->term,
-            "student_id"=> $request->student_id,
         
-        ]);
-        return response()->json([
-            "success"=> true,
-            "message"=>"Create Transcript successfull",
-            'data' =>  $transcript
-        ],200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Term $term)
+    public function show(string $id)
     {
-        //
+        $term = Term::find($id);
+        $courseScore = CourseScore::where('term_id',$id)->get();
+        if (!$term) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        $courseScore = CourseScoreResource::collection($courseScore);
+        return response()->json(['success' => true, 'data' => $courseScore], 200);
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -66,30 +59,16 @@ class TermController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(TranscriptRequest $request, string $id)
+    public function update( $request, string $id)
     {
-        $transcript = Transcript::find($id)->update([
-            "title" => $request->title,
-            "term"=> $request->term,
-            "student_id"=> $request->student_id,
-        
-        ]);
-        return response()->json([
-            "success"=> true,
-            "message"=>"Update transcript successfull",
-            'data' => $transcript
-        ],200);
+       
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Term $term)
+    public function destroy( $term)
     {
-        Transcript::find($id)->delete();
-        return response()->json([
-            "success"=> true,
-            "message"=>"Delete transcript successfull",
-        ],200);
+        
     }
 }
