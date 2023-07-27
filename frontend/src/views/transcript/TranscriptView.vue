@@ -330,7 +330,7 @@ export default {
     },
     async getFeedback() {
       const response = await axiosClient.get("feedback/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
-      this.feedbacks = response.data.data.feedbacks;
+      this.feedbacks = response.data.data.feedbacks.slice().reverse();
     },
     //Download transcript function
     downloadPDF() {
@@ -399,7 +399,7 @@ export default {
       if (this.feedbackID != null && this.role == "teacher") {
         console.log("id ", this.feedbackID);
         await axiosClient
-          .put(`feedback / ${this.feedbackID}`, newFeedback)
+          .put(`feedback/${this.feedbackID}`, newFeedback)
           .then((response) => {
             this.getFeedback();
             console.log(response);
@@ -410,6 +410,7 @@ export default {
       } else {
         await axiosClient.post("feedback", newFeedback);
         this.writeFeedback = "";
+        this.getFeedback();
       }
       this.clearData();
     },
