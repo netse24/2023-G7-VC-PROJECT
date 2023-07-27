@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FeedbackResource;
+use App\Http\Resources\ShowStudentFeedbackResource;
 use App\Models\Feedback;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -19,7 +20,6 @@ class FeedbackController extends Controller
         $feedback = Feedback::all();
         $feedback = FeedbackResource::collection($feedback);
         return response()->json(['success' => true, 'data' => $feedback], 200);
-
     }
 
     /**
@@ -46,17 +46,36 @@ class FeedbackController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::find($id);
+        $student = Student::where('user_id', '=', $user->id)->first();
+        $getfeedback = new ShowStudentFeedbackResource($student);
+        return $getfeedback;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  $id)
     {
-        //
+        try {
+            $feedback = Feedback::findOrFail($id); // Use findOrFail to throw an exception if the record is not found
+            $findStudent = Student::where('user_id', '=', $request->student_id)->first();
+            $findTeacher = Teacher::where('user_id', '=', $request->teacher_id)->first();
+            $feedback->update([
+                'feedback' => $request->input('feedback'),
+                'student_id' => $findStudent->id,
+                'teacher_id' => $findTeacher->id,
+                'term_id' => $request->input('term_id'),
+            ]);
+
+            // Success message or further actions
+            return response()->json(['message' => 'Feedback updated successfully']);
+        } catch (\Exception $e) {
+            // Error handling
+            return response()->json(['message' => 'Failed to update feedback'], 500);
+        }
     }
 
     /**
@@ -64,6 +83,8 @@ class FeedbackController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $feedback = Feedback::find($id);
+        $feedback->delete();
+        return response()->json(['success' => true, 'message' => 'Data delete successfully'], 200);
     }
 }

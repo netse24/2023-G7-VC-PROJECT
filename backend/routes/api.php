@@ -49,8 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/teachers/background/{id}', [TeacherController::class, 'show']);
     Route::get('/students/background/{id}', [StudentController::class, 'show']);
-    Route::resource('users', UserController::class);
 });
+Route::resource('users', UserController::class);
 Route::get('generation/{name}', [GenerationController::class, 'searchGeneration']);
 Route::resource('rooms', RoomController::class);
 Route::resource('classes', ClasseController::class);
