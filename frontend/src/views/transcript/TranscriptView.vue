@@ -2,8 +2,8 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
 <template>
   <section>
     <nav-bar></nav-bar>
-    <div class="container-btn-term d-flex items-center">
-      <div class="group-btn ml-5">
+    <div class="container-btn-term d-flex items-center mt-2">
+      <div class="group-btn ml-5 mr-2">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
           <p class="text-white py-2">Home</p>
         </button>
@@ -346,29 +346,33 @@ export default {
   props: ["user_id"],
   methods: {
     getRole() {
-      this.role = AES.decrypt(this.userCookie.getCookie("user_role"), "Secret role").toString(enc.Utf8);
-       this.getId = AES.decrypt(
+      this.role = AES.decrypt(
+        this.userCookie.getCookie("user_role"),
+        "Secret role"
+      ).toString(enc.Utf8);
+
+      this.getId = AES.decrypt(
         this.userCookie.getCookie("user_id"),
         "Secret id"
       ).toString(enc.Utf8);
     },
+
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;
-        const element = document.getElementById("My_table"); 
-        html2canvas(element).then((canvas) => {
-          const image = canvas.toDataURL("image/png");
-          const pdf = new jsPDF();
-          const imgProps = pdf.getImageProperties(image);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
-          //Name of file after download
-          const fileName = "transcript.pdf";
-          pdf.save(fileName);
-          this.isDetail = false;
-          this.getRole();
-        });
+      const element = document.getElementById("My_table");
+      html2canvas(element).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(image);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+        //Name of file after download
+        const fileName = "MyTranscript.pdf";
+        pdf.save(fileName);
+        this.isDetail = false;
+      });
     },
 
     async getTerm() {
