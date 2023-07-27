@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\ShowStudentResource;
-use App\Http\Resources\ShowTranscriptResource;
 use App\Http\Resources\StudentResource;
-use App\Models\Classes;
-use App\Models\Generation;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {

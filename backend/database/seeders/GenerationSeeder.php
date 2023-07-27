@@ -18,11 +18,9 @@ class GenerationSeeder extends Seeder
             ],
             [
                 'name' => '2024'
-
             ],
             [
                 'name' => '2025'
-
             ],
         ];
 
