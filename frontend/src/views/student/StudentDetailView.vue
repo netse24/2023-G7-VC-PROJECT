@@ -1,11 +1,10 @@
 <template>
   <section>
     <nav-bar />
-    <div class="mt-3 ml-5">
-      <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded mb-4">
-        <router-link :to="`/admin/students`">Back</router-link>
-      </button>
-    </div>
+    <button class="add-schedule bg-cyan-500 hover:bg-cyan-600 text-black btn btn-primary ml-4 mt-4 w-24 font-bold">
+      <!-- <router-link :to="`/admin/students`">Back</router-link> -->
+      <router-link :to="`/admin/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">Back</router-link>
+    </button>
     <div class="main flex gap-4 justify-center my-2" v-if="students != null">
       <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -65,7 +64,7 @@
 <script>
 import { axiosClient } from '../../axios-http';
 export default {
-  props: ["student_id"],
+  props: ["student_id", "generation_id"],
   data() {
     return {
       dialog: false,

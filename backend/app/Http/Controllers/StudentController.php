@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreStudentRequest;
+use App\Http\Resources\ShowStudentResource;
 use App\Http\Resources\StudentResource;
-use App\Models\Classes;
-use App\Models\Generation;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
@@ -38,23 +34,20 @@ class StudentController extends Controller
     {
         $users = User::find($id);
         $students = Student::all();
-        foreach ($students as $student){
-          if($student['user_id'] == $users->id){
-            $student = new StudentResource($student);
-            return response()->json(['success' => true, 'data' => $student], 200);
-        
-        };
+        foreach ($students as $student) {
+            if ($student['user_id'] == $users->id) {
+                $student = new StudentResource($student);
+                return response()->json(['success' => true, 'data' => $student], 200);
+            };
+        }
     }
-}
 
     /**
      * Update the specified resource in storage.
      */
     public function update($request, string $id)
     {
-        
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -64,5 +57,10 @@ class StudentController extends Controller
         $findInUser = User::where('id', '=', $student->user_id)->first();
         $findInUser->delete();
         return response()->json(['success' => true, 'message' => 'Student delete successfully'], 200);
+    }
+    public function getStudentCourseScore($id)
+    {
+        $student = Student::find($id);
+        return new  ShowStudentResource($student);
     }
 }

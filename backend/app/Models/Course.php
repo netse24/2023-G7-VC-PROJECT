@@ -19,6 +19,9 @@ class Course extends Model
     public function teacher():HasMany{
         return $this->hasMany(Teacher::class);
     }
+    public function courseScore():HasMany{
+        return $this->hasMany(CourseScore::class);
+    }
     public function schedule(): BelongsTo{
         return $this->belongsTo(Schedule::class);
     }

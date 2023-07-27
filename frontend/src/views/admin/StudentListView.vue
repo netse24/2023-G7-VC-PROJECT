@@ -27,7 +27,7 @@
                 <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-blue-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-cyan-500">Delete date of Teacher</v-card-title>
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -37,7 +37,7 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
+                    <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
                       @click="dialogDelete = false">Cancel
                     </v-btn>
                     <v-btn v-if="selectedUsers.length > 0" @click="deleteStudent((dialogDelete = false))"
@@ -83,18 +83,6 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-text-field density="compact" v-model="model.email" label="Enter Email" :rules="emailRules"
-                        prepend-inner-icon="mdi-email">
-                      </v-text-field>
-                    </v-col>
-                    <v-col>
-                      <v-select prepend-inner-icon="mdi-account-box" density="compact" label="Choose Gender"
-                        v-model="model.gender" :rules="genderRules" :items="['Female', 'Male']">
-                      </v-select>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col>
                       <v-text-field prepend-inner-icon="mdi mdi-calendar-clock" density="compact" type="date"
                         label="Date Of Birth" v-model="model.date_of_birth" :rules="dateRules">
                       </v-text-field>
@@ -107,14 +95,8 @@
                   </v-row>
                   <v-row>
                     <v-col>
-                      <v-select
-                        prepend-inner-icon="mdi-account-box"
-                        density="compact"
-                        label="Choose Gender"
-                        v-model="model.gender"
-                        :rules="genderRules"
-                        :items="['Female', 'Male']"
-                      >
+                      <v-select prepend-inner-icon="mdi-account-box" density="compact" label="Choose Gender"
+                        v-model="model.gender" :rules="genderRules" :items="['Female', 'Male']">
                       </v-select>
                     </v-col>
                   </v-row>
@@ -136,7 +118,9 @@
               Add Transcript
             </p>
             <p v-if="selectedUsers.length == 1">
-              Add Transcript
+              <router-link :to="{ path: `/admin/students/term/${selectedUsers}`, query: { generation_id: id } }">
+                Add Transcript
+              </router-link>
             </p>
           </button>
           <!--See detail button -->
@@ -149,7 +133,10 @@
               See Detail
             </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/admin/students/detail/${selectedUsers}`">
+              <!-- <router-link :to="`/admin/students/detail/${selectedUsers}`">
+                See Detail
+              </router-link> -->
+              <router-link :to="{ path: `/admin/students/detail/${selectedUsers}`, query: { generation_id: id } }">
                 See Detail
               </router-link>
             </p>
@@ -177,7 +164,7 @@
               Comment
             </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/teacher/student/transcrypt/${selectedUsers}`">
+              <router-link :to="{path:`/teacher/student/transcrypt/${selectedUsers}`, query:{generation_id:id}}">
                 Comment
               </router-link>
             </p>
@@ -216,7 +203,7 @@
       </div>
       <!-- table  -->
       <div class="d-flex mt-8">
-        <table class="border-collapse border w-100 m-auto" v-if="selectedClass">
+        <table class="border-collapse border w-100 m-auto text-center" v-if="selectedClass">
           <thead class="bg-cyan-500">
             <tr>
               <th class="px-4 py-4 w-2">ID</th>
@@ -228,7 +215,7 @@
           </thead>
           <tbody>
             <tr v-for="student in studentsByClass[selectedClass]" :key="student" v-show="matchesSearch(student)">
-              <td class="border border-slate-300 pl-4">
+              <td class="border border-slate-300">
                 <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="student.user.id"
                   class="accent-cyan-500 w-4 h-4 rounded" />
               </td>
@@ -283,8 +270,8 @@ export default {
   },
 
   methods: {
-    getStudent() {
-      axiosClient
+    async getStudent() {
+      await axiosClient
         .get("generations/" + this.id)
         .then((response) => {
           this.students = response.data.data;
@@ -302,9 +289,7 @@ export default {
     async editStudent() {
       try {
         if (this.selectedUsers.length == 1) {
-          const res = await axiosClient.get(
-            "users/" + this.selectedUsers
-          );
+          const res = await axiosClient.get("users/" + this.selectedUsers );
           this.model = res.data.data;
           console.log(this.model);
         } else {
@@ -317,13 +302,11 @@ export default {
     async updateStudent() {
       try {
         if (this.selectedUsers.length == 1 && this.model != null) {
-          const res = await axiosClient.put(
-            "users/" + this.selectedUsers,
-            this.model
-          );
-          this.getStudent();
-          location.reload();
-          console.log(res.data.user);
+          const res = await axiosClient.put("users/" + this.selectedUsers, this.model);
+          if(res.status === 201){
+            this.selectedUsers.splice(0, this.selectedUsers.length);
+            this.getStudent();
+          }
         }
       } catch (err) {
         console.log(err);
@@ -331,17 +314,12 @@ export default {
     },
 
     //delete student
-    deleteStudent() {
-      this.selectedUsers.forEach((userId) => {
-        axiosClient
-          .delete(`users/${userId}`)
-          .then((res) => {
-            console.log(res.data);
-            this.getStudent();
-            location.reload();
-          })
-          .catch((err) => console.error(err));
-      });
+    async deleteStudent() {
+      const response = await axiosClient.delete(`users/delete/${this.selectedUsers}`);
+      if (response.status == 200) {
+        this.selectedUsers.splice(0, this.selectedUsers.length);
+        this.getStudent();
+      }
     },
 
     buttonClass(className) {

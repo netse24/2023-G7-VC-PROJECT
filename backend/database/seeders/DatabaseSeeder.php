@@ -28,7 +28,11 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             UserSeeder::class,
             CourseSeeder::class,
-            GenerationSeeder::class
+            GenerationSeeder::class,
+            TeacherSeeder::class,
+            StudentSeeder::class,
+            TermSeeder::class,
+            ScheduleSeeder::class,
         ]);
     }
 }

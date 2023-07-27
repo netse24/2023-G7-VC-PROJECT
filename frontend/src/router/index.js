@@ -9,7 +9,7 @@ const isUserLoginRequired = async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations()); // use to get user data that store in state in userSore in pinia
   await getUserData();
-  console.log(userStore.value);
+  // console.log(userStore.value);
   if (userStore.value !== null && getCookie('user_token')) {
     next()
   } else {
@@ -22,7 +22,7 @@ const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations());
   await getUserData();
-  console.log(userStore.value.role.role == role)
+  // console.log(userStore.value.role.role == role)
   if (userStore.value.role.role == role) {
     next()
   } else {
@@ -51,7 +51,7 @@ const routes = [
     path: '/admin/students',
     name: 'generations',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin') ],
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true
   },
   {
@@ -107,7 +107,7 @@ const routes = [
     path: '/teacher/students',
     name: 'generation_of_students',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher') ],
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
 
   },
   {
@@ -115,14 +115,27 @@ const routes = [
     name: 'student_in_a_generation',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
-    props:true
+    props: true
   },
-  
+
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherBackground.vue'),
     props: true,
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+  },
+  {
+    path: '/teacher/student/transcrypt/:user_id',
+    name: 'teacher-feedback-transcript',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+    props: true,
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+  },
+  {
+    path: '/teacher/feedback',
+    name: 'teacher-feedback',
+    component: () => import('../views/admin/GenerationListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
   },
   {
@@ -145,12 +158,68 @@ const routes = [
     component: () => import('../views/schedule/ScheduleView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
+  {
+    path: '/students/transcript',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+  },
+  {
+    path: '/admin/students/term/:id',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/TermView.vue'),
+    props: true,
+  },
+  {
+    path: '/students/transcript/:user_id',
+    name: 'self-student-transcript-id',
+    component: () => import('../views/transcript/TranscriptView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
+  },
+  {
+    path: '/admin/students/term/createtranscript/:term_id',
+    name: 'student_in_a_term',
+    component: () => import('../views/transcript/CreateTranscript.vue'),
+    // beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true
+  },
+  {
+    path: '/forget-password',
+    name: 'forget-password',
+    component: () => import('../views/forget-password/ForgetPassword.vue'),
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'login') {
+        // Allow access to the "forget-password" route if we from the login
+        next();
+      } else {
+        // Redirect to another route or show an error message
+        next('/'); // Redirect to the home page login page
+      }
+    },
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('../views/forget-password/ResetPassword.vue'),
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'forget-password') {
+        // Allow access to the "reset-password" route
+        next();
+      } else {
+        // Redirect to another route or show an error message
+        next('/'); // Redirect to the home page
+      }
+    },
+  },
+
+
 
   {
     path: '/404',
     name: 'page-not-found',
     component: () => import('../views/404/PageNotFound.vue')
-  }
+  },
+
+
 ]
 
 const router = createRouter({

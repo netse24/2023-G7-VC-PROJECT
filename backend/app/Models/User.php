@@ -29,13 +29,16 @@ class User extends Authenticatable
         'address',
         'role_id',
     ];
-    public function student():HasMany{
+    public function students(): HasMany
+    {
         return $this->hasMany(Student::class);
     }
-    public function teacher():HasMany{
+    public function teachers(): HasMany
+    {
         return $this->HasMany(Teacher::class);
     }
-    public function role():BelongsTo{
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(Role::class);
     }
 
@@ -85,10 +88,9 @@ class User extends Authenticatable
             'address',
             'role_id',
         ]);
-        
+
         $user = self::updateOrCreate(['id' => $id], $user);
         return $user;
     }
-   
-   
+
 }
