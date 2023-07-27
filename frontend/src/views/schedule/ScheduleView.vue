@@ -2,24 +2,35 @@
 <template>
   <section>
     <nav-bar />
-    <form class="w-75 m-auto mt-3">
-      <div class="mb-3">
-        <select
-          id="disabledSelect"
-          class="form-select"
-          v-model="filterValue"
-          @change="filterOption"
+    <div
+      class="head-container d-flex justify-content-center align-items-center m-2"
+    >
+      <router-link :to="backRoute" @click="backToHome"
+        ><button
+          class="bg-cyan-500 hover:bg-cyan-600 w-20 font-bold h-10 rounded"
         >
-          <option
-            v-for="(option, index) in selectOption"
-            :key="index"
-            :value="option"
+          Home
+        </button>
+      </router-link>
+      <form class="w-75 m-auto mt-3">
+        <div class="mb-3">
+          <select
+            id="disabledSelect"
+            class="form-select"
+            v-model="filterValue"
+            @change="filterOption"
           >
-            {{ option.name }}
-          </option>
-        </select>
-      </div>
-    </form>
+            <option
+              v-for="(option, index) in selectOption"
+              :key="index"
+              :value="option"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
     <ScheduleForm
       @createSchedule="listSchedules()"
       ref="refToChildScheduleForm"
@@ -53,6 +64,7 @@ export default {
         this.getRole.getCookie("user_role"),
         "Secret role"
       ).toString(enc.Utf8),
+      backRoute: "",
     };
   },
   methods: {
@@ -74,6 +86,29 @@ export default {
         // }
       });
       this.$refs.toCallCalendar.addEvents(calendarEvents);
+    },
+    backToHome() {
+      if (this.role === "admin") {
+        this.$router.push((this.backRoute = "/admin"));
+      } else if (this.role === "teacher") {
+        this.$router.push((this.backRoute = "/teachers"));
+      } else if (this.role === "student") {
+        this.$router.push((this.backRoute = "/students"));
+      }
+    },
+    selectedFilterByUser() {
+      let user = AES.decrypt(
+        this.getRole.getCookie("user_id"),
+        "Secret id"
+      ).toString(enc.Utf8);
+      axiosClient
+        .get(`/users/${user}`)
+        .then((response) => {
+          this.filterValue = `${response.data.data.first_name} ${response.data.data.last_name}`;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     filterOption() {
       const path = this.role === "student" ? "classes" : "teachers";
@@ -133,6 +168,7 @@ export default {
   },
   mounted() {
     this.filterOption();
+    this.selectedFilterByUser();
   },
 };
 </script>
