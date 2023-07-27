@@ -1,6 +1,6 @@
 <template>
   <section>
-    <base-button color="primary" @click="showDialog" class="ml-10">CREATE USER</base-button>
+    <base-button   @click="showDialog" class="ml-10  bg-cyan">CREATE USER</base-button>
     <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" />
     <v-row justify="center">

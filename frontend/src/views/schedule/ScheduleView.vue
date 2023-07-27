@@ -70,7 +70,7 @@ export default {
       this.$refs.toCallCalendar.addEvents(calendarEvents);
     },
     filterOption() {
-      const path = this.role === "student" ? "classes" : "teachers";
+      const path = this.role === "student" ? "classes" : "getAllTeacher";
       axiosClient
         .get(path)
         .then((response) => {
@@ -79,7 +79,7 @@ export default {
           if (path === "classes") {
             this.selectOption = response.data.data;
             query = `class_id=${this.filterValue.id}`;
-          } else if (path === "teachers") {
+          } else if (path === "getAllTeacher") {
             if (response.data.data.length > 0) {
               this.selectOption = response.data.data.map((teacher) => {
                 teacher.name = `${teacher.first_name} ${teacher.last_name}`;

@@ -44,6 +44,10 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            // https://stackoverflow.com/questions/71688060/laravel-9-error-laravel-email-unable-to-connect-with-starttls-stream-socket-e
+            'auth_mode'  => null,
+            'verify_peer'       => false,
+
         ],
 
         'ses' => [
