@@ -27,6 +27,9 @@ class Student extends Model
     public function generation():BelongsTo{
         return $this->belongsTo(Generation::class);
     }
+    public function feedbacks():HasMany{
+        return $this->hasMany(Feedback::class);
+    }
     public static function store($request, $id = null)
     {
         $student = $request->only([
