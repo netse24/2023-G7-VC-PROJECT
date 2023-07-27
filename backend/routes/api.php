@@ -62,7 +62,6 @@ Route::get('/getAllTeacher', [TeacherController::class, 'getAllTeachersForSchedu
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
-Route::resource('terms', TermController::class);
 Route::resource('transcripts', TranscriptController::class);
 Route::resource('term', TermController::class);
 

@@ -46,7 +46,7 @@ export default {
   methods: {
     getTerm() {
       axiosClient
-        .get("terms")
+        .get("term")
         .then((response) => {
           this.termList = response.data.data;
           console.log(this.termList);
