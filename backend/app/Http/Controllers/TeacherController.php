@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TeacherNameResource;
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
 use App\Models\User;
@@ -28,6 +29,25 @@ class TeacherController extends Controller
         $query = DB::table('teachers')
             ->join('users', 'users.id', '=', 'teachers.user_id')
             ->join('courses', 'courses.id', '=', 'teachers.course_id')
+            ->join('roles', 'roles.id', '=', 'users.role_id')
+            ->select('teachers.*', 'users.first_name', 'users.last_name', 'users.gender', 'courses.course');
+        // Get date by query
+        $queryParams = $request->all();
+        if (count($queryParams) > 0) {
+            foreach ($queryParams as $key => $value) {
+                $query->where($key, '=', $value);
+                $query->where('roles.name', '=', 'teacher');
+            };
+        } else {
+            $query->where('roles.name', '=', 'teacher');
+        }
+        $teacher = $query->get();
+        return response()->json(['success' => true, 'data' => $teacher], 200);
+    }
+    public function getTeachers(Request $request)
+    {
+        $query = DB::table('teachers')
+            ->join('users', 'users.id', '=', 'teachers.user_id')
             ->join('roles', 'roles.id', '=', 'users.role_id')
             ->select('teachers.*', 'users.first_name', 'users.last_name', 'users.gender', 'courses.course');
         // Get date by query
