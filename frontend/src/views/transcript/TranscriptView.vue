@@ -263,17 +263,42 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
                   @click="updateFeedback(feedback)"
                 >
                   Edit
-                </button>
-                |
-                <button class="pl-1 font-semibold text-sm hover-red">
-                  Delete
+                </button>|
+                <button>
+                  <v-dialog
+                    class="w-5/12"
+                    v-model="dialogDelete">
+                    <template v-slot:activator="{ props }">
+                      <v-text
+                        class="pr-1 font-semibold text-sm"
+                        v-bind="props"
+                        @click="feedbackID = feedback.id"
+                        >Delete</v-text
+                      >
+                    </template>
+                    <v-card>
+                      <v-card-title class="border-gray-200 bg-cyan-500">
+                        Delete Comment of student
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container class="d-flex justify-start">
+                          <p>Do you want to delete this comment</p>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions class="d-flex justify-end gap-5">
+                        <div>
+                          <v-btn class="bg-cyan" color="font-normal font-bold" variant="text" @click="dialogDelete = false">Cancel</v-btn>
+                          <v-btn class="bg-red text-white w-20" color="font-normal text-1xl font-bold" @click="deleteFeedback(dialogDelete = false)">Delete</v-btn>
+                        </div>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- part btn comment  -->
       <div class="comment-teacher w-[40%] m-auto mt-3">
         <div class="container-comment">
@@ -332,6 +357,7 @@ export default {
   },
   data() {
     return {
+      dialogDelete:false,
       getId: null,
       role: null,
       isDownloading: false,
@@ -345,7 +371,7 @@ export default {
       writeFeedback: "",
       feedbackID: null,
       feedbacks: [],
-      getTermName:null,
+      getTermName: null,
     };
   },
   props: ["user_id"],
@@ -420,7 +446,7 @@ export default {
     updateFeedback(info) {
       this.writeFeedback = info.feedback;
       this.feedbackID = info.id;
-      this.getTermName = info.term.term
+      this.getTermName = info.term.term;
       console.log(info);
     },
     async addComment() {
@@ -430,25 +456,31 @@ export default {
         teacher_id: this.getId,
         term_id: this.selectedTerm,
       };
-      if (this.feedbackID != null ) {
-        console.log('id ',this.feedbackID );
+      if (this.feedbackID != null && this.role == "teacher") {
+        console.log("id ", this.feedbackID);
         await axiosClient
           .put(`feedback/${this.feedbackID}`, newFeedback)
           .then((response) => {
-            // this.feedbacks.push(newFeedback);
+            this.getFeedback();
             console.log(response);
           })
           .catch((error) => {
             console.log(error);
           });
-
-        console.log(newFeedback);
       } else {
         await axiosClient.post("feedback", newFeedback);
         this.writeFeedback = "";
       }
       this.clearData();
     },
+    async deleteFeedback(){
+      if(this.feedbackID !== null && this.role == 'teacher'){
+        const response = await axiosClient.delete('feedback/'+ this.feedbackID);
+        location.reload();
+        this.getFeedback();
+        console.log(response.data.message);
+      }
+    }
   },
   mounted() {
     this.getRole();
