@@ -27,7 +27,7 @@
                 <v-text v-bind="props" v-if="selectedUsers.length >= 1">Delete</v-text>
               </template>
               <v-card>
-                <v-card-title class="border-gray-200 bg-blue-500">Delete date of Teacher</v-card-title>
+                <v-card-title class="border-gray-200 bg-cyan-500">Delete date of Teacher</v-card-title>
                 <v-card-text>
                   <v-container class="d-flex justify-start">
                     <p v-if="selectedUsers.length >= 1">
@@ -37,7 +37,7 @@
                 </v-card-text>
                 <v-card-actions class="d-flex justify-end gap-5">
                   <div v-if="selectedUsers.length >= 1">
-                    <v-btn class="bg-blue" color="font-normal font-bold" variant="text"
+                    <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
                       @click="dialogDelete = false">Cancel
                     </v-btn>
                     <v-btn v-if="selectedUsers.length > 0" @click="deleteStudent((dialogDelete = false))"

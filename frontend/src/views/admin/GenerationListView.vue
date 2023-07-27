@@ -11,10 +11,12 @@
         <h1 class="text-3xl m-auto font-bold mb-3">All Generation of the Students</h1>
       </div>
       <div class="w-75 m-auto border border-1 h-50 p-10 rounded shadow-[10px_35px_150px_-2px_rgba(0,0,0,0.3)]">
-        <div class="grid grid-cols-8 gap-2 gap-4">
+        <div class="grid grid-cols-8 gap-2">
           <button v-for="(generation, index) in generationList" :key="index" @click="showlistStudent(generation.id)"
-            class="bg-cyan-500 py-3 px-5 text-2xl font-bold rounded-lg d-flex justify-center items-center">
-            {{ generation.name }}
+            class="bg-orange-500 pb-1 rounded-lg">
+            <v-text class="bg-cyan-500 hover:bg-cyan-600 py-3 px-4 text-2xl font-bold rounded-lg flex justify-center"> 
+              {{ generation.name }}
+            </v-text>
           </button>
         </div>
       </div>

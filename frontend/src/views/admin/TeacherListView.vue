@@ -241,6 +241,7 @@
           <v-btn class="search-bar">
             <input
               @click="searchTeacher"
+              type="search"
               v-model="searchByQuery"
               placeholder="search teacher..."
               class="input-search outline outline-0 px-3"
