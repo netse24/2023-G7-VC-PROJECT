@@ -270,8 +270,8 @@ export default {
   },
 
   methods: {
-    getStudent() {
-      axiosClient
+    async getStudent() {
+      await axiosClient
         .get("generations/" + this.id)
         .then((response) => {
           this.students = response.data.data;
@@ -289,9 +289,7 @@ export default {
     async editStudent() {
       try {
         if (this.selectedUsers.length == 1) {
-          const res = await axiosClient.get(
-            "users/" + this.selectedUsers
-          );
+          const res = await axiosClient.get("users/" + this.selectedUsers );
           this.model = res.data.data;
           console.log(this.model);
         } else {
@@ -304,13 +302,11 @@ export default {
     async updateStudent() {
       try {
         if (this.selectedUsers.length == 1 && this.model != null) {
-          const res = await axiosClient.put(
-            "users/" + this.selectedUsers,
-            this.model
-          );
-          this.getStudent();
-          location.reload();
-          console.log(res.data.user);
+          const res = await axiosClient.put("users/" + this.selectedUsers, this.model);
+          if(res.status === 201){
+            this.selectedUsers.splice(0, this.selectedUsers.length);
+            this.getStudent();
+          }
         }
       } catch (err) {
         console.log(err);
@@ -318,17 +314,12 @@ export default {
     },
 
     //delete student
-    deleteStudent() {
-      this.selectedUsers.forEach((userId) => {
-        axiosClient
-          .delete(`users/${userId}`)
-          .then((res) => {
-            console.log(res.data);
-            this.getStudent();
-            location.reload();
-          })
-          .catch((err) => console.error(err));
-      });
+    async deleteStudent() {
+      const response = await axiosClient.delete(`users/delete/${this.selectedUsers}`);
+      if (response.status == 200) {
+        this.selectedUsers.splice(0, this.selectedUsers.length);
+        this.getStudent();
+      }
     },
 
     buttonClass(className) {

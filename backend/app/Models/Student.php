@@ -15,19 +15,24 @@ class Student extends Model
         'class_id',
         'generation_id',
     ];
-    public function user():BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    public function courseScores():HasMany{
+    public function courseScores(): HasMany
+    {
         return $this->hasMany(CourseScore::class);
     }
-    public function class():BelongsTo{
+    public function class(): BelongsTo
+    {
         return $this->belongsTo(Classes::class);
     }
-    public function generation():BelongsTo{
+    public function generation(): BelongsTo
+    {
         return $this->belongsTo(Generation::class);
     }
-    public function feedbacks():HasMany{
+    public function feedbacks(): HasMany
+    {
         return $this->hasMany(Feedback::class);
     }
     public static function store($request, $id = null)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FeedbackResource;
 use App\Http\Resources\ShowStudentFeedbackResource;
+use App\Http\Resources\ShowStudentResource;
+use App\Http\Resources\StudentResource;
 use App\Models\Feedback;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -40,7 +42,7 @@ class FeedbackController extends Controller
             'teacher_id' => $findTeacher->id,
             'term_id' => $request->term_id,
         ]);
-        return $feedback;
+        return response()->json(['success' => true, 'message' => 'create feedback successfully'], 200);
     }
 
     /**
@@ -50,8 +52,8 @@ class FeedbackController extends Controller
     {
         $user = User::find($id);
         $student = Student::where('user_id', '=', $user->id)->first();
-        $getfeedback = new ShowStudentFeedbackResource($student);
-        return $getfeedback;
+        $getfeedback =  new ShowStudentFeedbackResource($student);
+        return response()->json(['success' => true, 'data' => $getfeedback], 200);
     }
 
     /**

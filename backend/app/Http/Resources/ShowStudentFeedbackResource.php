@@ -15,8 +15,8 @@ class ShowStudentFeedbackResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'student'=> new StudentResource($this),
-            'feedbacks'=> FeedbackResource::collection($this->feedbacks)
+            'student' => new  StudentResource($this->student),
+            'feedbacks' =>  FeedbackResource::collection($this->feedbacks)
         ];
     }
 }

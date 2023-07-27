@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CourseScoreResource;
 use App\Models\CourseScore;
 use App\Models\Term;
+use Illuminate\Http\Request;
 
 
 class TermController extends Controller
@@ -39,7 +40,7 @@ class TermController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( $id)
     {
         $term = Term::find($id);
         $courseScore = CourseScore::where('term_id',$id)->get();

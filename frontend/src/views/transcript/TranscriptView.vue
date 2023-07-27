@@ -1,3 +1,4 @@
+
 <template>
   <section>
     <nav-bar></nav-bar>
@@ -68,7 +69,8 @@
                 </tr>
               </thead>
               <tbody v-for="(data, index) of StudentCourseScores.courseScores" :key="index">
-                <tr v-if="data.term == selectedTerm">
+
+                <tr v-if="data.term.term == selectedTerm">
                   <td class="border-x border-y border-gray-500 py-2 px-4">
                     {{ data.course }}
                   </td>
@@ -150,7 +152,9 @@
             </table>
           </div>
         </div>
-        <div class="admin-provider font-semibold" v-if="isAdmin != null">
+
+      <!-- get school principal and -->
+        <div class="admin-provider font-semibold" v-if="isAdmin != null && currentDate != null">
           <h1 class="pt-2"> Phnom Penh, {{ currentDate }}</h1>
           <h1>{{ isAdmin.first_name + ' ' + isAdmin.last_name }},</h1>
           <h1> School Principal</h1>
@@ -166,28 +170,16 @@
         </div>
       </div>
     </div>
-
     <!-- part show teacher commnet to their student! -->
     <div class="teacher-permission" v-if="role != null && role == 'teacher'">
       <div class="show-comment w-[40%] m-auto mt-3" v-if="feedbacks.length > 0">
-        <div
-          class="comment-teacher"
-          v-for="(feedback, index) in feedbacks"
-          :key="index"
-        >
-          <div
-            class="profile-and-comment w-100 bg-gray-200 mt-2 p-2 rounded"
-            v-if="feedback.term.term == selectedTerm"
-          >
+        <div class="comment-teacher" v-for="(feedback, index) in feedbacks" :key="index">
+          <div class="profile-and-comment w-100 bg-gray-200 mt-2 p-2 rounded" v-if="feedback.term.term == selectedTerm">
             <div class="teacher-name-profile d-flex items-center">
-              <img
-                :src="require('../../assets/AdminSeeTeacherDeatil.png')"
-                class="border w-[45px] h-[45px] rounded-full"
-              />
-              <strong class="ml-3"
-                >{{ feedback.teachers.user.first_name }}
-                {{ feedback.teachers.user.last_name }}</strong
-              >
+              <img :src="require('../../assets/AdminSeeTeacherDeatil.png')"
+                class="border w-[45px] h-[45px] rounded-full" />
+              <strong class="ml-3">{{ feedback.teachers.user.first_name }}
+                {{ feedback.teachers.user.last_name }}</strong>
             </div>
             <div class="w-100 text ml-15 d-flex justify-between items-center">
               <p class="w-75">
@@ -195,23 +187,14 @@
                 {{ feedback.feedback }}
               </p>
               <div class="w-[30%]">
-                <button
-                  class="pr-1 font-semibold text-sm"
-                  @click="updateFeedback(feedback)"
-                >
+                <button class="pr-1 font-semibold text-sm" @click="updateFeedback(feedback)">
                   Edit
                 </button>|
                 <button>
-                  <v-dialog
-                    class="w-5/12"
-                    v-model="dialogDelete">
+                  <v-dialog class="w-5/12" v-model="dialogDelete">
                     <template v-slot:activator="{ props }">
-                      <v-text
-                        class="pr-1 font-semibold text-sm"
-                        v-bind="props"
-                        @click="feedbackID = feedback.id"
-                        >Delete</v-text
-                      >
+                      <v-text class="pr-1 font-semibold text-sm" v-bind="props"
+                        @click="feedbackID = feedback.id">Delete</v-text>
                     </template>
                     <v-card>
                       <v-card-title class="border-gray-200 bg-cyan-500">
@@ -224,8 +207,10 @@
                       </v-card-text>
                       <v-card-actions class="d-flex justify-end gap-5">
                         <div>
-                          <v-btn class="bg-cyan" color="font-normal font-bold" variant="text" @click="dialogDelete = false">Cancel</v-btn>
-                          <v-btn class="bg-red text-white w-20" color="font-normal text-1xl font-bold" @click="deleteFeedback(dialogDelete = false)">Delete</v-btn>
+                          <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
+                            @click="dialogDelete = false">Cancel</v-btn>
+                          <v-btn class="bg-red text-white w-20" color="font-normal text-1xl font-bold"
+                            @click="deleteFeedback(dialogDelete = false)">Delete</v-btn>
                         </div>
                       </v-card-actions>
                     </v-card>
@@ -243,21 +228,12 @@
             <label class="block text-gray-700 text-md font-bold mb-2" for="username">
               Comment
             </label>
-            <textarea
-              name="feedback"
-              id="feedback"
-              cols="70"
-              rows="3"
-              class="border rounded p-2"
-              placeholder="Write a comment..."
-              v-model="writeFeedback"
-            ></textarea>
+            <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2"
+              placeholder="Write a comment..." v-model="writeFeedback"></textarea>
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
-                <button
-                  class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm"
-                  @click="clearData"
-                >
+                <button class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm"
+                  @click="clearData">
                   Cancel
                 </button>
               </div>
@@ -289,9 +265,9 @@ export default {
   },
   data() {
     return {
+      dialogDelete: false,
       currentDate: null,
       isAdmin: null,
-      dialogDelete:false,
       getId: null,
       role: null,
       isDownloading: false,
@@ -321,7 +297,6 @@ export default {
         "Secret id"
       ).toString(enc.Utf8);
 
-
       // we have only one admin. 
       const res = await axiosClient.get('users');
       res.data.data.forEach((findAdmin) => {
@@ -330,9 +305,7 @@ export default {
         }
       })
     },
-
-    //zzzcode.ia (key_search: How to get current date like this 03rd April 2023 in vue js)
-    getCurrentData() {
+    getCurrentDate() {
       const currentDate = new Date();
       const day = currentDate.getDate();
       const month = currentDate.toLocaleString('default', { month: 'long' });
@@ -355,8 +328,11 @@ export default {
           return 'th';
       }
     },
-
-    //Download transcript function 
+    async getFeedback() {
+      const response = await axiosClient.get("feedback/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
+      this.feedbacks = response.data.data.feedbacks;
+    },
+    //Download transcript function
     downloadPDF() {
       this.isDetail = true;
       const element = document.getElementById("My_table");
@@ -368,7 +344,7 @@ export default {
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
         //Name of file after download
-        const fileName = `transcript${this.selectedTerm}.pdf`;
+        const fileName = "MyTranscript.pdf";
         pdf.save(fileName);
         this.isDetail = false;
       });
@@ -384,11 +360,11 @@ export default {
       };
     },
     async getStudent() {
-      const response = await axiosClient.get("students/" + this.user_id);
+      const response = await axiosClient.get("students/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
       this.student = response.data.data;
     },
     async getStudentCourseScore() {
-      const response = await axiosClient.get("scores/" + this.user_id);
+      const response = await axiosClient.get("scores/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
       this.StudentCourseScores = response.data.data;
     },
 
@@ -396,7 +372,7 @@ export default {
       let scores = 0;
       let length = 0;
       courseScores.forEach((score) => {
-        if (score.term == this.selectedTerm) {
+        if (score.term.term == this.selectedTerm) {
           scores += score.score;
           length++;
         }
@@ -423,7 +399,7 @@ export default {
       if (this.feedbackID != null && this.role == "teacher") {
         console.log("id ", this.feedbackID);
         await axiosClient
-          .put(`feedback/${this.feedbackID}`, newFeedback)
+          .put(`feedback / ${this.feedbackID}`, newFeedback)
           .then((response) => {
             this.getFeedback();
             console.log(response);
@@ -437,9 +413,9 @@ export default {
       }
       this.clearData();
     },
-    async deleteFeedback(){
-      if(this.feedbackID !== null && this.role == 'teacher'){
-        const response = await axiosClient.delete('feedback/'+ this.feedbackID);
+    async deleteFeedback() {
+      if (this.feedbackID !== null && this.role == 'teacher') {
+        const response = await axiosClient.delete('feedback/' + this.feedbackID);
         location.reload();
         this.getFeedback();
         console.log(response.data.message);
@@ -452,6 +428,7 @@ export default {
     this.getTerm();
     this.getStudent();
     this.getStudentCourseScore();
+    this.getCurrentDate();
   },
 
   created() {
