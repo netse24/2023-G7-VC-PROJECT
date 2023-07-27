@@ -7,11 +7,15 @@
     >
       <router-link :to="backRoute" @click="backToHome"
         ><button
-          class="bg-cyan-500 hover:bg-cyan-600 w-20 font-bold h-10 rounded"
+          class="bg-cyan-600 hover:bg-cyan-600 w-20 font-bold h-10 rounded"
         >
           Home
         </button>
       </router-link>
+      <ScheduleForm
+      @createSchedule="listSchedules()"
+      ref="refToChildScheduleForm"
+    />
       <form class="w-75 m-auto mt-3">
         <div class="mb-3">
           <select
@@ -31,10 +35,6 @@
         </div>
       </form>
     </div>
-    <ScheduleForm
-      @createSchedule="listSchedules()"
-      ref="refToChildScheduleForm"
-    />
     <CustomCalendar ref="toCallCalendar" @updateCalendar="updateCalendar" />
   </section>
 </template>
@@ -110,9 +110,9 @@ export default {
           console.log(error);
         });
     },
-    filterOption() {
+    async filterOption() {
       const path = this.role === "student" ? "classes" : "teachers";
-      axiosClient
+      await axiosClient
         .get(path)
         .then((response) => {
           this.selectOption = [];
@@ -149,8 +149,8 @@ export default {
         this.$refs.refToChildScheduleForm.openDialog();
       }
     },
-    listSchedules() {
-      axiosClient
+    async listSchedules() {
+      await axiosClient
         .get("/schedule")
         .then((response) => {
           // Declare calendar event
