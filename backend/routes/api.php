@@ -62,6 +62,7 @@ Route::get('/getAllTeacher', [TeacherController::class, 'getAllTeachersForSchedu
 Route::resource('students', StudentController::class);
 Route::resource('schedule', ScheduleController::class);
 Route::resource('scores', CourseScoreController::class);
+Route::resource('terms', TermController::class);
 Route::resource('transcripts', TranscriptController::class);
 Route::resource('term', TermController::class);
 
@@ -71,6 +72,8 @@ Route::get('/getTeacherByUserId/{UserId}', [UserController::class, 'update']);
 Route::post('/forget_password', [ForgetPasswordController::class, 'forgetPassword']);
 Route::post('/reset_password', [ForgetPasswordController::class, 'resetPassword']);
 Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStudentCourseScore']);
+Route::get('/getScoreById/{courseScoreId}', [CourseScoreController::class, 'getScoreById']);
+
 
 
 // Route::get('/getfeedbacks', [FeedbackController::class, 'index']);

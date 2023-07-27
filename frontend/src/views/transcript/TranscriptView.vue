@@ -232,12 +232,15 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
 
     <!-- part show teacher commnet to their student! -->
     <div class="teacher-permission" v-if="role != null && role == 'teacher'">
-      <div class="show-comment w-[40%] m-auto mt-3">
-        <div class="comment-teacher">
+      <div class="show-comment w-[40%] m-auto mt-3" v-if="feedbacks.length > 0">
+        <div
+          class="comment-teacher"
+          v-for="(feedback, index) in feedbacks"
+          :key="index"
+        >
           <div
             class="profile-and-comment w-100 bg-gray-200 mt-2 p-2 rounded"
-            v-for="(feedback, index) in feedbacks"
-            :key="index"
+            v-if="feedback.term.term == selectedTerm"
           >
             <div class="teacher-name-profile d-flex items-center">
               <img
@@ -245,16 +248,26 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
                 class="border w-[45px] h-[45px] rounded-full"
               />
               <strong class="ml-3"
-                >{{ feedback.first_name }} {{ feedback.last_name }}</strong
+                >{{ feedback.teachers.user.first_name }}
+                {{ feedback.teachers.user.last_name }}</strong
               >
             </div>
             <div class="w-100 text ml-15 d-flex justify-between items-center">
               <p class="w-75">
-                <strong>{{ feedback.course }}</strong> : {{ feedback.feedback }}
+                <strong>{{ feedback.teachers.course.course_name }}</strong> :
+                {{ feedback.feedback }}
               </p>
               <div class="w-[30%]">
-                <button class="pr-1  font-semibold text-sm" @click="updateFeedback(feedback, index)">Edit</button> |
-                <button class="pl-1 font-semibold text-sm hover-red">Delete</button>
+                <button
+                  class="pr-1 font-semibold text-sm"
+                  @click="updateFeedback(feedback)"
+                >
+                  Edit
+                </button>
+                |
+                <button class="pl-1 font-semibold text-sm hover-red">
+                  Delete
+                </button>
               </div>
             </div>
           </div>
@@ -271,11 +284,23 @@ Net Se (WEP 2023 A), [7/26/2023 7:08 PM]
             >
               Comment
             </label>
-              <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2" placeholder="Write a comment..." v-model="writeFeedback"></textarea>
+            <textarea
+              name="feedback"
+              id="feedback"
+              cols="70"
+              rows="3"
+              class="border rounded p-2"
+              placeholder="Write a comment..."
+              v-model="writeFeedback"
+            ></textarea>
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
                 <button
-                  class=" focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm" @click="clearData">Cancel</button>
+                  class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm"
+                  @click="clearData"
+                >
+                  Cancel
+                </button>
               </div>
               <div class="btn-comment p-1">
                 <button
@@ -307,7 +332,7 @@ export default {
   },
   data() {
     return {
-      getId:null,
+      getId: null,
       role: null,
       isDownloading: false,
       isDetail: false,
@@ -318,29 +343,9 @@ export default {
       StudentCourseScores: null,
       totalScore: 0,
       writeFeedback: "",
-      feedbackID: '',
-      feedbacks: [
-        {
-          first_name: "Rady",
-          last_name: "Y",
-          course: "Vue.js",
-          feedback:
-            "Good job! improment point: Be active to volunteer to answer the question",
-        },
-        {
-          first_name: "Lavy",
-          last_name: "Hou",
-          course: "PL",
-          feedback:
-            "Good job! improment point: Be active to volunteer to answer the question",
-        },
-        {
-          first_name: "Narin",
-          last_name: "Noeurn",
-          course: "English",
-          feedback: "Good job! improment point: Practice your English speaking",
-        },
-      ],
+      feedbackID: null,
+      feedbacks: [],
+      getTermName:null,
     };
   },
   props: ["user_id"],
@@ -356,7 +361,11 @@ export default {
         "Secret id"
       ).toString(enc.Utf8);
     },
-
+    async getFeedback() {
+      const response = await axiosClient.get("feedback/" + this.user_id);
+      this.feedbacks = response.data.data.feedbacks;
+      console.log(response);
+    },
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;
@@ -406,39 +415,44 @@ export default {
     },
     clearData() {
       this.writeFeedback = "";
-      this.feedbackID = "";
+      this.feedbackID = null;
     },
-    updateFeedback(info, index){
+    updateFeedback(info) {
       this.writeFeedback = info.feedback;
-      this.feedbackID = index;
+      this.feedbackID = info.id;
+      this.getTermName = info.term.term
+      console.log(info);
     },
     async addComment() {
       let newFeedback = {
         feedback: this.writeFeedback,
         student_id: this.user_id,
         teacher_id: this.getId,
-        term_id: this.selectedTerm
-      }
-      if(this.feedbackID) {
-        axiosClient
-        .put(`feedback/${this.feedbackID}`, newFeedback)
-        .then((response) => {
-          this.feedbacks.push(newFeedback);
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      }
-      else{
-        axiosClient.post("feedback" , newFeedback);
-        this.writeFeedback = ""
+        term_id: this.selectedTerm,
+      };
+      if (this.feedbackID != null ) {
+        console.log('id ',this.feedbackID );
+        await axiosClient
+          .put(`feedback/${this.feedbackID}`, newFeedback)
+          .then((response) => {
+            // this.feedbacks.push(newFeedback);
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        console.log(newFeedback);
+      } else {
+        await axiosClient.post("feedback", newFeedback);
+        this.writeFeedback = "";
       }
       this.clearData();
-    }
+    },
   },
   mounted() {
     this.getRole();
+    this.getFeedback();
     this.getTerm();
     this.getStudent();
     this.getStudentCourseScore();

@@ -15,8 +15,13 @@ class TermResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+<<<<<<< HEAD
             'term_id' => $this->id,
             'term' => $this-> term
+=======
+            'id' =>$this->id,
+            'term' => $this->term
+>>>>>>> b549d9748acb31695635b9f5e4972a9e5d464167
         ];
     }
 }

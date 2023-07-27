@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CourseScoreResource;
+use App\Models\CourseScore;
 use App\Models\Term;
-use App\Http\Requests\StoreTermRequest;
-use App\Http\Requests\UpdateTermRequest;
-use App\Http\Requests\TranscriptRequest;
-use App\Models\Transcript;
-use Illuminate\Http\Request;
+
 
 class TermController extends Controller
 {
@@ -16,6 +14,7 @@ class TermController extends Controller
      */
     public function index()
     {
+        $terms = Term::orderBy('term')->get();
         $terms = Term::all();
         return response()->json(['success' => true, 'data' => $terms], 200);
         //
@@ -32,6 +31,7 @@ class TermController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+      
     public function store(Request $request)
     {
     }
@@ -39,11 +39,16 @@ class TermController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Term $term)
+    public function show(string $id)
     {
-        //
+        $term = Term::find($id);
+        $courseScore = CourseScore::where('term_id',$id)->get();
+        if (!$term) {
+            return response()->json(['massage' => 'Not Found'], 404);
+        }
+        $courseScore = CourseScoreResource::collection($courseScore);
+        return response()->json(['success' => true, 'data' => $courseScore], 200);
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -55,13 +60,15 @@ class TermController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+   
+       
+    public function update($request, string $id)
     {
     }
 
     /**
      * Remove the specified resource from storage.
-     */
+     */   
     public function destroy($id)
     {
     }

@@ -164,18 +164,23 @@ const routes = [
     component: () => import('../views/transcript/TranscriptView.vue'),
   },
   {
+    path: '/admin/students/term/:id',
+    name: 'student-transcript',
+    component: () => import('../views/transcript/TermView.vue'),
     props: true,
+  },
+  {
     path: '/students/transcript/:user_id',
     name: 'self-student-transcript-id',
     component: () => import('../views/transcript/TranscriptView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
-
   },
   {
-    path: '/admin/students/transcript/:student_id',
-    name: 'student-transcript-id',
+    path: '/admin/students/term/createtranscript/:term_id',
+    name: 'student_in_a_term',
     component: () => import('../views/transcript/CreateTranscript.vue'),
-    props: true,
+    // beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true
   },
   {
     path: '/forget-password',
