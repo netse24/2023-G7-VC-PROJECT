@@ -164,7 +164,7 @@
               Comment
             </p>
             <p v-if="selectedUsers.length == 1">
-              <router-link :to="`/teacher/student/transcrypt/${selectedUsers}`">
+              <router-link :to="{path:`/teacher/student/transcrypt/${selectedUsers}`, query:{generation_id:id}}">
                 Comment
               </router-link>
             </p>

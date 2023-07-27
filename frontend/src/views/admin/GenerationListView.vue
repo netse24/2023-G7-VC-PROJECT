@@ -3,16 +3,11 @@
     <nav-bar />
     <div class="d-flex flex-col p-10">
       <div class="flex gap-2">
-        <button
-          class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4"
-        >
-          <router-link to="/admin">Home</router-link>
-        </button>
-        <div class="flex justify-center m-auto">
-          <h1 class="text-3xl font-bold  -ml-[7.5rem]">
-            All Generation of the Students
-          </h1>
-        </div>
+        <router-link :to="checkRole !== null && checkRole == 'admin' ? '/admin' : '/teachers'">
+          <button class="bg-cyan-500 hover:bg-cyan-600 font-bold py-2 px-4 rounded mb-4">
+            Home
+          </button>
+        </router-link>
       </div>
 
       <div
@@ -53,6 +48,7 @@ export default {
   data() {
     return {
       generationList: [],
+      checkRole: null,
     };
   },
   methods: {
@@ -72,12 +68,17 @@ export default {
         "Secret role"
       ).toString(enc.Utf8);
       // alert(role)
-      if (role == "admin") {
-        this.$router.push(`/admin/generations/studentList/${id}`);
-      } else if (role == "teacher") {
-        this.$router.push(`/teacher/generations/studentList/${id}`);
+      if (role == 'admin') {
+        this.$router.push(`/admin/generations/studentList/${id}`)
+
+      } else if (role == 'teacher') {
+        this.$router.push(`/teacher/generations/studentList/${id}`)
       }
-    },
+
+      if (role != null) {
+        this.checkRole = role;
+      }
+    }
   },
   mounted() {
     this.getGenerationList();

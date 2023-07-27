@@ -23,40 +23,22 @@
         </div>
       </div>
       <div class="feedback w-75 m-auto">
-        <h5>Latest Feedback</h5>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt="" />
-            <div class="user-info ml-2 d-flex flex-column justify-content-start">
-              <h5>Rady</h5>
-              <p>Good job A++</p>
+        <h5 class="text-xl font-semibold">Latest Feedback</h5>
+        <div class="over-flow" v-if="feedbacks.length > 0" style="overflow: scroll; height: 40vh;">
+          <div class="card-info p-2 my-2 d-flex" v-for="(feedback, index) of feedbacks" :key="index">
+            <div class="img w-25 h-25 d-flex">
+              <img class="w-25 h-25" :src="require('../../assets/AdminSeeTeacherDeatil.png')" alt="" />
+              <div class="user-info ml-2 d-flex flex-column justify-content-start">
+                <h5 class="font-semibold">{{ feedback.teachers.user.first_name + ' ' + feedback.teachers.user.last_name }}
+                </h5>
+                <p class="w-[63rem] pt-2 d-flex justify-content-between items-center" v-if="index == 0"><span>{{ feedback.feedback }}</span> <span class="bg-orange-500 p-1 rounded text-white">newest</span> </p>
+
+                <p class="pt-2" v-if="index>0">{{ feedback.feedback }}</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt="" />
-            <div class="user-info ml-2 d-flex flex-column justify-content-start">
-              <h5>Rady</h5>
-              <p>Good job A++</p>
-            </div>
-          </div>
-        </div>
-        <div class="card-info p-2 my-2 d-flex">
-          <div class="img w-25 h-25 d-flex">
-            <img class="w-25 h-25"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_2n4ixhk90E0WEDNpghs_skGLtJZuMNCGfqyiBtnwoKRjd8DRZxCgLlmGYCwm9fuGAg&usqp=CAU"
-              alt="" />
-            <div class="user-info ml-2 d-flex flex-column justify-content-start">
-              <h5>Rady</h5>
-              <p>Good job A++</p>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -64,6 +46,7 @@
 <script>
 import { storeManageCookie } from "@/store/cookie";
 import { AES, enc } from "crypto-js";
+import { axiosClient } from "@/axios-http";
 export default {
   setup() {
     const userCookie = storeManageCookie()
@@ -86,6 +69,7 @@ export default {
         },
         { title: "Transcript", image: require("../../assets/transcript.png") },
       ],
+      feedbacks: [],
     };
   },
   methods: {
@@ -115,8 +99,15 @@ export default {
         this.$router.push(`/students/transcript/${AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8)}`);
       }
     },
+    async getFeedback() {
+      const response = await axiosClient.get('feedback/' + AES.decrypt(this.userCookie.getCookie("user_id"), "Secret id").toString(enc.Utf8));
+      if (response.status == 200) {
+        this.feedbacks = response.data.data.feedbacks.slice().reverse();
+      }
+    }
   },
   mounted() {
+    this.getFeedback();
     localStorage.setItem("selectedTerm", '01');
   }
 };
