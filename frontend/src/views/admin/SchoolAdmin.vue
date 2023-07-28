@@ -15,6 +15,38 @@
         </div>
       </div>
     </div>
+    <header class="w-full d-flex justify-center">
+      <h1 class="text-2xl uppercase pt-3 font-bold">Amount of users</h1>
+    </header>
+    <div class="mt-3 w-full" v-if="students.length > 0 || teachers.length > 0">
+      <div class="col col-rows-1 row-cols-md-4 row-cols-sm-2 w-50 m-auto d-flex justify-center gap-10">
+        <div class="card text-center mb-3" style="width: 18rem" v-for="(list) in 2" :key="list">
+          <div class="card-body d-flex " v-if="list == 1">
+            <div class="img mr-2">
+              <img :src="require('../../assets/teacher_profile.png')" class="w-[3.5rem] p-1 rounded-full bg-cyan-500"
+                alt="">
+            </div>
+            <div class="text-container">
+              <h5 class="card-title">TEACHERS</h5>
+              <div class="d-flex justify-content-center">
+                TOTAL : {{ teachers.length }}
+              </div>
+            </div>
+          </div>
+          <div class="card-body d-flex " v-else>
+            <div class="img mr-2">
+              <img :src="require('../../assets/student_profile.png')" class="w-[4.5rem] rounded-full" alt="">
+            </div>
+            <div class="text-container">
+              <h5 class="card-title">STUDENTS</h5>
+              <div class="d-flex justify-content-center">
+                TOTAL : {{ students.length }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -32,6 +64,8 @@ export default {
   },
   data() {
     return {
+      students: [],
+      teachers: [],
       breadCrumb: [],
       schoolItems: [
         {
@@ -78,7 +112,17 @@ export default {
           console.error(error.message);
         });
     },
+    async getAllTeachersAndStudents() {
+      const responseteachers = await axiosClient.get('teachers');
+      this.teachers = responseteachers.data.data;
+
+      const responseStudents = await axiosClient.get('students');
+      this.students = responseStudents.data.data;
+    },
   },
+  mounted() {
+    this.getAllTeachersAndStudents();
+  }
 };
 </script>
 <style>
@@ -90,4 +134,5 @@ export default {
   cursor: pointer;
   transition: ease-in-out 0.1s;
   border: 2px solid #48b8f4;
-}</style>
+}
+</style>
