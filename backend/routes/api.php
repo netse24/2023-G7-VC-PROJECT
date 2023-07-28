@@ -75,6 +75,4 @@ Route::get('/student_course_score/{stud_id}', [StudentController::class, 'getStu
 
 Route::resource('feedback', FeedbackController::class);
 Route::get('/getScoreById/{courseScoreId}', [CourseScoreController::class, 'getScoreById']);
-// Route::get('/getfeedbacks', [FeedbackController::class, 'index']);
-// Route::post('/getfeedback', [FeedbackController::class, 'store']);
-// Route::get('/getfeedback/{id}', [FeedbackController::class, 'show']);
+

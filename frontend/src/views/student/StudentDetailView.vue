@@ -1,10 +1,11 @@
 <template>
   <section>
     <nav-bar />
-    <button class="add-schedule bg-cyan-500 hover:bg-cyan-600 text-black btn btn-primary ml-4 mt-4 w-24 font-bold">
-      <!-- <router-link :to="`/admin/students`">Back</router-link> -->
-      <router-link :to="`/admin/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">Back</router-link>
-    </button>
+    <router-link :to="`/admin/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">
+      <button class="student-detail bg-cyan-500 hover:bg-cyan-600 text-black p-2 rounded ml-4 mt-4 w-24 font-bold">
+        Back
+      </button>
+    </router-link>
     <div class="main flex gap-4 justify-center my-2" v-if="students != null">
       <div class="p-6 rounded-lg shadow-xl bg-cyan-500 w-3/12">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -23,7 +24,7 @@
       </div>
       <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
         <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
-          {{ students.user.first_name + " " + students.user.last_name }}
+          Student Information
         </p>
         <p class="flex justify-start px-5 py-1 mt-4 font-normal dark:text-dark">
           <span>First Name</span>
@@ -33,8 +34,8 @@
           <span>Last Name</span>
           <span class="ml-14">{{ students.user.last_name }}</span>
         </p>
-        <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
-          <span>Email</span>
+        <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark ">
+          <span>Email </span>
           <span class="ml-24">{{ students.user.email }}</span>
         </p>
         <p class="flex justify-start px-5 py-1 mt-2 font-normal dark:text-dark">
@@ -74,8 +75,8 @@ export default {
   },
   methods: {
     //get all the user that have student role
-    getStudent() {
-      axiosClient
+    async getStudent() {
+      await axiosClient
         .get("students/" + this.student_id)
         .then((res) => {
           this.students = res.data.data;

@@ -27,11 +27,11 @@
     <!-- nav bar -->
     <v-app-bar>
       <v-img src="../../assets/school-1.png" alt="Logo" max-width="60" max-height="50" class="ma-3" contain></v-img>
-      <v-app-bar-title>School Management System</v-app-bar-title>
+      <v-app-bar-title><span class="font-semibold">School Management System</span></v-app-bar-title>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-moon-waning-crescent</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-btn icon @click="onClickVertical">
         <v-menu>
           <template v-slot:activator="{ props }">

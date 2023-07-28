@@ -29,8 +29,11 @@
                     </v-text-field>
                   </v-col>
                   <v-col>
-                    <v-text-field type="password" density="compact" v-model="password" label="Enter Password"
-                      :rules="passwordRules" prepend-inner-icon="mdi-lock">
+                    <v-text-field :type="passwordShow ? 'text' : 'password'" density="compact" v-model="password" label="Enter Password"
+                      :rules="passwordRules" prepend-inner-icon="mdi-lock"
+                      :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append-inner="passwordShow = !passwordShow"
+                      >
                     </v-text-field>
                   </v-col>
                 </v-row>
@@ -123,6 +126,7 @@ export default {
       listRoom: [],
       roomId: null,
       selectedRoom: null,
+      passwordShow:false,
       //Validation all of form
       firstNameRules: [
         (value) => {

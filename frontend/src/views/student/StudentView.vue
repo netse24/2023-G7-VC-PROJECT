@@ -13,18 +13,19 @@
           </div>
         </div>
       </div>
-      <div class="feedback w-75 m-auto">
+      <div class="feedback w-75 m-auto" v-if="feedbacks.length > 0">
         <h5 class="text-xl font-semibold">Latest Feedback</h5>
-        <div class="over-flow" v-if="feedbacks.length > 0" style="overflow: scroll; height: 40vh;">
+        <div class="over-flow" style="overflow: scroll; height: 40vh;">
           <div class="card-info p-2 my-2 d-flex" v-for="(feedback, index) of feedbacks" :key="index">
             <div class="img w-25 h-25 d-flex">
               <img class="w-25 h-25" :src="require('../../assets/AdminSeeTeacherDeatil.png')" alt="" />
               <div class="user-info ml-2 d-flex flex-column justify-content-start">
                 <h5 class="font-semibold">{{ feedback.teachers.user.first_name + ' ' + feedback.teachers.user.last_name }}
                 </h5>
-                <p class="w-[63rem] pt-2 d-flex justify-content-between items-center" v-if="index == 0"><span>{{ feedback.feedback }}</span> <span class="bg-orange-500 p-1 rounded text-white">newest</span> </p>
+                <p class="w-[63rem] pt-2 d-flex justify-content-between items-center" v-if="index == 0"><span>{{
+                  feedback.feedback }}</span> <span class="bg-orange-500 p-1 rounded text-white">newest</span> </p>
 
-                <p class="pt-2" v-if="index>0">{{ feedback.feedback }}</p>
+                <p class="pt-2" v-if="index > 0">{{ feedback.feedback }}</p>
               </div>
             </div>
           </div>

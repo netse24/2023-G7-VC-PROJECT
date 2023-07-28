@@ -1,14 +1,13 @@
-
 <template>
   <section>
     <nav-bar></nav-bar>
     <div class="container-btn-term d-flex items-center mt-2">
       <div class="group-btn ml-5 mr-2">
-       <router-link :to="`/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">
-        <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
-          <p class="text-white py-2">Back</p>
-        </button>
-      </router-link>
+        <router-link :to=" role != null && role == 'teacher' ? `/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`:`/students`">
+          <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
+            <p class="text-white py-2">Back</p>
+          </button>
+        </router-link>
       </div>
       <div v-for="(term, index) of terms" :key="index" @click="selectedTerm = term.term">
         <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded mx-2" :class="termBtn(term.term)">
@@ -17,7 +16,7 @@
       </div>
     </div>
     <!-- part table transcript -->
-    <div class="container-transcript w-[40%] m-auto">
+    <div class="container-transcript w-[40%] m-auto ">
       <div id="My_table" class="head-transcript transcript">
         <div class="logo-tex d-flex items-end w-full h-auto">
           <div class="logo justify-start pl-2 w-[40%]">
@@ -155,7 +154,7 @@
           </div>
         </div>
 
-      <!-- get school principal and -->
+        <!-- get school principal and -->
         <div class="admin-provider font-semibold" v-if="isAdmin != null && currentDate != null">
           <h1 class="pt-2"> Phnom Penh, {{ currentDate }}</h1>
           <h1>{{ isAdmin.first_name + ' ' + isAdmin.last_name }},</h1>
@@ -163,7 +162,7 @@
         </div>
       </div>
       <div class="btn-download" v-if="role != null && role == 'student'">
-        <div class="download d-flex justify-end pt-4">
+        <div class="download d-flex justify-end pt-4 ">
           <button
             class="bg-cyan-500 hover:bg-cyan-700 text-white focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm"
             @click="downloadPDF()">
@@ -224,13 +223,13 @@
         </div>
       </div>
       <!-- part btn comment  -->
-      <div class="comment-teacher w-[40%] m-auto mt-3">
+      <div class="comment-teacher w-[40%] m-auto mt-3 ">
         <div class="container-comment">
           <div class="group-comment">
             <label class="block text-gray-700 text-md font-bold mb-2" for="username">
               Comment
             </label>
-            <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2"
+            <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2 w-full"
               placeholder="Write a comment..." v-model="writeFeedback"></textarea>
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
@@ -244,6 +243,7 @@
                   @click="addComment">
                   Comment
                 </button>
+
               </div>
             </div>
           </div>
@@ -307,6 +307,8 @@ export default {
         }
       })
     },
+
+    //where: zzzcode.ai keywords: How to get current date like this 03rd April 2023 in vue js
     getCurrentDate() {
       const currentDate = new Date();
       const day = currentDate.getDate();
@@ -334,6 +336,8 @@ export default {
       const response = await axiosClient.get("feedback/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
       this.feedbacks = response.data.data.feedbacks.slice().reverse();
     },
+
+    //Where: zzzcode.ai keywords: How to download file pdf by using vuejs
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;
@@ -346,7 +350,7 @@ export default {
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         pdf.addImage(image, "JPEG", 10, 10, pdfWidth - 20, pdfHeight - 20);
         //Name of file after download
-        const fileName = "MyTranscript.pdf";
+        const fileName = `transcript${this.selectedTerm}.pdf`;
         pdf.save(fileName);
         this.isDetail = false;
       });
@@ -462,4 +466,5 @@ textarea:focus {
 #My_table {
   height: 76vh;
 }
+
 </style>

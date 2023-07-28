@@ -1,8 +1,6 @@
 //senior sourse: GEN: 2022-G3-Part2-VC2-> userStore.js
 import { defineStore } from "pinia";
-// import CryptoJS from 'crypto-js'
 import { axiosClient } from "../axios-http";
-// import { storeManageCookie } from "./cookie";
 export const userInformations = defineStore('userInfo', {
   state() {
     return {

@@ -305,7 +305,7 @@ export default {
           const res = await axiosClient.put("users/" + this.selectedUsers, this.model);
           if(res.status === 201){
             this.selectedUsers.splice(0, this.selectedUsers.length);
-            this.getStudent();
+            await this.getStudent();
           }
         }
       } catch (err) {
@@ -318,7 +318,7 @@ export default {
       const response = await axiosClient.delete(`users/delete/${this.selectedUsers}`);
       if (response.status == 200) {
         this.selectedUsers.splice(0, this.selectedUsers.length);
-        this.getStudent();
+        await this.getStudent();
       }
     },
 

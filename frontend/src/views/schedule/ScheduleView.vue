@@ -28,6 +28,7 @@
               v-for="(option, index) in selectOption"
               :key="index"
               :value="option"
+              :selected="selectedFilter == option.name"
             >
               {{ option.name }}
             </option>
@@ -60,6 +61,7 @@ export default {
       selectOption: [],
       teachers: [],
       filterValue: "",
+      selectedFilter: null,
       role: AES.decrypt(
         this.getRole.getCookie("user_role"),
         "Secret role"
@@ -83,7 +85,6 @@ export default {
             dataCalenndar: calenndar,
           },
         });
-        // }
       });
       this.$refs.toCallCalendar.addEvents(calendarEvents);
     },
@@ -96,20 +97,21 @@ export default {
         this.$router.push((this.backRoute = "/students"));
       }
     },
-    selectedFilterByUser() {
-      let user = AES.decrypt(
-        this.getRole.getCookie("user_id"),
-        "Secret id"
-      ).toString(enc.Utf8);
-      axiosClient
-        .get(`/users/${user}`)
-        .then((response) => {
-          this.filterValue = `${response.data.data.first_name} ${response.data.data.last_name}`;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // async selectedFilterByUser() {
+    //   let user = AES.decrypt(
+    //     this.getRole.getCookie("user_id"),
+    //     "Secret id"
+    //   ).toString(enc.Utf8);
+    //   await axiosClient
+    //     .get(`/users/${user}`)
+    //     .then((response) => {
+    //       this.selectedFilter = `${response.data.data.first_name} ${response.data.data.last_name}`;
+    //       console.log('teacher: ', this.selectedFilter);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
     async filterOption() {
       const path = this.role === "student" ? "classes" : "teachers";
       await axiosClient

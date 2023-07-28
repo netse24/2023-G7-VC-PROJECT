@@ -246,7 +246,7 @@ export default {
           const res = await axiosClient.put("users/" + this.selectedUsers, this.model);
           if (res.status == 201) {
         this.selectedUsers.splice(0, this.selectedUsers.length);
-            this.getTeacher();
+            await this.getTeacher();
           }
         }
       } catch (err) {

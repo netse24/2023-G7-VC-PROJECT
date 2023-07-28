@@ -68,8 +68,8 @@ export default {
     };
   },
   methods: {
-    getTeacherDetail() {
-      axiosClient
+    async getTeacherDetail() {
+      await axiosClient
         .get("teachers/" + this.teacher_id)
         .then((res) => {
           this.teachers = res.data.data;
