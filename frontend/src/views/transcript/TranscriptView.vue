@@ -143,7 +143,6 @@
 
 <script>
 import { storeManageCookie } from "@/store/cookie";
-// import { axiosClient } from "../../axios-http.js";
 import { AES, enc } from "crypto-js";
 
 export default {
