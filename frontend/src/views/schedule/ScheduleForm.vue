@@ -22,7 +22,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ labelForm?'Update':'Create' }} Schedule</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              {{ labelForm ? "Update" : "Create" }} Schedule
+            </h1>
             <button
               type="button"
               class="btn-close"
@@ -32,6 +34,14 @@
           </div>
           <div class="modal-body">
             <!-- mock  -->
+            <small
+              class="alert alert-danger d-flex align-items-center p-2"
+              role="alert"
+              v-for="(item, index) in alerts"
+              :key="index"
+            >
+              {{ item.message }}</small
+            >
             <form class="">
               <div class="time d-flex gap-5">
                 <div class="mb-2 w-50 d-flex flex-column">
@@ -146,7 +156,7 @@
               Close
             </button>
             <button type="button" class="add btn btn-primary m-2" @click="createSchedule">
-             {{ labelForm?'Update':'Create' }}
+              {{ labelForm ? "Update" : "Create" }}
             </button>
           </div>
         </div>
@@ -159,7 +169,6 @@ import { axiosClient } from "../../axios-http";
 import { storeManageCookie } from "../../store/cookie";
 import { AES, enc } from "crypto-js";
 export default {
-
   props: {
     dataCourse: Array,
   },
@@ -189,18 +198,29 @@ export default {
       dialog: false,
       // ID
       scheduleID: "",
-      labelForm: ""
+      labelForm: "",
+      alerts: [],
     };
   },
-  watch: {},
+  watch: {
+  },
   methods: {
-     async changeCourse() {
+    checkTime(time) {
+      const dateTime = new Date();
+      const [hours1, minutes1] = time.split(":");
+      dateTime.setHours(hours1);
+      dateTime.setMinutes(minutes1);
+      dateTime.setSeconds(0);
+      dateTime.setMilliseconds(0);
+      return dateTime;
+    },
+    async changeCourse() {
       // Call from api teacher by query course_id
       if (this.subjectsItem && this.subjectsItem.id) {
         await axiosClient
-          .get(`/getAllTeacher/?course_id=${this.subjectsItem.id}`)
-          .then((response) => {
-            this.teachers = response.data.data;
+        .get(`/getAllTeacher/?course_id=${this.subjectsItem.id}`)
+        .then((response) => {
+          this.teachers = response.data.data;
           })
           .catch((error) => {
             console.log(error);
@@ -254,7 +274,7 @@ export default {
         });
     },
     closeDialog() {
-      this.clearData()
+      this.clearData();
       this.$refs.closeDialog.click();
     },
     openDialog() {
@@ -279,8 +299,8 @@ export default {
       this.endTime = data.extendedProps.dataCalenndar.end_time;
       // Get ID schedule
       this.scheduleID = data.extendedProps.dataCalenndar.id;
-      if(this.scheduleID) {
-        this.labelForm = "Update"
+      if (this.scheduleID) {
+        this.labelForm = "Update";
       }
     },
     clearData() {
@@ -296,8 +316,37 @@ export default {
       this.labelForm = "";
     },
     createSchedule() {
-      const startD  = this.startDate.split('T');
-      const endD = this.endDate.split('T');
+      const errorModel = {
+        Date: "date",
+        Time: "time",
+      };
+      // Ask senior about date and time validation
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        if (!this.alerts.some((obj) => obj.ErrorModel === errorModel.Date)) {
+          this.alerts.push({
+            ErrorModel: errorModel.Date,
+            message: "End date cannot lower than Start date!",
+          });
+        }
+      } else {
+        this.alerts = this.alerts.filter((obj) => obj.ErrorModel !== errorModel.Date);
+      }
+      if (this.checkTime(this.startTime) > this.checkTime(this.endTime)) {
+        if (!this.alerts.some((obj) => obj.ErrorModel === errorModel.Time)) {
+          this.alerts.push({
+            ErrorModel: errorModel.Time,
+            message: "End time cannot lower than Start time!",
+          });
+        }
+      } else {
+        this.alerts = this.alerts.filter((obj) => obj.ErrorModel !== errorModel.Time);
+      }
+      if (this.alerts.length > 0) {
+        return this.alerts;
+      }
+
+      const startD = this.startDate.split("T");
+      const endD = this.endDate.split("T");
       let schedule = {
         course_id: this.subjectsItem.id,
         teacher_id: this.teachersItem.id,
@@ -308,9 +357,8 @@ export default {
         start_time: this.startTime,
         end_time: this.endTime,
       };
-      
       if (this.scheduleID) {
-          axiosClient
+        axiosClient
           .put(`schedule/${this.scheduleID}`, schedule)
           .then((response) => {
             this.$emit("createSchedule", response.data);
@@ -322,17 +370,16 @@ export default {
         axiosClient
           .post(`schedule`, schedule)
           .then((response) => {
-            this.$emit("createSchedule",response.data);
+            this.$emit("createSchedule", response.data);
           })
           .catch((error) => {
             console.log(error);
           });
       }
-      this.closeDialog()
+      this.closeDialog();
     },
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.listRooms();
     this.listItems("courses");
@@ -349,7 +396,6 @@ export default {
 #date {
   background: #d6d6d6ab;
 }
-
 
 .add {
   background: #3788d8;
