@@ -97,7 +97,6 @@ export default {
         this.$router.push((this.backRoute = "/students"));
       }
     },
-
     async filterOption() {
       const path = this.role === "student" ? "classes" : "teachers";
       await axiosClient
@@ -156,7 +155,6 @@ export default {
   },
   mounted() {
     this.filterOption();
-    this.selectedFilterByUser();
   },
 };
 </script>
