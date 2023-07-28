@@ -1,10 +1,9 @@
-
 <template>
   <section>
     <nav-bar></nav-bar>
     <div class="container-btn-term d-flex items-center mt-2">
       <div class="group-btn ml-5 mr-2">
-        <router-link :to="`/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`">
+        <router-link :to=" role != null && role == 'teacher' ? `/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`:`/students`">
           <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
             <p class="text-white py-2">Back</p>
           </button>
@@ -308,6 +307,8 @@ export default {
         }
       })
     },
+
+    //where: zzzcode.ai keywords: How to get current date like this 03rd April 2023 in vue js
     getCurrentDate() {
       const currentDate = new Date();
       const day = currentDate.getDate();
@@ -335,6 +336,8 @@ export default {
       const response = await axiosClient.get("feedback/" + (this.role != null && this.role == 'student' ? this.getId : this.user_id));
       this.feedbacks = response.data.data.feedbacks.slice().reverse();
     },
+
+    //Where: zzzcode.ai keywords: How to download file pdf by using vuejs
     //Download transcript function
     downloadPDF() {
       this.isDetail = true;

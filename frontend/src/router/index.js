@@ -42,7 +42,7 @@ const routes = [
   },
 
   //--------------------------------------- admin routes  -------------------------------------//
- 
+
   {
     path: '/admin',
     name: 'admin',
@@ -57,11 +57,11 @@ const routes = [
     props: true
   },
   {
-    props: true,
     path: '/admin/generations/studentList/:id',
     name: 'studentList',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
+    props: true,
   },
   {
     path: '/admin/students/detail/:student_id',
@@ -91,9 +91,11 @@ const routes = [
   },
   {
     path: '/admin/students/term/:id',
-    name: 'student-transcript',
+    name: 'admin-student-transcript',
     component: () => import('../views/transcript/TermView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true,
+
   },
   {
     path: '/admin/students/term/createtranscript/:term_id',
@@ -103,26 +105,26 @@ const routes = [
     props: true
   },
 
-   //--------------------------------------- teacher routes  -------------------------------------//
+  //--------------------------------------- teacher routes  -------------------------------------//
 
   {
     path: '/teachers',
     name: 'teachers',
     component: () => import('../views/teacher/TeacherView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
   },
   {
     path: '/teachers/background/:id',
     name: 'teacher-background',
     component: () => import('../views/teacher/TeacherBackground.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
     props: true,
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
   },
   {
     path: '/teacher/schedule',
     name: 'teacher-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
   },
   {
     path: '/teacher/students',
@@ -135,47 +137,48 @@ const routes = [
     name: 'student_in_a_generation',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
-    props: true
+    props: true,
   },
   {
     path: '/teacher/student/transcrypt/:user_id',
     name: 'teacher-feedback-transcript',
     component: () => import('../views/transcript/TranscriptView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
     props: true,
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
   },
   {
     path: '/teacher/feedback',
     name: 'teacher-feedback',
     component: () => import('../views/admin/GenerationListView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')]
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
   },
 
-    //--------------------------------------- student routes  -------------------------------------//
-  
-    {
+  //--------------------------------------- student routes  -------------------------------------//
+
+  {
     path: '/students',
     name: 'students',
     component: () => import('../views/student/StudentView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
   },
   {
     path: '/students/background/:id',
     name: 'student-background',
     component: () => import('../views/student/StudentBackground.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
     props: true,
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
   },
   {
     path: '/students/schedule',
     name: 'student-schedule',
     component: () => import('../views/schedule/ScheduleView.vue'),
-    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')]
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
   },
   {
     path: '/students/transcript',
     name: 'student-transcript',
     component: () => import('../views/transcript/TranscriptView.vue'),
+    beforeEnter: [isUserLoginRequired, isUserRoleRequired('student')],
   },
   {
     path: '/students/transcript/:user_id',
