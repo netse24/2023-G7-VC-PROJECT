@@ -24,13 +24,11 @@
                 </h5>
                 <p class="w-[63rem] pt-2 d-flex justify-content-between items-center" v-if="index == 0"><span>{{
                   feedback.feedback }}</span> <span class="bg-orange-500 p-1 rounded text-white">newest</span> </p>
-
                 <p class="pt-2" v-if="index > 0">{{ feedback.feedback }}</p>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -59,7 +57,10 @@ export default {
           title: "Schedule",
           image: require("../../assets/schedule.png")
         },
-        { title: "Transcript", image: require("../../assets/transcript.png") },
+        {
+          title: "Transcript",
+          image: require("../../assets/transcript.png")
+        },
       ],
       feedbacks: [],
     };

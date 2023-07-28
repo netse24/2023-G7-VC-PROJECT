@@ -15,7 +15,6 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
   </section>
 </template>
 <script>
@@ -35,9 +34,18 @@ export default {
     return {
       breadCrumb: [],
       schoolItems: [
-        { title: "Teachers", image: require("../../assets/teacher.png") },
-        { title: "Students", image: require("../../assets/student.png") },
-        { title: "Schedule", image: require("../../assets/schedule.png") },
+        {
+          title: "Teachers",
+          image: require("../../assets/teacher.png")
+        },
+        {
+          title: "Students",
+          image: require("../../assets/student.png")
+        },
+        {
+          title: "Schedule",
+          image: require("../../assets/schedule.png")
+        },
       ],
     };
   },
@@ -56,9 +64,7 @@ export default {
     async createUser(userInfo) {
       await axiosClient.post("users", userInfo)
         .then((response) => {
-          console.log(response.data);
           if (response.status == 201) {
-            // console.log("User created")
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -79,9 +85,9 @@ export default {
 .card {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+
 .card:hover {
   cursor: pointer;
   transition: ease-in-out 0.1s;
   border: 2px solid #48b8f4;
-}
-</style>
+}</style>

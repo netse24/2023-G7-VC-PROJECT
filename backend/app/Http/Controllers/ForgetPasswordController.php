@@ -15,21 +15,29 @@ class ForgetPasswordController extends Controller
     //
     public function forgetPassword(Request $request)
     {
-       
+        $request->validate([
+            'email' => 'required|email|exists:users',
+        ]);
         $user = User::where('email', $request->email)->first();
-        $random_code = rand(111111, 999999);
-        $user->verify_code = $random_code;
-        $user->save();
-        $data = [
-            'verify_code' => $random_code,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email
-        ];
-        Mail::to($request->email)->send(new ForgetPassword($data));
-        return response()->json([
-            'message' => 'Verify Code sent successfully'
-        ], 200);
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email not found'
+            ], 404);
+        } else {
+            $random_code = rand(111111, 999999);
+            $user->verify_code = $random_code;
+            $user->save();
+            $data = [
+                'verify_code' => $random_code,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email
+            ];
+            Mail::to($request->email)->send(new ForgetPassword($data));
+            return response()->json([
+                'message' => 'Verify Code sent successfully'
+            ], 200);
+        }
     }
 
     public function resetPassword(Request $request)

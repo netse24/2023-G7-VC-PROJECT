@@ -3,7 +3,7 @@
     <nav-bar />
     <div class="mt-3 ml-5">
       <button class="bg-cyan-500 hover:bg-cyan-700 text-dark font-bold py-2 px-4 rounded">
-          <router-link to='/teachers'>Back</router-link>
+        <router-link to='/teachers'>Back</router-link>
       </button>
     </div>
     <div class="main flex gap-4 justify-center my-3" v-if="teachers">

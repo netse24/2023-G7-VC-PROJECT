@@ -1,9 +1,9 @@
 <template>
-  <div class="form-reset-password d-flex  align-items-center" style="height:100%">
+  <div class="form-reset-password d-flex  align-items-center" style="height:100%" :style="{ backgroundImage: `url(${image})` }">
     <div class=" container ">
       <div class="row justify-content-center">
         <div class="col-6">
-          <div class="card card-default shadow">
+          <div class="card card-default shadow" :style="{ backgroundImage: `url(${imageForm})` }">
             <v-card-title class="card-header bg-cyan-500 p-3">New Password</v-card-title>
             <div class="card-body">
               <v-form @submit.prevent="resetPassword" ref="form">
@@ -39,10 +39,13 @@
 <script>
 import { axiosClient } from '@/axios-http';
 import Swal from 'sweetalert2'
-
+import image from '../../assets/background-1-1.png';
+import imageForm from '../../assets/bg-login.png';
 export default {
   data() {
     return {
+      image,
+      imageForm,
       verify_code: null,
       password: null,
       password_confirmation: '',

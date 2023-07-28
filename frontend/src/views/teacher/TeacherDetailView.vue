@@ -73,7 +73,6 @@ export default {
         .get("teachers/" + this.teacher_id)
         .then((res) => {
           this.teachers = res.data.data;
-          console.log(res.data.data)
         })
         .catch((error) => {
           console.log(error);

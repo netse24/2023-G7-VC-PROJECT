@@ -30,9 +30,7 @@ export default {
           multiMonthPlugin,
           listPlugin,
         ],
-        // Fuction
-        // dateClick: this.handleDateClick,
-        // Time
+
         timeZone: "Asia/Phnom_Penh", // Set the timezone to Cambodia
         slotMinTime: "07:00:00",
         slotMaxTime: "24:00:00",
@@ -72,17 +70,11 @@ export default {
         },
         views: {
           timeGridWeek: { buttonText: "week" },
-          //   dayGridMonth: { buttonText: "Month" },
-          //   dayGridWeek: { buttonText: "Week" },
-          // listMonth: { buttonText: "all event" },
         },
       },
     };
   },
   methods: {
-    handleDateClick(){
-      // console.log('ff', info);
-    },
     editEventCalendar(info){
       this.$emit('updateCalendar', info.event._def)
     },

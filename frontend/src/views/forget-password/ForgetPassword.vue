@@ -1,6 +1,6 @@
 <template>
-  <v-card class="forget-pass-form d-flex items-center h-full ">
-    <v-form class="w-[40%] m-auto border rounded shadow" @submit.prevent="sendResetCode" ref="form">
+  <v-card class="forget-pass-form d-flex items-center h-full " :style="{ backgroundImage: `url(${image})` }">
+    <v-form class="w-[40%] m-auto border rounded shadow" @submit.prevent="sendResetCode" ref="form" :style="{ backgroundImage: `url(${imageForm})` }">
       <v-card-title class="font-bold text-lg p-3 bg-cyan-500 rounded-t-md  items-center">Forget
         Password</v-card-title>
       <div class="group-form p-2">
@@ -23,10 +23,13 @@
 <script>
 import { axiosClient } from '../../axios-http';
 import Swal from 'sweetalert2'
-
+import image from '../../assets/background-1-1.png';
+import imageForm from '../../assets/bg-login.png';
 export default {
   data() {
     return {
+      image,
+      imageForm,
       email: '',
       emailRules: [
         value => !!value || 'Email is required',
@@ -57,7 +60,6 @@ export default {
           this.emailNotFound = true;
           this.loading = false;
           this.NotfoundEmail = error.response.data.message;
-          alert(error.response.data.message)
         }
       }
     },

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <base-button   @click="showDialog" class="ml-10  bg-cyan">CREATE USER</base-button>
+    <base-button @click="showDialog" class="ml-10  bg-cyan">CREATE USER</base-button>
     <!-- <base-button color="primary" @click="showDialog">EDIT</base-button>  -->
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" />
     <v-row justify="center">
@@ -29,11 +29,10 @@
                     </v-text-field>
                   </v-col>
                   <v-col>
-                    <v-text-field :type="passwordShow ? 'text' : 'password'" density="compact" v-model="password" label="Enter Password"
-                      :rules="passwordRules" prepend-inner-icon="mdi-lock"
+                    <v-text-field :type="passwordShow ? 'text' : 'password'" density="compact" v-model="password"
+                      label="Enter Password" :rules="passwordRules" prepend-inner-icon="mdi-lock"
                       :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append-inner="passwordShow = !passwordShow"
-                      >
+                      @click:append-inner="passwordShow = !passwordShow">
                     </v-text-field>
                   </v-col>
                 </v-row>
@@ -99,7 +98,7 @@
 </template>
 
 <script>
-import {axiosClient} from '@/axios-http';
+import { axiosClient } from '@/axios-http';
 export default {
   emits: ["student-emit", "teacher-emit"],
   data() {
@@ -126,7 +125,7 @@ export default {
       listRoom: [],
       roomId: null,
       selectedRoom: null,
-      passwordShow:false,
+      passwordShow: false,
       //Validation all of form
       firstNameRules: [
         (value) => {
@@ -341,7 +340,6 @@ export default {
         }
       });
     },
-
   },
 };
 </script>

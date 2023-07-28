@@ -3,7 +3,8 @@
     <nav-bar></nav-bar>
     <div class="container-btn-term d-flex items-center mt-2">
       <div class="group-btn ml-5 mr-2">
-        <router-link :to=" role != null && role == 'teacher' ? `/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}`:`/students`">
+        <router-link
+          :to="role != null && role == 'teacher' ? `/teacher/generations/studentList/${this.$router.currentRoute.value.query.generation_id}` : `/students`">
           <button class="bg-cyan-500 hover:bg-cyan-600 font-bold px-2 rounded">
             <p class="text-white py-2">Back</p>
           </button>
@@ -188,30 +189,30 @@
                 {{ feedback.feedback }}
               </p>
               <div class="w-[30%]">
-                <button class="pr-1 font-semibold text-sm" @click="updateFeedback(feedback)">
+                <button class="pr-1 font-semibold text-sm text-cyan-500" @click="updateFeedback(feedback)">
                   Edit
                 </button>|
                 <button>
                   <v-dialog class="w-5/12" v-model="dialogDelete">
                     <template v-slot:activator="{ props }">
-                      <v-text class="pr-1 font-semibold text-sm" v-bind="props"
+                      <v-text class="pr-1 font-semibold text-sm text-red-500" v-bind="props"
                         @click="feedbackID = feedback.id">Delete</v-text>
                     </template>
                     <v-card>
                       <v-card-title class="border-gray-200 bg-cyan-500">
-                        Delete Comment of student
+                        DELETE COMMENT OF STUDENT
                       </v-card-title>
                       <v-card-text>
                         <v-container class="d-flex justify-start">
-                          <p>Do you want to delete this comment</p>
+                          <p>Do you want to delete this comment?</p>
                         </v-container>
                       </v-card-text>
                       <v-card-actions class="d-flex justify-end gap-5">
                         <div>
-                          <v-btn class="bg-cyan" color="font-normal font-bold" variant="text"
-                            @click="dialogDelete = false">Cancel</v-btn>
+                          <v-btn class="bg-grey-lighten-1" color="font-normal font-bold" variant="text"
+                            @click="dialogDelete = false">No</v-btn>
                           <v-btn class="bg-red text-white w-20" color="font-normal text-1xl font-bold"
-                            @click="deleteFeedback(dialogDelete = false)">Delete</v-btn>
+                            @click="deleteFeedback(dialogDelete = false)">Yes</v-btn>
                         </div>
                       </v-card-actions>
                     </v-card>
@@ -230,16 +231,19 @@
               Comment
             </label>
             <textarea name="feedback" id="feedback" cols="70" rows="3" class="border rounded p-2 w-full"
-              placeholder="Write a comment..." v-model="writeFeedback"></textarea>
+              placeholder="Write a comment..." v-model="writeFeedback" :required="true" @input="validateField"></textarea>
+            <span v-if="!isFieldValid" class="text-red-500">This field is required.</span>
+
             <div class="group-btn d-flex justify-end">
               <div class="btn-cancel p-1">
-                <button class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm"
+                <button
+                  class="focus:ring-1 focus:ring-neutral-300 font-semibold py-2 px-3 rounded text-sm hover:bg-gray-300 "
                   @click="clearData">
                   Cancel
                 </button>
               </div>
               <div class="btn-comment p-1">
-                <button class="focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm"
+                <button class="focus:ring-1 focus:ring-cyan-300 font-semibold py-2 px-3 rounded text-sm hover:bg-cyan-300"
                   @click="addComment">
                   Comment
                 </button>
@@ -268,6 +272,7 @@ export default {
   data() {
     return {
       dialogDelete: false,
+      isFieldValid: true,
       currentDate: null,
       isAdmin: null,
       getId: null,
@@ -307,7 +312,9 @@ export default {
         }
       })
     },
-
+    validateField() {
+      this.isFieldValid = this.writeFeedback.trim() !== '';
+    },
     //where: zzzcode.ai keywords: How to get current date like this 03rd April 2023 in vue js
     getCurrentDate() {
       const currentDate = new Date();
@@ -392,8 +399,6 @@ export default {
     updateFeedback(info) {
       this.writeFeedback = info.feedback;
       this.feedbackID = info.id;
-      this.getTermName = info.term.term;
-      console.log(info);
     },
     async addComment() {
       let newFeedback = {
@@ -403,29 +408,29 @@ export default {
         term_id: this.selectedTerm,
       };
       if (this.feedbackID != null && this.role == "teacher") {
-        console.log("id ", this.feedbackID);
         await axiosClient
           .put(`feedback/${this.feedbackID}`, newFeedback)
-          .then((response) => {
+          .then(() => {
             this.getFeedback();
-            console.log(response);
           })
           .catch((error) => {
             console.log(error);
           });
       } else {
-        await axiosClient.post("feedback", newFeedback);
-        this.writeFeedback = "";
-        this.getFeedback();
+        if (this.writeFeedback != "") {
+          await axiosClient.post("feedback", newFeedback);
+          this.writeFeedback = "";
+          this.getFeedback();
+        }
       }
       this.clearData();
     },
     async deleteFeedback() {
       if (this.feedbackID !== null && this.role == 'teacher') {
         const response = await axiosClient.delete('feedback/' + this.feedbackID);
-        location.reload();
-        this.getFeedback();
-        console.log(response.data.message);
+        if (response) {
+          this.getFeedback();
+        }
       }
     }
   },
@@ -437,7 +442,6 @@ export default {
     this.getStudentCourseScore();
     this.getCurrentDate();
   },
-
   created() {
     this.selectedTerm = localStorage.getItem("selectedTerm");
   },
@@ -466,5 +470,4 @@ textarea:focus {
 #My_table {
   height: 76vh;
 }
-
 </style>

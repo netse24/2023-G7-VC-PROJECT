@@ -9,7 +9,6 @@ const isUserLoginRequired = async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations()); // use to get user data that store in state in userSore in pinia
   await getUserData();
-  // console.log(userStore.value);
   if (userStore.value !== null && getCookie('user_token')) {
     next()
   } else {
@@ -22,7 +21,6 @@ const isUserRoleRequired = (role) => async (to, from, next) => {
   const { getUserData } = userInformations();
   const { userStore } = storeToRefs(userInformations());
   await getUserData();
-  // console.log(userStore.value.role.role == role)
   if (userStore.value.role.role == role) {
     next()
   } else {
@@ -95,11 +93,10 @@ const routes = [
     component: () => import('../views/transcript/TermView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true,
-
   },
   {
     path: '/admin/students/term/createtranscript/:term_id',
-    name: 'student_in_a_term',
+    name: 'student-in-a-term',
     component: () => import('../views/transcript/CreateTranscript.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('admin')],
     props: true
@@ -128,13 +125,13 @@ const routes = [
   },
   {
     path: '/teacher/students',
-    name: 'generation_of_students',
+    name: 'generation-of-students',
     component: () => import('../views/admin/GenerationListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
   },
   {
     path: '/teacher/generations/studentList/:id',
-    name: 'student_in_a_generation',
+    name: 'student-in-a-generation',
     component: () => import('../views/admin/StudentListView.vue'),
     beforeEnter: [isUserLoginRequired, isUserRoleRequired('teacher')],
     props: true,
