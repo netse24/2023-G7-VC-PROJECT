@@ -14,8 +14,6 @@ class RoomController extends Controller
     {
         $room = Room::all();
         return response()->json(['success' => true, 'data' => $room], 200);
-
-
     }
 
     /**

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class PermissionEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    
+
     public $user;
     public $first_name;
     public $last_name;
@@ -32,7 +32,7 @@ class PermissionEmail extends Mailable
         $this->password = $password;
     }
 
-     /**
+    /**
      * Build the message.
      *
      * @return $this
@@ -40,7 +40,6 @@ class PermissionEmail extends Mailable
     public function build()
     {
         return $this->view('emails.user_account_created')
-                    ->subject('School Management System Registeration!');
+            ->subject('School Management System Registeration!');
     }
-    
 }

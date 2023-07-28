@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
@@ -10,7 +9,6 @@ use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TermController;
@@ -38,7 +36,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // get user by if with their if store in cookie
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    // protect route if they are not allowed by authenticated user
+    // protection route if they are not allowed by authenticated user
     Route::get('/users/getByIdCookie/{id}', [UserController::class, "getUserById"]);
     Route::get('/users/auth', [AuthController::class, "getUserByAuth"]);
     Route::post('/logout', [UserController::class, "logoutUser"]);

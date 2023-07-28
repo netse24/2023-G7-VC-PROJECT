@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Model
 {
     use HasFactory;
-    protected $fillable = [ 
+    protected $fillable = [
         'user_id'
     ];
     public static function store($request, $id = null)

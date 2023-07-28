@@ -20,11 +20,11 @@ class AuthController extends Controller
       $findRole = Role::where('id', '=', $user->role_id)->first();
 
       if ($findRole->name === 'admin') {
-        $token = $user->createToken('adminToken', ['create, update, delete, edit'])->plainTextToken;
+        $token = $user->createToken('adminToken')->plainTextToken;
       } else if ($findRole->name === 'teacher') {
-        $token = $user->createToken('teacherToken', ['view', 'edit'])->plainTextToken;
+        $token = $user->createToken('teacherToken')->plainTextToken;
       } else if ($findRole->name === 'student') {
-        $token = $user->createToken('studentToken', ['view only'])->plainTextToken;
+        $token = $user->createToken('studentToken')->plainTextToken;
       }
       return response()->json(
         [

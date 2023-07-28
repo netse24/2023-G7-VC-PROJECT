@@ -33,7 +33,6 @@ class UserController extends Controller
    * Store a newly created resource in storage.
    */
   public function store(Request $request)
-
   {
     $userData = $request->input('user');
     $user = User::create($userData);
