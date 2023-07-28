@@ -97,21 +97,6 @@ export default {
         this.$router.push((this.backRoute = "/students"));
       }
     },
-    // async selectedFilterByUser() {
-    //   let user = AES.decrypt(
-    //     this.getRole.getCookie("user_id"),
-    //     "Secret id"
-    //   ).toString(enc.Utf8);
-    //   await axiosClient
-    //     .get(`/users/${user}`)
-    //     .then((response) => {
-    //       this.selectedFilter = `${response.data.data.first_name} ${response.data.data.last_name}`;
-    //       console.log('teacher: ', this.selectedFilter);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
     async filterOption() {
       const path = this.role === "student" ? "classes" : "teachers";
       await axiosClient
@@ -170,7 +155,6 @@ export default {
   },
   mounted() {
     this.filterOption();
-    this.selectedFilterByUser();
   },
 };
 </script>
