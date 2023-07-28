@@ -15,9 +15,7 @@ class ForgetPasswordController extends Controller
     //
     public function forgetPassword(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:users',
-        ]);
+       
         $user = User::where('email', $request->email)->first();
         $random_code = rand(111111, 999999);
         $user->verify_code = $random_code;

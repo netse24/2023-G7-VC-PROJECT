@@ -57,6 +57,7 @@ export default {
           this.emailNotFound = true;
           this.loading = false;
           this.NotfoundEmail = error.response.data.message;
+          alert(error.response.data.message)
         }
       }
     },

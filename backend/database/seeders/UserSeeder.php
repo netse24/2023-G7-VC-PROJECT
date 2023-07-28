@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'first_name' => 'Net',
                 'last_name' => 'Se',
                 'gender' => 'male',
-                'email' => 'net@admin.com',
+                'email' => 'netsecoding@gmail.com',
                 'password' => bcrypt('a123456789'),
                 'date_of_birth' => Carbon::create('2002-10-17'),
                 'address' => 'Prey Veng',
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
                 'email' => 'soknoeurn@gmail.com',
                 'password' => bcrypt('a123456789'),
                 'date_of_birth' => Carbon::create('2003-2-6'),
-                'address' => 'Preyveng',
+                'address' => 'Prey Veng',
                 'role_id' => 2,
             ],
             [
