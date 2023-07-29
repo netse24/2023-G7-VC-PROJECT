@@ -4,7 +4,7 @@
     <v-dialog v-model="dialogVisible" max-width="500px">
       <v-card>
         <v-form ref="form">
-          <v-card-title class="headline p-3 bg-cyan">Reset Password</v-card-title>
+          <v-card-title class="headline p-3 bg-cyan">Change Password</v-card-title>
           <v-card-text class="p-3">
             <v-text-field v-model="currentPassword" :rules="currentPasswordRules"
               :type="currentPasswordShow ? 'text' : 'password'" label="Current Password" placeholder="Current Password"
