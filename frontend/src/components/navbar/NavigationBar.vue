@@ -67,7 +67,7 @@ export default {
       breadcrum: [],
       items:
         [
-          { title: "Reset Password", icon: "mdi-update", type: "resetPW" },
+          { title: "Change Password", icon: "mdi-update", type: "changePW" },
           { title: "Log Out", icon: "mdi-logout", type: "logout" },
         ],
       showSearchBar: false,
@@ -176,7 +176,7 @@ export default {
 
     // hand user click on reset password or logout 
     handleItemClick(action) {
-      if (action.type == "resetPW") {
+      if (action.type == "changePW") {
         this.dialogVisible = true
       } else if (action.type == "logout") {
         this.logout();
