@@ -79,9 +79,9 @@
               <template v-slot:activator="{ props }">
                 <v-text v-bind="props" @click="editTeacher">Update</v-text>
               </template>
-              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">
-                Update form info
-              </h1>
+              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5 uppercase">
+                UPDATE FORM INFO
+                </h1>
               <v-sheet width="auto" class="pa-5 pb-7" v-if="model != null">
                 <v-form @submit.prevent="updateTeacher">
                   <v-row class="d-flex">
@@ -160,18 +160,18 @@
         <table class="border-collapse border w-100 m-auto text-center">
           <thead class="bg-cyan-500">
             <tr>
-              <th class="px-2 py-3 w-2">#</th>
-              <th class="px-2 py-3 w-64">First Name</th>
-              <th class="px-2 py-3 w-64">Last Name</th>
-              <th class="px-2 py-3 w-64">Gender</th>
-              <th class="px-2 py-3 w-64">Course</th>
+              <th class="px-4 py-4 w-2">#</th>
+              <th class="px-4 py-4 w-64">First Name</th>
+              <th class="px-4 py-4 w-64">Last Name</th>
+              <th class="px-4 py-4 w-64">Gender</th>
+              <th class="px-4 py-4 w-64">Course</th>
             </tr>
           </thead>
           <tbody v-if="filterUserList.length > 0">
             <tr v-for="(teacher, index) of filterUserList" :key="index">
               <td class="border border-slate-300">
                 <input type="checkbox" id="checkbox" v-model="selectedUsers" :value="teacher.user.id"
-                  class="accent-cyan-500 w-4 h-4 rounded" />
+                  class="accent-cyan-500 w-4 h-4 rounded " />
               </td>
               <td class="py-2 px-4 border border-slate-300">
                 {{ teacher.user.first_name }}

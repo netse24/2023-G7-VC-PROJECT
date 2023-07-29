@@ -64,8 +64,8 @@
               <template v-slot:activator="{ props }">
                 <v-text v-bind="props" @click="editStudent">Update</v-text>
               </template>
-              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5">
-                Update form info
+              <h1 class="d-flex justify-center text-h5 bg-cyan pa-5 uppercase">
+                UPDATE FORM INFO
               </h1>
               <v-sheet width="auto" class="pa-5 pb-7" v-if="model != null">
                 <v-form @submit.prevent="updateStudent">
@@ -133,9 +133,6 @@
               See Detail
             </p>
             <p v-if="selectedUsers.length == 1">
-              <!-- <router-link :to="`/admin/students/detail/${selectedUsers}`">
-                See Detail
-              </router-link> -->
               <router-link :to="{ path: `/admin/students/detail/${selectedUsers}`, query: { generation_id: id } }">
                 See Detail
               </router-link>

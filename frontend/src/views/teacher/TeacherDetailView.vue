@@ -14,16 +14,16 @@
           </template>
         </v-img>
         <p class="flex justify-center mb-1 text-3xl font-bold dark:text-dark">
-          Teacher Information 
+          {{ teachers.user.first_name + " " + teachers.user.last_name }}
         </p>
         <p class="flex justify-center mb-1 text-2xl">{{ teachers.course.course_name }}</p>
         <p class="flex justify-center mb-1 text-2xl">
           {{ teachers.user.address }}
         </p>
       </div>
-      <div class="border-gray-200 rounded-lg shadow-xl w-1/2">
+      <div class="border-gray-200 rounded-lg shadow-xl w-5/12">
         <p class="flex justify-center text-3xl font-bold dark:text-dark p-6 rounded-t-lg bg-cyan-500">
-          {{ teachers.user.first_name + " " + teachers.user.last_name }}
+          Teacher Information 
         </p>
         <p class="flex justify-start px-5 py-1 mt-4 font-normal dark:text-dark">
           <span>First Name</span>

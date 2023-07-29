@@ -173,7 +173,7 @@
       </div>
     </div>
     <!-- part show teacher commnet to their student! -->
-    <div class="teacher-permission" v-if="role != null && role == 'teacher'">
+    <div class="teacher-permission mt-[5rem]" v-if="role != null && role == 'teacher'">
       <div class="show-comment w-[40%] m-auto mt-3" v-if="feedbacks.length > 0">
         <div class="comment-teacher" v-for="(feedback, index) in feedbacks" :key="index">
           <div class="profile-and-comment w-100 bg-gray-200 mt-2 p-2 rounded" v-if="feedback.term.term == selectedTerm">
@@ -224,8 +224,8 @@
         </div>
       </div>
       <!-- part btn comment  -->
-      <div class="comment-teacher w-[40%] m-auto mt-3 ">
-        <div class="container-comment">
+      <div class="comment-teacher w-[40%] m-auto">
+        <div class="container-comment mt-[5rem]">
           <div class="group-comment">
             <label class="block text-gray-700 text-md font-bold mb-2" for="username">
               Comment
