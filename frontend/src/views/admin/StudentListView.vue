@@ -202,11 +202,11 @@
         </div>
       </div>
       <!-- table  -->
-      <div class="d-flex mt-8">
+      <div class=" mt-8 relative sm:rounded-t-lg overflow-y-auto h-80">
         <table class="border-collapse border w-100 m-auto text-center" v-if="selectedClass">
           <thead class="bg-cyan-500">
             <tr>
-              <th class="px-4 py-4 w-2">ID</th>
+              <th class="px-4 py-4 w-2">#</th>
               <th class="px-4 py-4 w-64">First Name</th>
               <th class="px-4 py-4 w-64">Last Name</th>
               <th class="px-4 py-4 w-64">Gender</th>

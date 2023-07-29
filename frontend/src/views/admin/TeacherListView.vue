@@ -160,7 +160,7 @@
         <table class="border-collapse border w-100 m-auto text-center">
           <thead class="bg-cyan-500">
             <tr>
-              <th class="px-2 py-3 w-2">ID</th>
+              <th class="px-2 py-3 w-2">#</th>
               <th class="px-2 py-3 w-64">First Name</th>
               <th class="px-2 py-3 w-64">Last Name</th>
               <th class="px-2 py-3 w-64">Gender</th>
